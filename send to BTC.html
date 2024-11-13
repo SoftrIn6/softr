@@ -639,5 +639,112 @@
   .u-block-2930-2 {
     min-height: 313px;
   }
-}</style></section>
+}</style></section><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC Wallet Address Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f8fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .crypto-generator {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+        .crypto-generator h2 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .generate-button, .regenerate-button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .generate-button:hover, .regenerate-button:hover {
+            background-color: #218838;
+        }
+        .btc-address {
+            font-family: monospace;
+            font-size: 1em;
+            color: #007bff;
+            margin-top: 15px;
+        }
+        .copy-button {
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background-color 0.3s;
+        }
+        .copy-button:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+
+<div class="crypto-generator">
+    <h2>💰 BTC Wallet Address Generator</h2>
+    <button class="generate-button" onclick="generateBTCAddress()">Generate BTC Wallet Address</button>
+    
+    <div id="address-container" style="display: none;">
+        <p class="btc-address" id="btcAddress"></p>
+        <button class="copy-button" onclick="copyToClipboard()">Copy Address</button>
+        <button class="regenerate-button" onclick="regenerateBTCAddress()">Regenerate New Address</button>
+    </div>
+</div>
+
+<script>
+    const btcAddresses = [
+        "bc1qwyh38pujgm6nzt9a4e783457lrvk0gsqampuc9",
+        "bc1q8360ms86rq9xea0ndzzg2twhe0t5sjcact8cq7"
+    ];
+    let currentAddressIndex = 0;
+
+    function generateBTCAddress() {
+        const addressContainer = document.getElementById("address-container");
+        const btcAddress = document.getElementById("btcAddress");
+        
+        // Show the first BTC address and display the address container
+        btcAddress.textContent = btcAddresses[currentAddressIndex];
+        addressContainer.style.display = "block";
+    }
+
+    function regenerateBTCAddress() {
+        // Toggle between the two BTC addresses
+        currentAddressIndex = (currentAddressIndex + 1) % btcAddresses.length;
+        document.getElementById("btcAddress").textContent = btcAddresses[currentAddressIndex];
+    }
+
+    function copyToClipboard() {
+        const btcAddress = document.getElementById("btcAddress").textContent;
+        
+        // Copy the BTC address to the clipboard
+        navigator.clipboard.writeText(btcAddress).then(() => {
+            alert("BTC Address copied to clipboard!");
+        }).catch(err => {
+            console.error("Failed to copy text: ", err);
+        });
+    }
+</script>
 </body></html>
