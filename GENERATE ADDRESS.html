@@ -5,77 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitcoin Address Generator</title>
     <style>
-        /* Reset default styles */
-        body, h1, p {
+        /* Reset some default styles */
+        body, h1, p, button {
             margin: 0;
             padding: 0;
         }
 
-        /* Full-page layout */
+        /* General body setup */
         body {
             font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             background-color: #f4f8fb;
             color: #333;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            width: 100%;
-            max-width: 1200px;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            height: 100vh;
+            padding: 20px;
         }
 
-        header a {
-            font-size: 1.1em;
+        /* Header Styling */
+        .header {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .header a {
+            color: white;
+            margin: 0 15px;
             text-decoration: none;
-            color: #fff;
-            background-color: #007bff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
+            font-size: 1.2em;
         }
 
-        header a:hover {
-            background-color: #0056b3;
+        .header a:hover {
+            text-decoration: underline;
         }
 
-        /* Main content container */
+        /* Container styling for the content */
         .container {
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 30px;
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 30px;
+            max-width: 450px;
+            box-sizing: border-box;
+            margin-top: 80px; /* to avoid header overlap */
         }
 
         h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             color: #28a745;
             margin-bottom: 20px;
         }
 
-        .green-purple-heading {
+        h2 {
+            color: #6f42c1;
             font-size: 1.5em;
-            color: #28a745;
-            background: linear-gradient(90deg, #28a745, #6a2c91);
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 15px;
+            margin: 20px 0;
         }
 
         .emoji {
-            font-size: 3em;
+            font-size: 2em;
             margin-bottom: 20px;
         }
 
@@ -129,37 +128,35 @@
             background-color: #ccc;
         }
 
-        .pay-button-container {
+        /* Pay button and instruction section */
+        .pay-section {
             margin-top: 30px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            font-size: 1.1em;
         }
 
-        .pay-button {
-            background-color: #6a2c91;
-            color: white;
-            padding: 12px 40px;
-            font-size: 1.2em;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            text-align: center;
+        .pay-section a {
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 10px;
         }
 
-        .pay-button:hover {
-            background-color: #4e1c66;
+        .pay-section a:hover {
+            text-decoration: underline;
         }
 
-        /* Responsive Design */
+        /* Responsive design */
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.2em;
             }
 
             .btc-address {
@@ -169,50 +166,47 @@
             button {
                 font-size: 1em;
             }
-
-            .pay-button {
-                font-size: 1em;
-            }
         }
     </style>
 </head>
 <body>
 
-<header>
+<!-- Header Section -->
+<div class="header">
     <a href="https://softrinvestment.com/">Home</a>
     <a href="https://softrinvestment.com/About-us.html">About Us</a>
-</header>
+</div>
 
+<!-- Main content container -->
 <div class="container">
     <h1>🌟 Bitcoin Address Generator 🌟</h1>
     <div class="emoji">💰</div>
+    <p>Click below to generate a new Bitcoin address!</p>
 
-    <!-- Instructions Section -->
-    <div class="green-purple-heading">Follow Below Instruction</div>
-    <p>Click Generate My BTC address Below and copy the BTC address. Then scroll down and click "Pay To BTC with Card" to complete your payment.</p>
-
-    <!-- Button to generate BTC Address -->
+    <!-- Button to generate the BTC address -->
     <button id="generateButton" onclick="generateAddress()">Generate My BTC Address</button>
 
-    <!-- Div to show the Bitcoin address -->
+    <!-- Div to display the generated Bitcoin address -->
     <div id="btcAddressContainer"></div>
 
-    <!-- Copy Button -->
+    <!-- Copy button -->
     <button id="copyButton" class="copy-btn" onclick="copyAddress()" style="display:none;">Copy Address</button>
 
-    <!-- Button to regenerate address -->
+    <!-- Button to regenerate new BTC address -->
     <button id="regenerateButton" style="display:none;" onclick="regenerateAddress()">Regenerate New Address</button>
-</div>
 
-<!-- Pay to BTC with Card Section -->
-<div class="pay-button-container">
-    <a href="https://coinflip.tech/en-ZA/buy-bitcoin-onlin" target="_blank">
-        <button class="pay-button">Pay To BTC with Card</button>
-    </a>
+    <!-- Instruction section -->
+    <h2>💡 Follow Below Instructions</h2>
+    <p>Click <strong>Generate My BTC Address</strong> Above and copy the BTC address. Then scroll down and click <strong>"Pay with Card"</strong> to complete your payment.</p>
+    <p><strong>Note:</strong> With card, you can only buy from R500 or more.</p>
+
+    <div class="pay-section">
+        <a href="https://coinflip.tech/en-ZA/buy-bitcoin-online" target="_blank">Pay With Card ➡️</a>
+    </div>
 </div>
 
 <script>
-    // List of Bitcoin addresses to be displayed alternately
+    // List of Bitcoin addresses to alternate between
     const btcAddresses = [
         "bc1qwyh38pujgm6nzt9a4e783457lrvk0gsqampuc9",
         "bc1q8360ms86rq9xea0ndzzg2twhe0t5sjcact8cq7"
