@@ -495,5 +495,195 @@
     margin-top: 0;
     transform-origin: left center;
   }
-}</style></section>
+}</style></section> <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Profit Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+        .calculator h2 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+        .calculator select, .calculator input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+        }
+        .calculator button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .calculator button:hover {
+            background-color: #45a049;
+        }
+        #loading {
+            display: none;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-top: 15px;
+        }
+        #result, #error {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+            display: none;
+        }
+        /* Error styling */
+        #error {
+            color: #FF0000;
+            animation: flash 1s ease-in-out infinite;
+            font-size: 1em;
+        }
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        /* Progress bar styling */
+        .progress-container {
+            display: none;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            width: 0;
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>📈 Investment Profit Calculator 📊</h2>
+    <label>Select Currency:</label>
+    <select id="currency">
+        <option value="USD">US Dollars</option>
+        <option value="AUD">Australian Dollars</option>
+        <option value="GBP">British Pounds</option>
+        <option value="ZAR">South African Rands</option>
+    </select>
+    
+    <label>Investment Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount" min="1" required>
+    
+    <label>Investment Duration (Days):</label>
+    <select id="days">
+        <option value="1">1 Day</option>
+        <option value="2">2 Days</option>
+        <option value="3">3 Days (Add 5%)</option>
+        <option value="4">4 Days (Add 7%)</option>
+    </select>
+    
+    <button onclick="calculateProfit()">Calculate</button>
+    
+    <div id="loading">💼 Calculating...</div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div id="result"></div>
+    <div id="error">⚠️ Soft Return Investment does not allow investments below 460 Rands, 27 USD, 27 AUD, or 20 GBP ⚠️</div>
+</div>
+
+<script>
+    function calculateProfit() {
+        const currency = document.getElementById("currency").value;
+        const amount = parseFloat(document.getElementById("amount").value);
+        const days = parseInt(document.getElementById("days").value);
+        
+        // Hide previous results and errors
+        document.getElementById("result").style.display = "none";
+        document.getElementById("error").style.display = "none";
+        
+        // Minimum amounts based on currency
+        const minAmount = {
+            "USD": 27,
+            "AUD": 27,
+            "GBP": 20,
+            "ZAR": 460
+        };
+
+        // Check if amount is below minimum
+        if (isNaN(amount) || amount < minAmount[currency]) {
+            document.getElementById("error").style.display = "block";
+            return;
+        }
+
+        // Show loading animation and progress bar
+        document.getElementById("loading").style.display = "block";
+        document.querySelector(".progress-container").style.display = "block";
+
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 5;
+            document.getElementById("progressBar").style.width = progress + "%";
+            if (progress >= 100) clearInterval(interval);
+        }, 100);
+
+        // Delay for loading animation effect
+        setTimeout(() => {
+            // Determine interest rate based on amount and currency
+            let interestRate;
+            if ((currency === "USD" && amount >= 300) || (currency === "ZAR" && amount >= 3000)) {
+                interestRate = 2.0;  // 200%
+            } else {
+                interestRate = 1.68;  // 168%
+            }
+
+            // Additional interest for duration
+            let extraInterest = 0;
+            if (days === 3) {
+                extraInterest = 0.05; // 5%
+            } else if (days === 4) {
+                extraInterest = 0.07; // 7%
+            }
+
+            // Calculate profit with additional interest for days
+            const totalInterestRate = interestRate + extraInterest;
+            const profit = amount * totalInterestRate;
+            document.getElementById("result").innerHTML = `<p>🎉 Your estimated profit after ${days} days is <strong>${currency} ${profit.toFixed(2)}</strong>! 🎉</p>`;
+            
+            // Hide loading animation and progress bar, then show result
+            document.getElementById("loading").style.display = "none";
+            document.querySelector(".progress-container").style.display = "none";
+            document.getElementById("result").style.display = "block";
+        }, 2000); // 2 seconds delay
+    }
+</script>
+
+</body>
+</html>
+
 </body></html>
