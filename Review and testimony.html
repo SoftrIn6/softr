@@ -7,18 +7,18 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
         }
         header {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #006400;
+            color: #fff;
             padding: 15px;
             text-align: center;
         }
         header a {
-            color: white;
+            color: #fff;
             text-decoration: none;
             font-size: 18px;
         }
@@ -28,7 +28,7 @@
             max-width: 1200px;
         }
         .review {
-            background-color: #ffffff;
+            background-color: #fff;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 8px;
@@ -43,190 +43,79 @@
         }
         .review .location {
             font-weight: bold;
-            color: #2E8B57;
-        }
-        .emoji {
-            font-size: 20px;
-        }
-        .add-review {
-            text-align: center;
-            margin-top: 30px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        .add-review a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        #comment-form {
-            margin-top: 40px;
-            text-align: center;
-        }
-        #comment-form input, #comment-form textarea {
-            width: 300px;
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #comment-form button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #review-submission {
-            margin-top: 20px;
-            text-align: center;
-            color: green;
-            font-weight: bold;
-            display: none;
+            color: #006400;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="https://www.softrinvestment.com" target="_blank">Home</a>
-    </header>
+<header>
+    <a href="https://www.softrinvestment.com" target="_blank">Home</a>
+</header>
 
-    <div class="container" id="review-list"></div>
+<div class="container" id="review-list"></div>
 
-    <div class="add-review">
-        <p>Want to add your success story? Send it to <a href="mailto:support@softrinvestment.com">support@softrinvestment.com</a> for approval!</p>
-    </div>
+<script>
+    // Generate sample names for each country
+    const southAfricanNames = ["Junior", "Bandile", "Kungawo", "Siyabonga", /* Add 100 names */];
+    const usNames = ["Emily", "Jacob", "Ava", "Michael", /* Add 50 names */];
+    const ukNames = ["Harry", "Olivia", "Archie", /* Add 20 names */];
+    const australiaNames = ["Charlotte", "Oliver", /* Add 10 names */];
+    const canadaNames = ["Sophia", "Ethan", /* Add 5 names */];
+    const botswanaNames = ["Kabelo", "Masego", /* Add 10 names */];
 
-    <!-- User Review Form -->
-    <div id="comment-form">
-        <h3>Submit Your Own Review</h3>
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="text" id="location" placeholder="Your Location" required>
-        <textarea id="comment" placeholder="Your Comment" rows="4" required></textarea>
-        <button onclick="submitReview()">Submit Review</button>
-        <div id="review-submission">Review Sent! Thank you!</div>
-    </div>
+    // Define countries with currency, emoji, and name array
+    const countries = [
+        { name: "South Africa", currency: "ZAR", emoji: "🇿🇦", names: southAfricanNames },
+        { name: "USA", currency: "USD", emoji: "🇺🇸", names: usNames },
+        { name: "UK", currency: "USD", emoji: "🇬🇧", names: ukNames },
+        { name: "Australia", currency: "USD", emoji: "🇦🇺", names: australiaNames },
+        { name: "Canada", currency: "USD", emoji: "🇨🇦", names: canadaNames },
+        { name: "Botswana", currency: "BWP", emoji: "🇧🇼", names: botswanaNames }
+    ];
 
-    <script>
-        // Names and investment details
-        const southAfricanNames = ["Junior", "Bandile", "Kungawo", "Siyabonga", "Lethabo", "Khayone", "Mpho", "Bokamoso", "Kamogelo", "Thato"];
-        const internationalNames = ["Emma", "Oliver", "Sophia", "James", "Ava", "Liam", "Charlotte", "Benjamin", "Amelia", "Lucas"];
-        const countries = [
-            { name: "South Africa", currency: "ZAR", emoji: "🇿🇦" },
-            { name: "USA", currency: "USD", emoji: "🇺🇸" },
-            { name: "UK", currency: "USD", emoji: "🇬🇧" },
-            { name: "Australia", currency: "USD", emoji: "🇦🇺" },
-            { name: "Canada", currency: "USD", emoji: "🇨🇦" },
-            { name: "Botswana", currency: "ZAR", emoji: "🇧🇼" }
+    const interestRate = 1.80;
+
+    function generateTestimony(name, country, investedAmount, profitAmount, investmentType) {
+        const uniqueTestimonials = [
+            `${name} from ${country.name}: "I started with ${investedAmount} ${country.currency} in ${investmentType}, and I’m thrilled with the outcome. Soft Return Investment really lived up to its reputation, and I’m looking forward to future investments!"`,
+            `${name} says: "Putting my ${investedAmount} ${country.currency} into ${investmentType} was a leap of faith that paid off handsomely. My returns of ${profitAmount} ${country.currency} reflect how reliable Soft Return has been."`,
+            `${name} from ${country.name} notes: "Soft Return’s process was simple and effective. My initial ${investedAmount} ${country.currency} grew to ${profitAmount} ${country.currency}, proving they know how to deliver."`,
+            `${name}: "I invested ${investedAmount} ${country.currency} in ${investmentType} and can now enjoy a profit of ${profitAmount} ${country.currency}. This is the confidence I needed in my financial journey!"`,
+            `${name} shares: "Soft Return’s support has been a lifesaver. From ${investedAmount} ${country.currency}, I’ve seen a solid return on my ${investmentType} investments. Highly recommend them for anyone looking to start small!"`,
+            `${name} says: "I’m a cautious investor, but Soft Return’s performance impressed me. ${investedAmount} ${country.currency} led to ${profitAmount} ${country.currency} — a smart move on my part, with their guidance."`,
+            `${name} says: "Investing in ${investmentType} through Soft Return was the best decision. I began with ${investedAmount} ${country.currency} and ended up with a huge boost in confidence — and returns!"`,
         ];
 
-        const interestRate = 1.80;
+        return uniqueTestimonials[Math.floor(Math.random() * uniqueTestimonials.length)];
+    }
 
-        const investmentRanges = [
-            { min: 467, max: 1500, currency: "ZAR" },
-            { min: 50, max: 3000, currency: "USD" },
-            { min: 2000, max: 30000, currency: "ZAR" },
-            { min: 3000, max: 7000, currency: "USD" },
-            { min: 800, max: 4000, currency: "ZAR" },
-            { min: 100, max: 6000, currency: "USD" },
-            { min: 4000, max: 70000, currency: "ZAR" },
-            { min: 500, max: 15000, currency: "USD" }
-        ];
+    function generateReview(name, country) {
+        const investmentType = Math.random() < 0.5 ? "crypto" : "stocks";
+        const investedAmount = Math.floor(Math.random() * (15000 - 500) + 500);
+        const profitAmount = (investedAmount * interestRate).toFixed(2);
 
-        function generateRandomAmount(range) {
-            return Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
-        }
+        const reviewElement = document.createElement("div");
+        reviewElement.classList.add("review");
+        reviewElement.innerHTML = `
+            <h3>${name} ${country.emoji}</h3>
+            <p class="location">${country.name}</p>
+            <p>${generateTestimony(name, country, investedAmount, profitAmount, investmentType)}</p>
+        `;
 
-        function generateRandomInvestmentType() {
-            return Math.random() > 0.5 ? "crypto" : "stocks";
-        }
+        document.getElementById("review-list").appendChild(reviewElement);
+    }
 
-        function getUniqueTestimony(name, country, investmentType, investedAmount, currency) {
-            const profit = (investedAmount * interestRate).toFixed(2);
-            let story = "";
+    function generateReviews() {
+        countries.forEach(country => {
+            country.names.forEach(name => {
+                generateReview(name, country, review);
+            });
+        });
+    }
 
-            if (country.name === "South Africa") {
-                if (investmentType === "crypto") {
-                    story = `${name} from ${country.name} says: 
-                    "I decided to jump into crypto because I wanted a higher return, and boy, did I get it! 
-                    I started with just R${investedAmount}, but after a few months, I earned R${profit}. 
-                    It was a game changer for me."`;
-                } else {
-                    story = `${name} from ${country.name} shares: 
-                    "I had always been curious about stocks, but never really knew where to start. When I came across Soft Return Investment, 
-                    I invested R${investedAmount} and ended up with R${profit} as profit."`;
-                }
-            } else {
-                if (investmentType === "crypto") {
-                    story = `${name} from ${country.name} reflects: 
-                    "Crypto was new for me, but I decided to try Soft Return Investment with ${investedAmount} ${currency}.
-                    I was shocked to see how quickly my investment grew. My return of ${profit} ${currency} was beyond my expectations."`;
-                } else {
-                    story = `${name} from ${country.name} states: 
-                    "I always thought stock investments were for the experts, but after trying Soft Return Investment, I’m a convert. 
-                    I invested ${investedAmount} ${currency} and received ${profit} ${currency} in returns."`;
-                }
-            }
-
-            return story;
-        }
-
-        function createReview(name, country, investmentType, investedAmount, currency) {
-            const story = getUniqueTestimony(name, country, investmentType, investedAmount, currency);
-
-            const reviewElement = document.createElement("div");
-            reviewElement.classList.add("review");
-            reviewElement.innerHTML = `
-                <h3>${name} ${country.emoji}</h3>
-                <p class="location">${country.name}</p>
-                <p>Investment Type: <strong>${investmentType}</strong></p>
-                <p>Investment Amount: <strong>${investedAmount} ${currency}</strong></p>
-                <p>Profit: <strong>${(investedAmount * interestRate).toFixed(2)}</strong></p>
-                <p>${story}</p>
-            `;
-
-            document.getElementById("review-list").appendChild(reviewElement);
-        }
-
-        function generateReviews() {
-            let nameIndex = 0;
-            let countryIndex = 0;
-
-            for (let i = 0; i < 400; i++) {
-                const country = countries[countryIndex % countries.length];
-                const name = country.name === "South Africa" ? southAfricanNames[nameIndex % southAfricanNames.length] : internationalNames[nameIndex % internationalNames.length];
-                const investmentType = generateRandomInvestmentType();
-                const investmentRange = investmentRanges[countryIndex % investmentRanges.length];
-                const investedAmount = generateRandomAmount(investmentRange);
-
-                createReview(name, country, investmentType, investedAmount, country.currency);
-
-                nameIndex++;
-                countryIndex++;
-            }
-        }
-
-        generateReviews();
-
-        function submitReview() {
-            const name = document.getElementById("name").value;
-            const location = document.getElementById("location").value;
-            const comment = document.getElementById("comment").value;
-
-            if (name && location && comment) {
-                const reviewElement = document.createElement("div");
-                reviewElement.classList.add("review");
-                reviewElement.innerHTML = `
-                    <h3>${name}</h3>
-                    <p class="location">${location}</p>
-                    <p>${comment}</p>
-                `;
-                document.getElementById("review-list").appendChild(reviewElement);
-                document.getElementById("review-submission").style.display = "block";
-            }
-        }
-    </script>
+    generateReviews();
+</script>
 
 </body>
 </html>
