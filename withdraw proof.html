@@ -40,7 +40,6 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
         }
         .withdrawal-item {
             display: flex;
@@ -61,17 +60,6 @@
         .status.pending {
             color: #ff4500;
         }
-        .time-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .time-container span {
-            width: 30%;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -82,20 +70,16 @@
 
 <div class="container">
     <div class="title">Soft Return Investment - Bitcoin Withdrawal Proof</div>
-
-    <!-- Time-Specific Withdrawal Lists -->
-    <div id="morning" class="withdrawal-list" style="display:none;"></div>
-    <div id="afternoon" class="withdrawal-list" style="display:none;"></div>
-    <div id="evening" class="withdrawal-list" style="display:none;"></div>
+    <div class="withdrawal-list" id="withdrawal-list"></div>
 </div>
 
 <script>
     const names = [
         "Junior", "Bandile", "Kungawo", "Siyabonga", "Lethabo", "Khayone", "Mpho", "Bokamoso", "Kamogelo", "Thato", 
         "Sarah", "Ethan", "Chloë", "David", "Hannah", "William", "Olivia", "Shane", "Megan", "Andrew", 
-        "Michelle", "Luke", "Esther", "Xavier", "Lawrence", "Leah", "Kayla", "Ella", "Caitlin", "Amy",
-        // add more names as needed
+        "Michelle", "Luke", "Esther", "Xavier", "Lawrence", "Leah", "Kayla", "Ella", "Caitlin", "Amy"
     ];
+
     const currency = ["R", "$"];
     const minAmount = [467, 50]; // Rands or USD lower limit
     const maxAmount = [70000, 15999]; // Rands or USD upper limit
@@ -107,57 +91,20 @@
         return `${currency[isRand ? 0 : 1]} ${amount}`;
     }
 
-    // Function to generate withdrawal data for specific times of day
-    function generateRandomWithdrawals(timeOfDay) {
+    function generateRandomWithdrawals() {
         let withdrawals = [];
         for (let i = 0; i < 10; i++) {
             const name = names[Math.floor(Math.random() * names.length)];
-            const amount = getRandomAmount("South Africa"); // can adjust logic for other countries
+            const amount = getRandomAmount("South Africa"); // or use other country logic
             const status = Math.random() < 0.7 ? "Approved" : "Pending";
-            withdrawals.push({ name, amount, status, timeOfDay });
+            withdrawals.push({ name, amount, status });
         }
         return withdrawals;
     }
 
-    // Display withdrawals based on time of day
     function displayWithdrawals() {
-        const currentTime = new Date();
-        const hours = currentTime.getHours();
-        
-        const morning = hours >= 6 && hours < 12;
-        const afternoon = hours >= 12 && hours < 18;
-        const evening = hours >= 18 && hours < 24;
-        
-        let morningWithdrawals = generateRandomWithdrawals("morning");
-        let afternoonWithdrawals = generateRandomWithdrawals("afternoon");
-        let eveningWithdrawals = generateRandomWithdrawals("evening");
-        
-        if (morning) {
-            document.getElementById("morning").style.display = "block";
-            displayWithdrawalList(morningWithdrawals, "morning");
-        } else {
-            document.getElementById("morning").style.display = "none";
-        }
-        
-        if (afternoon) {
-            document.getElementById("afternoon").style.display = "block";
-            displayWithdrawalList(afternoonWithdrawals, "afternoon");
-        } else {
-            document.getElementById("afternoon").style.display = "none";
-        }
-        
-        if (evening) {
-            document.getElementById("evening").style.display = "block";
-            displayWithdrawalList(eveningWithdrawals, "evening");
-        } else {
-            document.getElementById("evening").style.display = "none";
-        }
-    }
-
-    // Function to display individual withdrawal list
-    function displayWithdrawalList(withdrawals, timeOfDay) {
-        const listContainer = document.getElementById(timeOfDay);
-        listContainer.innerHTML = `<div class="time-container"><span>${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)}</span></div>`;
+        const withdrawalList = document.getElementById("withdrawal-list");
+        withdrawalList.innerHTML = "";
         withdrawals.forEach(withdrawal => {
             const item = document.createElement("div");
             item.className = "withdrawal-item";
@@ -166,13 +113,33 @@
                 <span class="amount">${withdrawal.amount}</span>
                 <span class="status ${withdrawal.status.toLowerCase()}">${withdrawal.status}</span>
             `;
-            listContainer.appendChild(item);
+            withdrawalList.appendChild(item);
         });
     }
 
-    // Initialize and check every minute
-    setInterval(displayWithdrawals, 60000); // Update every minute
-    displayWithdrawals(); // Initial display
+    // Update pending withdrawals to approved every 30 seconds
+    function updatePendingToApproved() {
+        withdrawals = withdrawals.map(withdrawal => {
+            if (withdrawal.status === "Pending" && Math.random() < 0.5) {
+                return { ...withdrawal, status: "Approved" };
+            }
+            return withdrawal;
+        });
+        displayWithdrawals();
+    }
+
+    // Rotate the list every 25 minutes (to create 20-30 minute intervals)
+    function rotateWithdrawals() {
+        withdrawals = generateRandomWithdrawals();
+        displayWithdrawals();
+    }
+
+    // Initialize with a list of withdrawals and set intervals for updates
+    let withdrawals = generateRandomWithdrawals();
+    displayWithdrawals();
+    setInterval(updatePendingToApproved, 30000); // Update pending to approved every 30 seconds
+    setInterval(rotateWithdrawals, 1500000); // Rotate list every 25 minutes
+
 </script>
 
 </body>
