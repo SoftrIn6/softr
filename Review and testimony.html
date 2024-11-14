@@ -109,112 +109,124 @@
     </div>
 
     <script>
-        const users = [
-            { name: "John Doe", location: "South Africa", emoji: "🇿🇦", currency: "ZAR" },
-            { name: "Jane Smith", location: "USA", emoji: "🇺🇸", currency: "USD" },
-            { name: "Alex Brown", location: "UK", emoji: "🇬🇧", currency: "USD" },
-            { name: "Emily White", location: "Australia", emoji: "🇦🇺", currency: "USD" },
-            { name: "Michael Johnson", location: "Canada", emoji: "🇨🇦", currency: "USD" },
-            { name: "Thabo Nkosi", location: "Botswana", emoji: "🇧🇼", currency: "ZAR" },
+        // Names and investment details
+        const southAfricanNames = ["Junior", "Bandile", "Kungawo", "Siyabonga", "Lethabo", "Khayone", "Mpho", "Bokamoso", "Kamogelo", "Thato"];
+        const internationalNames = ["Emma", "Oliver", "Sophia", "James", "Ava", "Liam", "Charlotte", "Benjamin", "Amelia", "Lucas"];
+        const countries = [
+            { name: "South Africa", currency: "ZAR", emoji: "🇿🇦" },
+            { name: "USA", currency: "USD", emoji: "🇺🇸" },
+            { name: "UK", currency: "USD", emoji: "🇬🇧" },
+            { name: "Australia", currency: "USD", emoji: "🇦🇺" },
+            { name: "Canada", currency: "USD", emoji: "🇨🇦" },
+            { name: "Botswana", currency: "ZAR", emoji: "🇧🇼" }
         ];
 
         const interestRate = 1.80;
 
-        // Define investment ranges
         const investmentRanges = [
-            { min: 467, max: 1500, currency: "ZAR" }, // Small amount
-            { min: 50, max: 3000, currency: "USD" },  // Small amount
-            { min: 2000, max: 30000, currency: "ZAR" }, // Larger amount
-            { min: 3000, max: 7000, currency: "USD" },  // Larger amount
-            { min: 800, max: 4000, currency: "ZAR" },  // Smaller amount again
-            { min: 100, max: 6000, currency: "USD" },  // Smaller amount again
-            { min: 4000, max: 70000, currency: "ZAR" }, // Big amount
-            { min: 500, max: 15000, currency: "USD" }   // Big amount
+            { min: 467, max: 1500, currency: "ZAR" },
+            { min: 50, max: 3000, currency: "USD" },
+            { min: 2000, max: 30000, currency: "ZAR" },
+            { min: 3000, max: 7000, currency: "USD" },
+            { min: 800, max: 4000, currency: "ZAR" },
+            { min: 100, max: 6000, currency: "USD" },
+            { min: 4000, max: 70000, currency: "ZAR" },
+            { min: 500, max: 15000, currency: "USD" }
         ];
 
         function generateRandomAmount(range) {
             return Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
         }
 
-        function getRandomReviewText() {
-            const phrases = [
-                "I couldn't believe my eyes when I saw the returns on my investment! It's beyond what I expected.",
-                "This is a game-changer for anyone looking to grow their wealth quickly. Crypto and stocks have both worked wonders for me!",
-                "My investment journey has been so smooth, and I’m seeing amazing results. Highly recommend it to others!",
-                "At first, I was skeptical, but now I’m a believer. The profits speak for themselves!",
-                "I'm so glad I took the plunge and invested. The returns were quick and exceeded my expectations!",
-                "This investment has been life-changing for me. I was able to achieve more than I ever imagined!",
-                "I didn’t expect it to be this profitable, but now I’m seeing a huge return. Very happy with my decision."
-            ];
-            return phrases[Math.floor(Math.random() * phrases.length)];
+        function generateRandomInvestmentType() {
+            return Math.random() > 0.5 ? "crypto" : "stocks";
         }
 
-        function createReview(user, investmentType, investedAmount, currency) {
+        function getUniqueTestimony(name, country, investmentType, investedAmount, currency) {
             const profit = (investedAmount * interestRate).toFixed(2);
-            const reviewText = getRandomReviewText();
+            let story = "";
+
+            if (country.name === "South Africa") {
+                if (investmentType === "crypto") {
+                    story = `${name} from ${country.name} says: 
+                    "I decided to jump into crypto because I wanted a higher return, and boy, did I get it! 
+                    I started with just R${investedAmount}, but after a few months, I earned R${profit}. 
+                    It was a game changer for me."`;
+                } else {
+                    story = `${name} from ${country.name} shares: 
+                    "I had always been curious about stocks, but never really knew where to start. When I came across Soft Return Investment, 
+                    I invested R${investedAmount} and ended up with R${profit} as profit."`;
+                }
+            } else {
+                if (investmentType === "crypto") {
+                    story = `${name} from ${country.name} reflects: 
+                    "Crypto was new for me, but I decided to try Soft Return Investment with ${investedAmount} ${currency}.
+                    I was shocked to see how quickly my investment grew. My return of ${profit} ${currency} was beyond my expectations."`;
+                } else {
+                    story = `${name} from ${country.name} states: 
+                    "I always thought stock investments were for the experts, but after trying Soft Return Investment, I’m a convert. 
+                    I invested ${investedAmount} ${currency} and received ${profit} ${currency} in returns."`;
+                }
+            }
+
+            return story;
+        }
+
+        function createReview(name, country, investmentType, investedAmount, currency) {
+            const story = getUniqueTestimony(name, country, investmentType, investedAmount, currency);
 
             const reviewElement = document.createElement("div");
             reviewElement.classList.add("review");
             reviewElement.innerHTML = `
-                <h3>${user.name} ${user.emoji}</h3>
-                <p class="location">${user.location}</p>
+                <h3>${name} ${country.emoji}</h3>
+                <p class="location">${country.name}</p>
                 <p>Investment Type: <strong>${investmentType}</strong></p>
-                <p>Invested Amount: <strong>${investedAmount} ${currency}</strong></p>
-                <p>Profit Earned: <strong>${profit} ${currency}</strong></p>
-                <p>"${reviewText}"</p>
+                <p>Investment Amount: <strong>${investedAmount} ${currency}</strong></p>
+                <p>Profit: <strong>${(investedAmount * interestRate).toFixed(2)}</strong></p>
+                <p>${story}</p>
             `;
-            return reviewElement;
+
+            document.getElementById("review-list").appendChild(reviewElement);
         }
 
-        function displayReviews() {
-            const reviewList = document.getElementById("review-list");
-            let reviewCount = 0;
-            let rangeIndex = 0;
+        function generateReviews() {
+            let nameIndex = 0;
+            let countryIndex = 0;
 
-            while (reviewCount < 400) {
-                users.forEach((user) => {
-                    if (reviewCount < 400) {
-                        // Alternate investment type between crypto and stock
-                        const investmentType = Math.random() > 0.5 ? "crypto" : "stocks";
-                        
-                        // Pick the range based on currency
-                        const range = user.currency === "ZAR" ? investmentRanges[rangeIndex % 4] : investmentRanges[(rangeIndex % 4) + 4];
-                        const investedAmount = generateRandomAmount(range);
+            for (let i = 0; i < 400; i++) {
+                const country = countries[countryIndex % countries.length];
+                const name = country.name === "South Africa" ? southAfricanNames[nameIndex % southAfricanNames.length] : internationalNames[nameIndex % internationalNames.length];
+                const investmentType = generateRandomInvestmentType();
+                const investmentRange = investmentRanges[countryIndex % investmentRanges.length];
+                const investedAmount = generateRandomAmount(investmentRange);
 
-                        const reviewElement = createReview(user, investmentType, investedAmount, user.currency);
-                        reviewList.appendChild(reviewElement);
-                        reviewCount++;
-                        rangeIndex++;
-                    }
-                });
+                createReview(name, country, investmentType, investedAmount, country.currency);
+
+                nameIndex++;
+                countryIndex++;
             }
         }
 
-        // Submit comment
+        generateReviews();
+
         function submitReview() {
             const name = document.getElementById("name").value;
             const location = document.getElementById("location").value;
             const comment = document.getElementById("comment").value;
 
             if (name && location && comment) {
-                // Display submission message
+                const reviewElement = document.createElement("div");
+                reviewElement.classList.add("review");
+                reviewElement.innerHTML = `
+                    <h3>${name}</h3>
+                    <p class="location">${location}</p>
+                    <p>${comment}</p>
+                `;
+                document.getElementById("review-list").appendChild(reviewElement);
                 document.getElementById("review-submission").style.display = "block";
-
-                // Send review to email (simulating this for now, actual implementation would need server-side support)
-                const emailBody = `New Review Submission:\nName: ${name}\nLocation: ${location}\nComment: ${comment}`;
-                window.location.href = `mailto:support@softrinvestment.com?subject=New Review Submission&body=${encodeURIComponent(emailBody)}`;
-
-                // Clear form
-                document.getElementById("name").value = "";
-                document.getElementById("location").value = "";
-                document.getElementById("comment").value = "";
-            } else {
-                alert("Please fill in all fields.");
             }
         }
-
-        // Initialize
-        displayReviews();
     </script>
+
 </body>
 </html>
