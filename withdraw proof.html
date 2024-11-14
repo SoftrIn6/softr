@@ -69,7 +69,7 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Withdrawn Amount (USD/Rands)</th>
+                <th>Withdrawn Amount</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -78,35 +78,44 @@
 </div>
 
 <script>
+    // Names, amount ranges, and currency options
     const names = [
         "Junior", "Bandile", "Kungawo", "Siyabonga", "Lethabo", "Khayone", "Mpho", "Bokamoso", "Kamogelo", "Thato",
         "Sarah", "Ethan", "Chloë", "David", "Hannah", "William", "Olivia", "Shane", "Megan", "Andrew"
     ];
 
-    const currency = ["R", "$"];
-    const minAmount = [467, 50]; // Rands or USD lower limit
-    const maxAmount = [70000, 15999]; // Rands or USD upper limit
+    const currency = ["R", "$"]; // Randomize ZAR and USD
+    const minAmount = [467, 50]; // Min amounts (ZAR or USD)
+    const maxAmount = [70000, 15999]; // Max amounts (ZAR or USD)
 
-    // Function to create random amounts within range
-    function getRandomAmount(country) {
-        const isRand = country === "South Africa";
+    // Generate a random withdrawal amount with ZAR/USD sign
+    function getRandomAmount() {
+        const isRand = Math.random() < 0.5; // Randomize ZAR or USD
         const amount = Math.floor(Math.random() * (isRand ? maxAmount[0] : maxAmount[1]) + (isRand ? minAmount[0] : minAmount[1]));
         return `${currency[isRand ? 0 : 1]} ${amount}`;
     }
 
-    // Function to generate random withdrawals
+    // Generate 10 random withdrawals (5 approved and 5 pending)
     function generateRandomWithdrawals() {
         let withdrawals = [];
+        let usedNames = new Set();  // Ensure no repeated names
+
         for (let i = 0; i < 10; i++) {
-            const name = names[Math.floor(Math.random() * names.length)];
-            const amount = getRandomAmount("South Africa"); // Modify for other countries if necessary
-            const status = Math.random() < 0.5 ? "Pending" : "Approved";
+            let name;
+            do {
+                name = names[Math.floor(Math.random() * names.length)];
+            } while (usedNames.has(name)); // Ensure no repetition
+            usedNames.add(name);
+
+            const amount = getRandomAmount();
+            const status = i < 5 ? "Approved" : "Pending"; // First 5 entries are approved, rest are pending
             withdrawals.push({ name, amount, status });
         }
+
         return withdrawals;
     }
 
-    // Function to display the withdrawal list
+    // Display withdrawal list in the table
     function displayWithdrawals() {
         const withdrawalList = document.getElementById("withdrawal-list");
         withdrawalList.innerHTML = "";
@@ -121,55 +130,49 @@
         });
     }
 
-    // Function to update pending withdrawals to approved every 1 to 6 minutes
+    // Update status from pending to approved every 1 to 5 minutes
     function updatePendingToApproved() {
-        withdrawals = withdrawals.map(withdrawal => {
-            if (withdrawal.status === "Pending") {
-                const randomTime = Math.floor(Math.random() * (6 - 1 + 1) + 1) * 1000 * 60;
-                setTimeout(() => {
-                    withdrawal.status = "Approved";
-                    updateLocalStorage(); // Update local storage once status changes
-                    displayWithdrawals();
-                }, randomTime);
-            }
-            return withdrawal;
+        let pendingWithdrawals = withdrawals.filter(w => w.status === "Pending");
+
+        pendingWithdrawals.forEach((withdrawal, index) => {
+            const randomTime = Math.floor(Math.random() * (5 - 1 + 1) + 1) * 1000 * 60; // Random 1 to 5 minutes
+            setTimeout(() => {
+                withdrawal.status = "Approved";
+                displayWithdrawals();
+            }, randomTime);
         });
     }
 
-    // Function to rotate the list every 25 minutes (10 new records)
+    // Refresh the withdrawal list every 25 minutes
     function rotateWithdrawals() {
         withdrawals = generateRandomWithdrawals();
+        localStorage.setItem("withdrawals", JSON.stringify({ time: Date.now(), data: withdrawals })); // Save data to localStorage
         displayWithdrawals();
-        updateLocalStorage();
     }
 
-    // Function to save withdrawals to localStorage
-    function updateLocalStorage() {
-        localStorage.setItem("withdrawals", JSON.stringify(withdrawals));
-        localStorage.setItem('lastUpdated', Date.now());
-    }
+    // Check if 25 minutes have passed since last refresh, then trigger a new list
+    function checkCycle() {
+        const storedData = JSON.parse(localStorage.getItem("withdrawals"));
+        const currentTime = Date.now();
+        const timeElapsed = storedData ? (currentTime - storedData.time) : 0;
 
-    // Initialize with a list of withdrawals and set intervals for updates
-    let withdrawals = JSON.parse(localStorage.getItem("withdrawals")) || generateRandomWithdrawals();
-
-    // To maintain persistence across reloads:
-    window.onload = function() {
-        const lastUpdated = localStorage.getItem('lastUpdated');
-        const now = Date.now();
-        if (!lastUpdated || (now - lastUpdated > 24 * 60 * 60 * 1000)) { // 24 hours passed
-            rotateWithdrawals();
+        if (timeElapsed >= 25 * 60 * 1000) {
+            rotateWithdrawals(); // Refresh after 25 minutes
         } else {
-            withdrawals = JSON.parse(localStorage.getItem("withdrawals"));
+            withdrawals = storedData ? storedData.data : generateRandomWithdrawals(); // Get data from localStorage or generate new list
             displayWithdrawals();
         }
     }
 
-    // Call updatePendingToApproved every minute
+    // Initialize with a list of withdrawals and check cycle every 25 minutes
+    let withdrawals = JSON.parse(localStorage.getItem("withdrawals")) ? JSON.parse(localStorage.getItem("withdrawals")).data : generateRandomWithdrawals();
+    displayWithdrawals();
+
+    // Update pending to approved every minute
     setInterval(updatePendingToApproved, 60000); // Update pending to approved every minute
 
-    // Call rotateWithdrawals every 25 minutes to refresh the withdrawal list
-    setInterval(rotateWithdrawals, 1500000); // Rotate list every 25 minutes
-
+    // Check for cycle every 10 seconds to see if 25 minutes have passed
+    setInterval(checkCycle, 10000); // Check every 10 seconds
 </script>
 
 </body>
