@@ -130,20 +130,21 @@
         });
     }
 
-    // Update status from pending to approved every 1 to 5 minutes
+    // Update status from pending to approved (change every 1 to 6 minutes)
     function updatePendingToApproved() {
         let pendingWithdrawals = withdrawals.filter(w => w.status === "Pending");
 
+        // For each pending entry, change it to approved within a random time between 1 and 6 minutes
         pendingWithdrawals.forEach((withdrawal, index) => {
-            const randomTime = Math.floor(Math.random() * (5 - 1 + 1) + 1) * 1000 * 60; // Random 1 to 5 minutes
+            const randomTime = Math.floor(Math.random() * (6 - 1 + 1) + 1) * 1000 * 60; // Random 1 to 6 minutes
             setTimeout(() => {
                 withdrawal.status = "Approved";
-                displayWithdrawals();
+                displayWithdrawals(); // Update the table after status change
             }, randomTime);
         });
     }
 
-    // Refresh the withdrawal list every 25 minutes
+    // Refresh the withdrawal list every 25 minutes (generating new 10 entries)
     function rotateWithdrawals() {
         withdrawals = generateRandomWithdrawals();
         localStorage.setItem("withdrawals", JSON.stringify({ time: Date.now(), data: withdrawals })); // Save data to localStorage
