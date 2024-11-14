@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soft Return Investment - Bitcoin Withdrawal Proof</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f7f9fb;
@@ -42,17 +41,20 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        table {
+        .withdrawal-table {
             width: 100%;
             border-collapse: collapse;
         }
-        th, td {
-            padding: 10px;
+        .withdrawal-table th, .withdrawal-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
             text-align: left;
-            border-bottom: 1px solid #eee;
         }
-        th {
-            background-color: #f1f1f1;
+        .withdrawal-table th {
+            background-color: #006400;
+            color: #fff;
+        }
+        .name, .amount, .status {
             font-weight: bold;
         }
         .status.approved {
@@ -72,89 +74,98 @@
 <div class="container">
     <div class="title">Soft Return Investment - Bitcoin Withdrawal Proof</div>
     <div class="withdrawal-list">
-        <table id="withdrawal-list-table">
+        <table class="withdrawal-table" id="withdrawal-list">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Withdrawn Amount (USD/ZAR)</th>
+                    <th>Withdrawal Amount</th>
                     <th>Withdrawal Status</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="withdrawal-table-body"></tbody>
         </table>
     </div>
 </div>
 
 <script>
-    const names = ["Junior", "Bandile", "Kungawo", "Siyabonga", "Lethabo", "Khayone", "Mpho", "Bokamoso", "Kamogelo", "Thato",
-                   "Sarah", "Ethan", "Chloë", "David", "Hannah", "William", "Olivia", "Shane", "Megan", "Andrew"];
+    // Data for the demo (you can replace this with a database or API call)
+    const names = [
+        "Junior", "Bandile", "Kungawo", "Siyabonga", "Lethabo", "Khayone", "Mpho", "Bokamoso", "Kamogelo", "Thato",
+        "Sarah", "Ethan", "Chloë", "David", "Hannah", "William", "Olivia", "Shane", "Megan", "Andrew", 
+        "Michelle", "Luke", "Esther", "Xavier", "Lawrence", "Leah", "Kayla", "Ella", "Caitlin", "Amy"
+    ];
+
     const currency = ["R", "$"];
-    const minAmount = [467, 50];  // Rands or USD lower limit
-    const maxAmount = [70000, 15000];  // Rands or USD upper limit
+    const minAmount = [467, 50]; // Rands or USD lower limit
+    const maxAmount = [70000, 15999]; // Rands or USD upper limit
 
-    let withdrawals = [];
-    let intervalID;
-
-    // Function to generate random amount
+    // Function to create random amounts within range
     function getRandomAmount(country) {
         const isRand = country === "South Africa";
         const amount = Math.floor(Math.random() * (isRand ? maxAmount[0] : maxAmount[1]) + (isRand ? minAmount[0] : minAmount[1]));
         return `${currency[isRand ? 0 : 1]} ${amount}`;
     }
 
-    // Function to generate new withdrawals
-    function generateWithdrawals() {
-        withdrawals = [];
+    function generateRandomWithdrawals() {
+        let withdrawals = [];
         for (let i = 0; i < 10; i++) {
             const name = names[Math.floor(Math.random() * names.length)];
-            const amount = getRandomAmount("South Africa");
-            const status = i < 5 ? "Approved" : "Pending";
+            const amount = getRandomAmount("South Africa"); // Or use other country logic
+            const status = i < 5 ? "Approved" : "Pending"; // Ensure 5 approved and 5 pending
             withdrawals.push({ name, amount, status });
         }
-        displayWithdrawals();
+        // Shuffle withdrawals to randomize approved and pending status
+        return withdrawals.sort(() => Math.random() - 0.5);
     }
 
-    // Display withdrawals in table
-    function displayWithdrawals() {
-        const tableBody = document.querySelector("#withdrawal-list-table tbody");
-        tableBody.innerHTML = "";
+    // Function to display withdrawals in the table
+    function displayWithdrawals(withdrawals) {
+        const withdrawalTableBody = document.getElementById("withdrawal-table-body");
+        withdrawalTableBody.innerHTML = "";
         withdrawals.forEach(withdrawal => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${withdrawal.name}</td>
-                <td>${withdrawal.amount}</td>
+                <td class="name">${withdrawal.name}</td>
+                <td class="amount">${withdrawal.amount}</td>
                 <td class="status ${withdrawal.status.toLowerCase()}">${withdrawal.status}</td>
             `;
-            tableBody.appendChild(row);
+            withdrawalTableBody.appendChild(row);
         });
     }
 
-    // Update pending withdrawals to approved at random intervals (1-6 mins)
-    function updatePendingToApproved() {
-        withdrawals.forEach((withdrawal, index) => {
-            if (withdrawal.status === "Pending") {
-                const delay = Math.floor(Math.random() * 5 + 1) * 60000;
-                setTimeout(() => {
-                    withdrawal.status = "Approved";
-                    displayWithdrawals();
-                }, delay);
+    // Function to update pending status to approved
+    function updatePendingToApproved(withdrawals) {
+        withdrawals = withdrawals.map(withdrawal => {
+            if (withdrawal.status === "Pending" && Math.random() < 0.5) {
+                return { ...withdrawal, status: "Approved" };
             }
+            return withdrawal;
         });
+        return withdrawals;
     }
 
-    // Auto-refresh list every 25 minutes
-    function refreshWithdrawals() {
-        clearInterval(intervalID);
-        generateWithdrawals();
-        updatePendingToApproved();
-        intervalID = setInterval(() => {
-            generateWithdrawals();
-            updatePendingToApproved();
-        }, 25 * 60000);
+    // Rotate the list every 25 minutes (to create 20-30 minute intervals)
+    function rotateWithdrawals() {
+        let withdrawals = generateRandomWithdrawals();
+        displayWithdrawals(withdrawals);
+
+        // Update the status from Pending to Approved after random intervals (1-6 minutes)
+        let pendingCount = 0;
+        const intervalId = setInterval(() => {
+            if (pendingCount < 5) {
+                withdrawals = updatePendingToApproved(withdrawals);
+                displayWithdrawals(withdrawals);
+                pendingCount++;
+            } else {
+                clearInterval(intervalId); // Stop after 5 approvals
+            }
+        }, Math.random() * (6 - 1 + 1) + 1 * 60000); // Random between 1-6 minutes
     }
 
-    // Initial load and start refresh cycle
-    refreshWithdrawals();
+    // Initialize and rotate every 25 minutes
+    rotateWithdrawals();
+    setInterval(rotateWithdrawals, 1500000); // Rotate every 25 minutes
+
 </script>
 
 </body>
