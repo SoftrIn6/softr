@@ -154,30 +154,27 @@
         });
     }
 
-    // Function to initialize withdrawals and persist them across page reloads
-    function initializeWithdrawals() {
-        const storedWithdrawals = localStorage.getItem("withdrawals");
-        if (storedWithdrawals) {
-            withdrawals = JSON.parse(storedWithdrawals);
-        } else {
-            withdrawals = generateRandomWithdrawals();
-            localStorage.setItem("withdrawals", JSON.stringify(withdrawals)); // Save to localStorage
-        }
-        displayWithdrawals();
-    }
-
-    // Rotate the list of withdrawals every 25 minutes
+    // Function to rotate the list every 25 minutes (10 new records)
     function rotateWithdrawals() {
-        setTimeout(() => {
-            withdrawals = generateRandomWithdrawals();
-            localStorage.setItem("withdrawals", JSON.stringify(withdrawals)); // Save new list to localStorage
-            displayWithdrawals();
-        }, 1500000); // 25 minutes
+        withdrawals = generateRandomWithdrawals();
+        displayWithdrawals();
+        localStorage.setItem("withdrawals", JSON.stringify(withdrawals)); // Save the data to localStorage
     }
 
-    // Initialize and set the intervals for updates
-    let withdrawals = [];
-    initializeWithdrawals(); // Initialize or load withdrawals
+    // Initialize with a list of withdrawals and set intervals for updates
+    let withdrawals = JSON.parse(localStorage.getItem("withdrawals")) || generateRandomWithdrawals();
+    displayWithdrawals();
+
+    // To maintain persistence across reloads:
+    window.onload = function() {
+        const lastUpdated = localStorage.getItem('lastUpdated');
+        const now = Date.now();
+        if (!lastUpdated || (now - lastUpdated > 24 * 60 * 60 * 1000)) { // 24 hours passed
+            rotateWithdrawals();
+            localStorage.setItem('lastUpdated', now);
+        }
+    }
+
     setInterval(updatePendingToApproved, 60000); // Update pending to approved every minute
     setInterval(rotateWithdrawals, 1500000); // Rotate list every 25 minutes
 </script>
