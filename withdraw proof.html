@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soft Return Investment - Bitcoin Withdrawal Proof</title>
+    <title>Withdrawal Proof</title>
     <style>
-        /* Basic styling */
+        /* Styling */
         * {
             margin: 0;
             padding: 0;
@@ -57,10 +57,16 @@
             text-align: center;
         }
 
+        .table-container {
+            position: relative;
+            overflow: hidden;
+            height: 300px; /* Limit the height to show a fixed number of rows */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 30px;
+            margin-top: 10px;
         }
 
         th, td {
@@ -89,12 +95,19 @@
             font-weight: bold;
         }
 
-        .status-column {
-            width: 150px;
+        .scroll-up {
+            animation: scroll-up 1s ease-in-out forwards;
         }
 
-        .withdrawn-column {
-            width: 180px;
+        @keyframes scroll-up {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         footer {
@@ -112,14 +125,14 @@
 </header>
 
 <div class="container">
-    <div class="title">Soft Return Investment - Bitcoin Withdrawal Proof</div>
-    <div>
+    <div class="title">Bitcoin Withdrawal Proof</div>
+    <div class="table-container">
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th class="withdrawn-column">Withdrawn Amount</th>
-                    <th class="status-column">Status</th>
+                    <th>Withdrawn Amount</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody id="withdrawal-list">
@@ -134,139 +147,99 @@
 </footer>
 
 <script>
-// Generate unique entries
-const uniqueEntries = [
-       { name: "Jabulani T.", amount: "R 3,800", status: "Approved" },
-    { name: "Sophia M.", amount: "$ 2,120", status: "Pending" },
-    { name: "Lindiwe S.", amount: "R 5,670", status: "Approved" },
-    { name: "Michael J.", amount: "$ 480", status: "Pending" },
-    { name: "Thandi N.", amount: "R 9,200", status: "Approved" },
-    { name: "Lucas W.", amount: "$ 1,320", status: "Pending" },
-    { name: "Sinethemba R.", amount: "R 7,850", status: "Approved" },
-    { name: "Ava P.", amount: "$ 950", status: "Pending" },
-    { name: "Phumzile K.", amount: "R 2,310", status: "Approved" },
-    { name: "William H.", amount: "$ 4,230", status: "Pending" },
-    { name: "Zanele L.", amount: "R 6,400", status: "Approved" },
-    { name: "Chloe D.", amount: "$ 1,740", status: "Pending" },
-    { name: "Nhlanhla M.", amount: "R 8,550", status: "Approved" },
-    { name: "Liam K.", amount: "$ 610", status: "Pending" },
-    { name: "Busisiwe T.", amount: "R 4,970", status: "Approved" },
-    { name: "Emily N.", amount: "$ 870", status: "Pending" },
-    { name: "Samkelo J.", amount: "R 2,800", status: "Approved" },
-    { name: "Jacob G.", amount: "$ 3,520", status: "Pending" },
-    { name: "Khanyisile F.", amount: "R 6,200", status: "Approved" },
-    { name: "Ella Z.", amount: "$ 980", status: "Pending" },
-    { name: "Lerato H.", amount: "R 3,100", status: "Approved" },
-    { name: "Noah L.", amount: "$ 4,850", status: "Pending" },
-    { name: "Ntombifuthi B.", amount: "R 5,720", status: "Approved" },
-    { name: "Isabella X.", amount: "$ 2,160", status: "Pending" },
-    { name: "Siphesihle P.", amount: "R 7,330", status: "Approved" },
-    { name: "Grace Y.", amount: "$ 630", status: "Pending" },
-    { name: "Andile D.", amount: "R 4,580", status: "Approved" },
-    { name: "Ruby T.", amount: "$ 870", status: "Pending" },
-    { name: "Nomfundo C.", amount: "R 2,670", status: "Approved" },
-    { name: "John K.", amount: "$ 1,980", status: "Pending" },
-    { name: "Zodwa F.", amount: "R 6,400", status: "Approved" },
-    { name: "Ella J.", amount: "$ 2,450", status: "Pending" },
-    { name: "Bongiwe V.", amount: "R 8,100", status: "Approved" },
-    { name: "Leah B.", amount: "$ 1,420", status: "Pending" },
-    { name: "Tumelo S.", amount: "R 5,900", status: "Approved" },
-    { name: "Carter Z.", amount: "$ 620", status: "Pending" },
-    { name: "Nkanyiso X.", amount: "R 7,700", status: "Approved" },
-    { name: "Olivia M.", amount: "$ 2,030", status: "Pending" },
-    { name: "Thokozile H.", amount: "R 9,430", status: "Approved" },
-    { name: "Ryan P.", amount: "$ 1,290", status: "Pending" },
-    { name: "Lwazi C.", amount: "R 3,680", status: "Approved" },
-    { name: "Mia T.", amount: "$ 1,730", status: "Pending" },
-    { name: "Ayabonga L.", amount: "R 6,300", status: "Approved" },
-    { name: "Daniel J.", amount: "$ 950", status: "Pending" },
-    { name: "Ziyanda M.", amount: "R 8,500", status: "Approved" },
-    { name: "Sophia B.", amount: "$ 1,560", status: "Pending" },
-    { name: "Thulani R.", amount: "R 5,200", status: "Approved" },
-    { name: "James Z.", amount: "$ 670", status: "Pending" },
-    { name: "Mahlodi G.", amount: "R 4,780", status: "Approved" },
-    { name: "Ella D.", amount: "$ 2,300", status: "Pending" },
-    { name: "Lethabo K.", amount: "R 9,300", status: "Approved" },
-    { name: "Emma T.", amount: "$ 1,480", status: "Pending" },
-    { name: "Sibongile F.", amount: "R 7,800", status: "Approved" },
-    { name: "Carter V.", amount: "$ 760", status: "Pending" },
-    { name: "Nomzamo N.", amount: "R 3,640", status: "Approved" },
-    { name: "Sophia W.", amount: "$ 1,720", status: "Pending" },
-    { name: "Sakhile M.", amount: "R 6,280", status: "Approved" },
-    { name: "William T.", amount: "$ 580", status: "Pending" },
-    { name: "Nosipho L.", amount: "R 8,440", status: "Approved" },
-    { name: "Ethan C.", amount: "$ 1,920", status: "Pending" },
-    { name: "Lungile H.", amount: "R 5,300", status: "Approved" },
-    { name: "Emily M.", amount: "$ 870", status: "Pending" }
-     // Add the remaining entries here...
+// Predefined list of names
+const names = [
+    "Alexis N.", "Thabo Z.", "Naledi K.", "Liam W.", "Faith D.", "Kelebogile B.", 
+    "Mandla H.", "Christine J.", "Kagiso M.", "Benjamin F.", "Zinhle P.",
+    "Emily T.", "Kabelo R.", "Jacob L.", "Nokuthula S.", "Daniel C.", "Ayanda X.",
+    "Sophia K.", "Themba V.", "James M.", "Ntando F.", "Anna G.", "Vusi B."
 ];
 
-// Function to shuffle and generate the next 10 entries
-function generateNewEntries() {
-    const shuffled = uniqueEntries.sort(() => 0.5 - Math.random());
-    const approved = shuffled.slice(0, 5).map(entry => ({ ...entry, status: "Approved" }));
-    const pending = shuffled.slice(5, 10).map(entry => ({ ...entry, status: "Pending" }));
-    return [...approved, ...pending];
-}
+// Initialize storage keys
+const STORAGE_KEY = "withdrawalEntries";
+const TIMESTAMP_KEY = "lastUpdateTime";
 
-// Function to display the withdrawal list
-function displayWithdrawals(entries) {
-    const tableBody = document.getElementById("withdrawal-list");
-    tableBody.innerHTML = "";
-
-    entries.forEach(entry => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${entry.name}</td>
-            <td class="withdrawn-amount">${entry.amount}</td>
-            <td class="status-column ${entry.status.toLowerCase()}">${entry.status}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
-
-// Persistent storage
-function saveEntriesToLocalStorage(entries) {
-    localStorage.setItem("withdrawalEntries", JSON.stringify(entries));
-}
-
-function getEntriesFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("withdrawalEntries"));
-}
-
-// Auto-update logic
-function startPendingApprovalCycle(entries) {
-    const pendingEntries = entries.filter(entry => entry.status === "Pending");
-    pendingEntries.forEach((entry, index) => {
-        setTimeout(() => {
-            entry.status = "Approved";
-            saveEntriesToLocalStorage(entries);
-            displayWithdrawals(entries);
-        }, (index + 1) * Math.random() * 5000); // 1 to 5 mins
-    });
-}
-
-// Initialize or refresh the entries every 25 minutes
-function initWithdrawals() {
-    let entries = getEntriesFromLocalStorage();
-    const now = new Date();
-    const lastUpdated = new Date(localStorage.getItem("lastUpdated") || 0);
-
-    if (!entries || now - lastUpdated > 25 * 60 * 1000) {
-        entries = generateNewEntries();
-        saveEntriesToLocalStorage(entries);
-        localStorage.setItem("lastUpdated", now);
+// Generate unique entries
+function generateEntries() {
+    const entries = [];
+    for (let i = 0; i < 1800; i++) {
+        const name = names[i % names.length];
+        const amount = Math.random() > 0.5 ? `$ ${Math.floor(Math.random() * 5000)}` : `R ${Math.floor(Math.random() * 10000)}`;
+        const status = i % 10 < 5 ? "Approved" : "Pending";
+        entries.push({ name, amount, status });
     }
-
-    displayWithdrawals(entries);
-    startPendingApprovalCycle(entries);
+    return entries;
 }
 
-// Initialize on page load
-window.onload = initWithdrawals;
+// Save to local storage
+function saveToStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
 
-// Refresh entries every 25 minutes
-setInterval(initWithdrawals, 25 * 60 * 1000);
+// Load from local storage
+function loadFromStorage(key, defaultValue) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : defaultValue;
+}
+
+// Replace one entry and handle statuses
+function replaceEntry(entries, currentIndex, visibleEntries) {
+    if (currentIndex < entries.length) {
+        // Change pending to approved
+        visibleEntries.forEach(entry => {
+            if (entry.status === "Pending") {
+                entry.status = "Approved";
+            }
+        });
+
+        // Replace the first entry with the next one
+        visibleEntries.shift();
+        const nextEntry = entries[currentIndex];
+        nextEntry.status = nextEntry.status === "Pending" ? "Pending" : "Approved";
+        visibleEntries.push(nextEntry);
+
+        saveToStorage(STORAGE_KEY, { entries, currentIndex, visibleEntries });
+    }
+}
+
+// Initialize the app
+function initialize() {
+    // Load saved entries or generate new ones
+    const savedData = loadFromStorage(STORAGE_KEY, null);
+    const entries = savedData ? savedData.entries : generateEntries();
+    let currentIndex = savedData ? savedData.currentIndex : 10;
+    let visibleEntries = savedData ? savedData.visibleEntries : entries.slice(0, 10);
+
+    // Render entries
+    const tableBody = document.getElementById("withdrawal-list");
+    function renderEntries() {
+        tableBody.innerHTML = "";
+        visibleEntries.forEach(entry => {
+            const row = document.createElement("tr");
+            row.classList.add("scroll-up");
+            row.innerHTML = `
+                <td>${entry.name}</td>
+                <td>${entry.amount}</td>
+                <td class="${entry.status.toLowerCase()}">${entry.status}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+    renderEntries();
+
+    // Set up interval for replacing entries
+    setInterval(() => {
+        replaceEntry(entries, currentIndex, visibleEntries);
+        currentIndex++;
+        renderEntries();
+    }, 60000);
+
+    // Save initial data
+    saveToStorage(STORAGE_KEY, { entries, currentIndex, visibleEntries });
+}
+
+// Start the app
+initialize();
 </script>
 
 </body>
