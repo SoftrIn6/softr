@@ -165,7 +165,7 @@ function generateEntries() {
     for (let i = 0; i < 1800; i++) {
         const name = names[i % names.length];
         const amount = Math.random() > 0.5 ? `$ ${Math.floor(Math.random() * 5000)}` : `R ${Math.floor(Math.random() * 10000)}`;
-        const status = i % 10 < 5 ? "Approved" : "Pending";
+        const status = "Pending";
         entries.push({ name, amount, status });
     }
     return entries;
@@ -185,17 +185,19 @@ function loadFromStorage(key, defaultValue) {
 // Replace one entry and handle statuses
 function replaceEntry(entries, currentIndex, visibleEntries) {
     if (currentIndex < entries.length) {
-        // Change pending to approved
+        // Change pending to approved after 1 to 4 minutes
         visibleEntries.forEach(entry => {
             if (entry.status === "Pending") {
-                entry.status = "Approved";
+                setTimeout(() => {
+                    entry.status = "Approved";
+                    renderEntries();
+                }, Math.random() * 3 * 60000 + 60000); // Random between 1-4 mins
             }
         });
 
         // Replace the first entry with the next one
         visibleEntries.shift();
         const nextEntry = entries[currentIndex];
-        nextEntry.status = nextEntry.status === "Pending" ? "Pending" : "Approved";
         visibleEntries.push(nextEntry);
 
         saveToStorage(STORAGE_KEY, { entries, currentIndex, visibleEntries });
@@ -232,7 +234,7 @@ function initialize() {
         replaceEntry(entries, currentIndex, visibleEntries);
         currentIndex++;
         renderEntries();
-    }, 60000);
+    }, 60000); // Every 1 minute
 
     // Save initial data
     saveToStorage(STORAGE_KEY, { entries, currentIndex, visibleEntries });
