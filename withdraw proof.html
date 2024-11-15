@@ -5,16 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soft Return Investment - Bitcoin Withdrawal Proof</title>
     <style>
-        /* Styling */
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; }
-        .container { max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        .title { font-size: 24px; margin-bottom: 10px; color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
-        th { background: #f4f4f4; }
-        .approved { color: green; }
-        .pending { color: orange; }
-        a { text-decoration: none; color: blue; font-size: 16px; }
+        /* Basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header a {
+            font-size: 18px;
+            color: #1e90ff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border: 2px solid #1e90ff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        header a:hover {
+            background-color: #1e90ff;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .title {
+            font-size: 32px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .approved {
+            color: green;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .status-column {
+            width: 150px;
+        }
+
+        .withdrawn-column {
+            width: 180px;
+        }
+
+        /* Styling for layout */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
     </style>
 </head>
 <body>
@@ -25,21 +126,118 @@
 
 <div class="container">
     <div class="title">Soft Return Investment - Bitcoin Withdrawal Proof</div>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Withdrawn Amount</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="withdrawal-list">
-            <!-- Dynamic content will be added here -->
-        </tbody>
-    </table>
+    <div class="content-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="withdrawn-column">Withdrawn Amount</th>
+                    <th class="status-column">Status</th>
+                    <th class="timestamp">Time</th>
+                </tr>
+            </thead>
+            <tbody id="withdrawal-list">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<script src="script.js"></script>
+<footer>
+    <p>© 2024 Soft Return Investment. All rights reserved.</p>
+</footer>
+
+<script>
+// Sample withdrawal data
+const withdrawals = [
+    { name: "Junior M.", amount: "R 670", status: "Approved", timestamp: "" },
+    { name: "Chloë P.", amount: "$ 320", status: "Pending", timestamp: "" },
+    { name: "Siyabonga T.", amount: "R 1,200", status: "Approved", timestamp: "" },
+    { name: "William K.", amount: "$ 2,100", status: "Pending", timestamp: "" },
+    { name: "Kamogelo L.", amount: "R 3,500", status: "Approved", timestamp: "" },
+    { name: "Sarah C.", amount: "$ 580", status: "Pending", timestamp: "" },
+    { name: "Mpho S.", amount: "R 4,800", status: "Approved", timestamp: "" },
+    { name: "David M.", amount: "$ 700", status: "Pending", timestamp: "" },
+    { name: "Lethabo T.", amount: "R 6,200", status: "Approved", timestamp: "" },
+    { name: "Megan J.", amount: "$ 1,250", status: "Pending", timestamp: "" },
+    // Add more entries to meet your requirements
+];
+
+// Function to generate a timestamp within the 30-hour window
+function generateTimeStamp(currentTime) {
+    const currentMinutes = currentTime.getMinutes();
+    const currentSeconds = currentTime.getSeconds();
+    const formattedTime = `${currentTime.getHours()}:${currentMinutes}:${currentSeconds}`;
+    return formattedTime;
+}
+
+// Function to display the current withdrawal list
+function displayWithdrawals() {
+    const tableBody = document.getElementById("withdrawal-list");
+    tableBody.innerHTML = ""; // Clear previous entries
+
+    const currentTime = new Date();
+
+    // Shuffling withdrawals to simulate a random order of approved and pending status
+    const shuffled = withdrawals.sort(() => 0.5 - Math.random());
+
+    // Ensure 5 entries are approved and 5 are pending
+    const approved = shuffled.slice(0, 5);
+    const pending = shuffled.slice(5, 10);
+
+    const allWithdrawals = [...approved, ...pending];
+
+    allWithdrawals.forEach(entry => {
+        const row = document.createElement("tr");
+
+        // Add timestamp for each withdrawal entry
+        entry.timestamp = generateTimeStamp(currentTime);
+
+        row.innerHTML = `
+            <td>${entry.name}</td>
+            <td class="withdrawn-amount">${entry.amount}</td>
+            <td class="status-column ${entry.status.toLowerCase()}">${entry.status}</td>
+            <td class="timestamp">${entry.timestamp}</td>
+        `;
+
+        tableBody.appendChild(row);
+
+        // If the entry is pending, change status to approved every 1-5 minutes
+        if (entry.status === "Pending") {
+            const randomDelay = Math.random() * (5 - 1) + 1; // Between 1-5 minutes
+            setTimeout(() => {
+                entry.status = "Approved";
+                entry.timestamp = generateTimeStamp(new Date()); // Update timestamp
+                displayWithdrawals(); // Refresh the table
+            }, randomDelay * 60000); // 1-5 minutes delay
+        }
+    });
+}
+
+// Persist data in localStorage for reloads
+function persistData() {
+    localStorage.setItem("withdrawals", JSON.stringify(withdrawals));
+}
+
+// Restore data on page load
+function restoreData() {
+    const savedData = JSON.parse(localStorage.getItem("withdrawals"));
+    if (savedData) {
+        withdrawals.forEach((entry, index) => {
+            if (savedData[index]) {
+                Object.assign(entry, savedData[index]);
+            }
+        });
+    }
+    displayWithdrawals();
+}
+
+// Rotate entries every 25 minutes
+setInterval(displayWithdrawals, 25 * 60 * 1000);
+
+// Initialize on page load
+window.onload = restoreData;
+</script>
 
 </body>
 </html>
