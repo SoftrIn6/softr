@@ -89,25 +89,12 @@
             font-weight: bold;
         }
 
-        .timestamp {
-            font-size: 12px;
-            color: #888;
-        }
-
         .status-column {
             width: 150px;
         }
 
         .withdrawn-column {
             width: 180px;
-        }
-
-        /* Styling for layout */
-        .content-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
         }
 
         footer {
@@ -126,14 +113,13 @@
 
 <div class="container">
     <div class="title">Soft Return Investment - Bitcoin Withdrawal Proof</div>
-    <div class="content-wrapper">
+    <div>
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
                     <th class="withdrawn-column">Withdrawn Amount</th>
                     <th class="status-column">Status</th>
-                    <th class="timestamp">Time</th>
                 </tr>
             </thead>
             <tbody id="withdrawal-list">
@@ -148,92 +134,138 @@
 </footer>
 
 <script>
-// Sample withdrawal data (can be extended)
-const withdrawals = [
-    { name: "Junior M.", amount: "R 670", status: "Approved", timestamp: "" },
-    { name: "Chloë P.", amount: "$ 320", status: "Pending", timestamp: "" },
-    { name: "Siyabonga T.", amount: "R 1,200", status: "Approved", timestamp: "" },
-    { name: "William K.", amount: "$ 2,100", status: "Pending", timestamp: "" },
-    { name: "Kamogelo L.", amount: "R 3,500", status: "Approved", timestamp: "" },
-    { name: "Sarah C.", amount: "$ 580", status: "Pending", timestamp: "" },
-    { name: "Mpho S.", amount: "R 4,800", status: "Approved", timestamp: "" },
-    { name: "David M.", amount: "$ 700", status: "Pending", timestamp: "" },
-    { name: "Lethabo T.", amount: "R 6,200", status: "Approved", timestamp: "" },
-    { name: "Megan J.", amount: "$ 1,250", status: "Pending", timestamp: "" },
-    // Add more entries if necessary
-];
+// Generate unique entries
+const uniqueEntries = [
+       { name: "Jabulani T.", amount: "R 3,800", status: "Approved" },
+    { name: "Sophia M.", amount: "$ 2,120", status: "Pending" },
+    { name: "Lindiwe S.", amount: "R 5,670", status: "Approved" },
+    { name: "Michael J.", amount: "$ 480", status: "Pending" },
+    { name: "Thandi N.", amount: "R 9,200", status: "Approved" },
+    { name: "Lucas W.", amount: "$ 1,320", status: "Pending" },
+    { name: "Sinethemba R.", amount: "R 7,850", status: "Approved" },
+    { name: "Ava P.", amount: "$ 950", status: "Pending" },
+    { name: "Phumzile K.", amount: "R 2,310", status: "Approved" },
+    { name: "William H.", amount: "$ 4,230", status: "Pending" },
+    { name: "Zanele L.", amount: "R 6,400", status: "Approved" },
+    { name: "Chloe D.", amount: "$ 1,740", status: "Pending" },
+    { name: "Nhlanhla M.", amount: "R 8,550", status: "Approved" },
+    { name: "Liam K.", amount: "$ 610", status: "Pending" },
+    { name: "Busisiwe T.", amount: "R 4,970", status: "Approved" },
+    { name: "Emily N.", amount: "$ 870", status: "Pending" },
+    { name: "Samkelo J.", amount: "R 2,800", status: "Approved" },
+    { name: "Jacob G.", amount: "$ 3,520", status: "Pending" },
+    { name: "Khanyisile F.", amount: "R 6,200", status: "Approved" },
+    { name: "Ella Z.", amount: "$ 980", status: "Pending" },
+    { name: "Lerato H.", amount: "R 3,100", status: "Approved" },
+    { name: "Noah L.", amount: "$ 4,850", status: "Pending" },
+    { name: "Ntombifuthi B.", amount: "R 5,720", status: "Approved" },
+    { name: "Isabella X.", amount: "$ 2,160", status: "Pending" },
+    { name: "Siphesihle P.", amount: "R 7,330", status: "Approved" },
+    { name: "Grace Y.", amount: "$ 630", status: "Pending" },
+    { name: "Andile D.", amount: "R 4,580", status: "Approved" },
+    { name: "Ruby T.", amount: "$ 870", status: "Pending" },
+    { name: "Nomfundo C.", amount: "R 2,670", status: "Approved" },
+    { name: "John K.", amount: "$ 1,980", status: "Pending" },
+    { name: "Zodwa F.", amount: "R 6,400", status: "Approved" },
+    { name: "Ella J.", amount: "$ 2,450", status: "Pending" },
+    { name: "Bongiwe V.", amount: "R 8,100", status: "Approved" },
+    { name: "Leah B.", amount: "$ 1,420", status: "Pending" },
+    { name: "Tumelo S.", amount: "R 5,900", status: "Approved" },
+    { name: "Carter Z.", amount: "$ 620", status: "Pending" },
+    { name: "Nkanyiso X.", amount: "R 7,700", status: "Approved" },
+    { name: "Olivia M.", amount: "$ 2,030", status: "Pending" },
+    { name: "Thokozile H.", amount: "R 9,430", status: "Approved" },
+    { name: "Ryan P.", amount: "$ 1,290", status: "Pending" },
+    { name: "Lwazi C.", amount: "R 3,680", status: "Approved" },
+    { name: "Mia T.", amount: "$ 1,730", status: "Pending" },
+    { name: "Ayabonga L.", amount: "R 6,300", status: "Approved" },
+    { name: "Daniel J.", amount: "$ 950", status: "Pending" },
+    { name: "Ziyanda M.", amount: "R 8,500", status: "Approved" },
+    { name: "Sophia B.", amount: "$ 1,560", status: "Pending" },
+    { name: "Thulani R.", amount: "R 5,200", status: "Approved" },
+    { name: "James Z.", amount: "$ 670", status: "Pending" },
+    { name: "Mahlodi G.", amount: "R 4,780", status: "Approved" },
+    { name: "Ella D.", amount: "$ 2,300", status: "Pending" },
+    { name: "Lethabo K.", amount: "R 9,300", status: "Approved" },
+    { name: "Emma T.", amount: "$ 1,480", status: "Pending" },
+    { name: "Sibongile F.", amount: "R 7,800", status: "Approved" },
+    { name: "Carter V.", amount: "$ 760", status: "Pending" },
+    { name: "Nomzamo N.", amount: "R 3,640", status: "Approved" },
+    { name: "Sophia W.", amount: "$ 1,720", status: "Pending" },
+    { name: "Sakhile M.", amount: "R 6,280", status: "Approved" },
+    { name: "William T.", amount: "$ 580", status: "Pending" },
+    { name: "Nosipho L.", amount: "R 8,440", status: "Approved" },
+    { name: "Ethan C.", amount: "$ 1,920", status: "Pending" },
+    { name: "Lungile H.", amount: "R 5,300", status: "Approved" },
+    { name: "Emily M.", amount: "$ 870", status: "Pending" }
+]
 
-// Function to generate a timestamp within the 30-hour window
-function generateTimeStamp(currentTime) {
-    const currentMinutes = currentTime.getMinutes();
-    const currentSeconds = currentTime.getSeconds();
-    const formattedTime = `${currentTime.getHours()}:${currentMinutes}:${currentSeconds}`;
-    return formattedTime;
+// Function to shuffle and generate the next 10 entries
+function generateNewEntries() {
+    const shuffled = uniqueEntries.sort(() => 0.5 - Math.random());
+    const approved = shuffled.slice(0, 5).map(entry => ({ ...entry, status: "Approved" }));
+    const pending = shuffled.slice(5, 10).map(entry => ({ ...entry, status: "Pending" }));
+    return [...approved, ...pending];
 }
 
-// Function to display the current withdrawal list
-function displayWithdrawals() {
+// Function to display the withdrawal list
+function displayWithdrawals(entries) {
     const tableBody = document.getElementById("withdrawal-list");
-    tableBody.innerHTML = ""; // Clear previous entries
+    tableBody.innerHTML = "";
 
-    const currentTime = new Date();
-
-    // Ensure 5 entries are approved and 5 are pending
-    const approved = withdrawals.filter(entry => entry.status === "Approved");
-    const pending = withdrawals.filter(entry => entry.status === "Pending");
-
-    const allWithdrawals = [...approved, ...pending];
-
-    allWithdrawals.forEach(entry => {
+    entries.forEach(entry => {
         const row = document.createElement("tr");
-
-        // Add timestamp for each withdrawal entry
-        entry.timestamp = generateTimeStamp(currentTime);
-
         row.innerHTML = `
             <td>${entry.name}</td>
             <td class="withdrawn-amount">${entry.amount}</td>
             <td class="status-column ${entry.status.toLowerCase()}">${entry.status}</td>
-            <td class="timestamp">${entry.timestamp}</td>
         `;
-
         tableBody.appendChild(row);
-
-        // If the entry is pending, change status to approved every 5 minutes
-        if (entry.status === "Pending") {
-            const randomDelay = Math.random() * (5 - 1) + 1; // Between 1-5 minutes
-            setTimeout(() => {
-                entry.status = "Approved";
-                entry.timestamp = generateTimeStamp(new Date()); // Update timestamp
-                displayWithdrawals(); // Refresh the table
-            }, randomDelay * 60000); // 1-5 minutes delay
-        }
     });
 }
 
-// Persist data in localStorage for reloads
-function persistData() {
-    localStorage.setItem("withdrawals", JSON.stringify(withdrawals));
+// Persistent storage
+function saveEntriesToLocalStorage(entries) {
+    localStorage.setItem("withdrawalEntries", JSON.stringify(entries));
 }
 
-// Restore data on page load
-function restoreData() {
-    const savedData = JSON.parse(localStorage.getItem("withdrawals"));
-    if (savedData) {
-        withdrawals.forEach((entry, index) => {
-            if (savedData[index]) {
-                Object.assign(entry, savedData[index]);
-            }
-        });
+function getEntriesFromLocalStorage() {
+    return JSON.parse(localStorage.getItem("withdrawalEntries"));
+}
+
+// Auto-update logic
+function startPendingApprovalCycle(entries) {
+    const pendingEntries = entries.filter(entry => entry.status === "Pending");
+    pendingEntries.forEach((entry, index) => {
+        setTimeout(() => {
+            entry.status = "Approved";
+            saveEntriesToLocalStorage(entries);
+            displayWithdrawals(entries);
+        }, (index + 1) * Math.random() * 5000); // 1 to 5 mins
+    });
+}
+
+// Initialize or refresh the entries every 25 minutes
+function initWithdrawals() {
+    let entries = getEntriesFromLocalStorage();
+    const now = new Date();
+    const lastUpdated = new Date(localStorage.getItem("lastUpdated") || 0);
+
+    if (!entries || now - lastUpdated > 25 * 60 * 1000) {
+        entries = generateNewEntries();
+        saveEntriesToLocalStorage(entries);
+        localStorage.setItem("lastUpdated", now);
     }
-    displayWithdrawals();
-}
 
-// Rotate entries every 25 minutes
-setInterval(displayWithdrawals, 25 * 60 * 1000);
+    displayWithdrawals(entries);
+    startPendingApprovalCycle(entries);
+}
 
 // Initialize on page load
-window.onload = restoreData;
+window.onload = initWithdrawals;
+
+// Refresh entries every 25 minutes
+setInterval(initWithdrawals, 25 * 60 * 1000);
 </script>
 
 </body>
