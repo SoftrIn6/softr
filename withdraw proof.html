@@ -5,96 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soft Return Investment - Bitcoin Withdrawal Proof</title>
     <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #f4f4f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        /* Header */
-        header {
-            width: 100%;
-            padding: 10px 20px;
-            background-color: #0a529e;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-        header a {
-            color: #fff;
-            font-size: 1.2em;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        /* Main Container */
-        .container {
-            margin-top: 70px;
-            max-width: 800px;
-            width: 100%;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-        }
-        .title {
-            font-size: 1.5em;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-            font-size: 1em;
-        }
-        table th, table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-        table th {
-            background-color: #0a529e;
-            color: white;
-            font-size: 1.1em;
-        }
-        table td {
-            color: #333;
-        }
-        .status.approved {
-            color: green;
-            font-weight: bold;
-        }
-        .status.pending {
-            color: orange;
-            font-weight: bold;
-        }
-
-        /* Responsive Styling */
-        @media (max-width: 600px) {
-            .title {
-                font-size: 1.2em;
-            }
-            table th, table td {
-                font-size: 0.9em;
-                padding: 8px;
-            }
-        }
+        /* Styling */
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; }
+        .container { max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .title { font-size: 24px; margin-bottom: 10px; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background: #f4f4f4; }
+        .approved { color: green; }
+        .pending { color: orange; }
+        a { text-decoration: none; color: blue; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -105,89 +25,21 @@
 
 <div class="container">
     <div class="title">Soft Return Investment - Bitcoin Withdrawal Proof</div>
-    <table id="withdrawal-table">
+    <table>
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Withdrawn Amount (USD/Rands)</th>
+                <th>Withdrawn Amount</th>
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody id="withdrawal-list"></tbody>
+        <tbody id="withdrawal-list">
+            <!-- Dynamic content will be added here -->
+        </tbody>
     </table>
 </div>
 
-<script>
-    // Predefined list of 720 entries for 30 hours, 25-minute intervals
-    const withdrawals = [
-        // Interval 1 (Example)
-        { name: "Junior M.", amount: "R 670", status: "Approved" },
-        { name: "Chloë P.", amount: "$ 320", status: "Pending" },
-        { name: "Ethan J.", amount: "R 1900", status: "Pending" },
-        { name: "Olivia S.", amount: "$ 425", status: "Approved" },
-        { name: "Mpho L.", amount: "R 750", status: "Approved" },
-        { name: "Luke T.", amount: "$ 215", status: "Pending" },
-        { name: "Sarah K.", amount: "R 1200", status: "Approved" },
-        { name: "David O.", amount: "$ 480", status: "Pending" },
-        { name: "Hannah B.", amount: "R 560", status: "Approved" },
-        { name: "Shane Z.", amount: "$ 300", status: "Pending" },
-        // Continue adding entries until all 720 unique entries are included
-    ];
-
-    // Track which 10 entries are being shown and persist status changes
-    let currentIndex = parseInt(localStorage.getItem("currentIndex")) || 0;
-    let currentWithdrawals = JSON.parse(localStorage.getItem("currentWithdrawals")) || withdrawals.slice(currentIndex, currentIndex + 10);
-
-    // Function to display the current set of withdrawals
-    function displayWithdrawals() {
-        const withdrawalList = document.getElementById("withdrawal-list");
-        withdrawalList.innerHTML = "";
-        currentWithdrawals.forEach(withdrawal => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${withdrawal.name}</td>
-                <td>${withdrawal.amount}</td>
-                <td class="status ${withdrawal.status.toLowerCase()}">${withdrawal.status}</td>
-            `;
-            withdrawalList.appendChild(row);
-        });
-    }
-
-    // Update pending withdrawals to approved within each interval
-    function updatePendingToApproved() {
-        currentWithdrawals.forEach(withdrawal => {
-            if (withdrawal.status === "Pending") {
-                const randomTime = Math.floor(Math.random() * 5 + 1) * 60000; // Randomly 1 to 5 minutes
-                setTimeout(() => {
-                    withdrawal.status = "Approved";
-                    localStorage.setItem("currentWithdrawals", JSON.stringify(currentWithdrawals));
-                    displayWithdrawals();
-                }, randomTime);
-            }
-        });
-    }
-
-    // Rotate the list every 25 minutes and persist the index
-    function rotateWithdrawals() {
-        currentIndex = (currentIndex + 10) % withdrawals.length;
-        currentWithdrawals = withdrawals.slice(currentIndex, currentIndex + 10);
-
-        // Set initial status for new entries and save to localStorage
-        currentWithdrawals = currentWithdrawals.map((entry, idx) => {
-            return { ...entry, status: idx < 5 ? "Approved" : "Pending" };
-        });
-
-        localStorage.setItem("currentIndex", currentIndex);
-        localStorage.setItem("currentWithdrawals", JSON.stringify(currentWithdrawals));
-        displayWithdrawals();
-    }
-
-    // Initialize display and set intervals
-    displayWithdrawals();
-    setInterval(updatePendingToApproved, 60000); // Check every minute for status update
-    setInterval(rotateWithdrawals, 1500000); // Rotate every 25 minutes (1500000 ms)
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
