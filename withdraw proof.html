@@ -148,7 +148,7 @@
 </footer>
 
 <script>
-// Sample withdrawal data
+// Sample withdrawal data (can be extended)
 const withdrawals = [
     { name: "Junior M.", amount: "R 670", status: "Approved", timestamp: "" },
     { name: "Chloë P.", amount: "$ 320", status: "Pending", timestamp: "" },
@@ -160,7 +160,7 @@ const withdrawals = [
     { name: "David M.", amount: "$ 700", status: "Pending", timestamp: "" },
     { name: "Lethabo T.", amount: "R 6,200", status: "Approved", timestamp: "" },
     { name: "Megan J.", amount: "$ 1,250", status: "Pending", timestamp: "" },
-    // Add more entries to meet your requirements
+    // Add more entries if necessary
 ];
 
 // Function to generate a timestamp within the 30-hour window
@@ -178,12 +178,9 @@ function displayWithdrawals() {
 
     const currentTime = new Date();
 
-    // Shuffling withdrawals to simulate a random order of approved and pending status
-    const shuffled = withdrawals.sort(() => 0.5 - Math.random());
-
     // Ensure 5 entries are approved and 5 are pending
-    const approved = shuffled.slice(0, 5);
-    const pending = shuffled.slice(5, 10);
+    const approved = withdrawals.filter(entry => entry.status === "Approved");
+    const pending = withdrawals.filter(entry => entry.status === "Pending");
 
     const allWithdrawals = [...approved, ...pending];
 
@@ -202,7 +199,7 @@ function displayWithdrawals() {
 
         tableBody.appendChild(row);
 
-        // If the entry is pending, change status to approved every 1-5 minutes
+        // If the entry is pending, change status to approved every 5 minutes
         if (entry.status === "Pending") {
             const randomDelay = Math.random() * (5 - 1) + 1; // Between 1-5 minutes
             setTimeout(() => {
