@@ -1,669 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soft Return Investment - Reviews & Testimonies</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f7f7f7;
-      color: #333;
-    }
-    header {
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
-      padding: 1em;
-    }
-    .container {
-      width: 80%;
-      margin: 20px auto;
-    }
-    .review-card {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .review-card h3 {
-      margin-top: 0;
-      color: #4CAF50;
-    }
-    form {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 15px;
-      margin-top: 30px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    form input, form textarea, form button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    form button {
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      border: none;
-    }
-    form button:hover {
-      background-color: #45a049;
-    }
-    .home-btn {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .home-btn a {
-      text-decoration: none;
-      color: white;
-      background-color: #4CAF50;
-      padding: 10px 20px;
-      border-radius: 5px;
-      display: inline-block;
-    }
-    .home-btn a:hover {
-      background-color: #45a049;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Return Investment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #2C3E50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        header a {
+            color: #3498DB;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #34495E;
+            color: white;
+        }
+        .entry {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #ECF0F1;
+            border-radius: 5px;
+        }
+        .entry p {
+            margin: 0;
+        }
+        .entry span {
+            font-weight: bold;
+        }
+        .approved {
+            background-color: #2ECC71;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .pending {
+            background-color: #F39C12;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        #new-entry-show {
+            margin-top: 20px;
+        }
+        .entry td {
+            background-color: #ECF0F1;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .entry td:nth-child(1) {
+            width: 40%;
+        }
+        .entry td:nth-child(2) {
+            width: 40%;
+        }
+        .entry td:nth-child(3) {
+            width: 20%;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Soft Return Investment</h1>
+        <p><a href="http://www.softrinvestment.com" target="_blank">Home</a></p>
+    </header>
+    <div class="container">
+        <h2>Daily Withdrawal Proof</h2>
+        <div class="table-container">
+            <table id="withdrawal-table">
+                <thead>
+                    <tr>
+                        <th>Names</th>
+                        <th>Amount Withdrawn</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="withdrawal-table-body">
+                    <!-- Initial entries will be added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<header>
-  <h1>Soft Return Investment - Reviews & Testimonies</h1>
-</header>
+    <script>
+        const withdrawalDataKey = "withdrawalData";
+        const maxEntries = 11; // Number of entries to show at a time
+        let allEntries = [];
 
-<div class="home-btn">
-  <a href="www.softrinvestment.com">Home Page</a>
-</div>
+        // Generate random unique names
+        function generateRandomName() {
+            const names = ["Sam", "Ndulove", "Ajao", "Chika", "Bola", "Jide", "Kunle", "Titi", "Zara", "Moji", "Femi", "Ngozi", "Olu", "Chidi", "Adamu", "Olumide", "Adebayo", "Nkechi", "Leo P.", "Samuel T.", "Olivia W.", "Harry B.", "Alice L.", "Samantha N.", "Mia W.", "Ella C.", "Connor D.", "Grace R.", "David T.", "Emma S.", "Daniel L.", "Ben H.", "Charlotte M.", "Jake F.", "Isabella D.", "Jordan M.", "Toby R.", "Naomi G.", "Sophia W.", "Ethan J.", "Brittany T.", "Riley F.", "Lucas O.", "Ava C.", "Maya D.", "Zoe P.", "Madison W.", "Oliver S.", "Megan S.", "Jaden W.", "Olivia D.", "Elijah C.", "Victoria P.", "Logan T.", "Lauren A.", "Isabelle G.", "Jack R.", "Ashley P.", "Nadia K.", "Abigail F.", "Megan T.", "Sophie T.", "Daniel W.", "Marcus K.", "Aiden B.", "Rebecca S.", "George R.", "Charlotte A.", "Harper L.", "Liam S.", "Chloe R.", "William K.", "Harper D.", "Lara C.", "Ethan R.", "Abigail T.", "Ryan L.", "Oliver T.", "Lily M.", "Carter S.", "James B.", "Amelia H.", "Nina T.", "Emma J.", "Alexander F.","Benjamin L.", "Paige G.", "Abigail W.", "Jack D.", "Grace J.", "Isaiah B.", "Sophia D.", "Leo J.", "Emilia T.", "Austin M.", "Harper M.", "Landon J.", "Chase G.", "David B.", "Mason A.", "Victoria W.", "Charlotte L.", "Harry C.", "Lucas A.", "Ethan G.", "Maggie R.", "Ryan H.", "Lucy B.", "Henry J.","William T.", "Ava J.", "Leah K.", "Caroline M.", "Eva S.", "Henry W.", "Noah P.", "Mikayla S.", "Isabella M.", "Grace T.", "Ethan L.", "Lucas S.", "Aidan R.", "Dylan H.", "Kaitlyn S.", "Jackson W.", "Elena T.", "Reagan P.", "Sophia H.", "Isabella G.", "Zara F.", "Ava D.", "Sienna H.", "Jessica M.","Sam G.", "Maggie W.", "Emma K.", "Zoe H.", "Chloe P.", "Lara T.", "David D.", "Ethan W.", "Matthew K.", "Kayla L.", "Sydney H.", "Riley M.", "Gavin B.", "Leah A.", "Olivia R.", "Maya S.", "Jaxon P.", "Liam M.", "Eva P.", "Ella R.", "Madison D.", "Harrison T.", "Sophia N.", "Riley G.", "William F.", "Isla C.", "Harper B.", "Jacob L.", "Chase T.", "Dylan M.", "Ruby L.", "Daniel T.", "Jared W.", "Elise P.", "Marcus T.", "Aiden C.", "Jack P.", "Kayla K.", "Sophie R.", "Jade W.", "Lucas M.", "Anna L.", "Emery P.", "Leo S.", "Zoe F.", "Aiden T.", "Mason D.", "Charlotte F.", "Alison B.", "Brittany G.", "Ben W.", "Isla R.", "Andrew T.", "Rachel W.", "Maxwell M.", "Lydia T.", "Aiden G.", "Ryan S.", "Abigail W.", "Madeline F.", "Sophia L.", "Caitlin R.", "Mia P.", "Lily J.", "Holly M.", "Toby K.", "Caden W.", "Isabel G.", "Isabelle W.", "Jonah M.", "Clara S.", "Logan B.", "Riley F.", "Alice J.", "Joshua T.", "Hayley P.", "Grace K.", "Theo S.", "Benjamin G.", "Isla A.", "Megan F.", "Chloe B.", "Aiden W.", "Olivia W.", "Jack F.", "Evan P.", "Amelia T.", "Victoria S.", "Riley H.", "James F.", "Lucas F.", "Sophie B.", "Ben M.", "Ethan H.", "Caitlyn K.", "Andrew W.", "Madeline S.", "Leah G.", "Jaxon A.", "Victoria J.", "Oliver M.", "Sophia M.", "Maya W.", "Isabelle S.", "Sophia G.", "Joshua G.", "Ava W.", "Eli S.", "Luke P.", "Chloe M.", "Ethan T.", "Sophia N.", "Emily B.", "Leo B.", "Mikayla M.", "Jackson F.", "Ryan D.", "Ellie W.", "Megan S.", "Lily A.", "Sophie L.", "Amelia K.", "Charlotte R.", "Noah H.", "Sophie T.", "Mason B.", "Leo W.", "Emily T.", "Sophie K.", "James T.", "Andrew M.", "Diana S.", "Luke V.", "Rebecca F.", "Tom H.", "Zara B.", "Megan A.", "Michael D.", "Chloe M.", "Leo P.", "Samuel T.", "Olivia W.", "Harry B.", "Alice L.", "Samantha N.", "Mia W.", "Ella C.", "Connor D.", "Grace R.", "David T.", "Emma S.", "Daniel L.", "Ben H.", "Charlotte M.", "Jake F.", "Isabella D.", "Jordan M.", "Toby R.", "Naomi G.", "Sophia W.", "Ethan J.", "Brittany T.", "Riley F.", "Lucas O.", "Ava C.", "Maya D.", "Zoe P.", "Madison W.", "Oliver S.", "Megan S.", "Jaden W.", "Olivia D.", "Elijah C.", "Victoria P.", "Logan T.", "Lauren A.", "Isabelle G.", "Jack R.", "Ashley P.", "Nadia K.", "Abigail F.", "Megan T.", "Sophie T.", "Daniel W.", "Marcus K.", "Aiden B.", "Rebecca S.", "George R.", "Charlotte A.", "Harper L.", "Liam S.", "Chloe R.", "William K.", "Harper D.", "Lara C.", "Ethan R.", "Abigail T.", "Ryan L.","Oliver T.", "Lily M.", "Carter S.", "James B.", "Amelia H.", "Nina T.", "Emma J.", "Alexander F.", "Benjamin L.", "Paige G.", "Abigail W.", "Jack D.", "Grace J.", "Isaiah B.", "Sophia D.", "Leo J.", "milia T.", "Austin M.", "Harper M.", "Landon J.", "Chase G.", "David B.", "Mason A.", "Victoria W.", "harlotte L.", "Harry C.", "Lucas A.", "Ethan G.", "Maggie R.", "Ryan H.", "Lucy B.", "Henry J.", "illiam T.", "Ava J.", "Leah K.", "Caroline M.", "Eva S.", "Henry W.", "Noah P.", "Mikayla S.", "Isabella M.", "Grace T.", "Ethan L.", "Lucas S.", "Aidan R.", "Dylan H.", "Kaitlyn S.", "Jackson W.","Elena T.", "Reagan P.", "Sophia H.", "Isabella G.", "Zara F.", "Ava D.", "Sienna H.", "Jessica M.", "Sam G.", "Maggie W.", "Emma K.", "Zoe H.", "Chloe P.", "Lara T.", "David D.", "Ethan W.", "Matthew K.", "Kayla L.", "Sydney H.", "Riley M.", "Gavin B.", "Leah A.", "Olivia R.", "Maya S.","Jaxon P.", "Liam M.", "Eva P.", "Ella R.", "Madison D.", "Harrison T.", "Sophia N.", "Riley G.", "William F.", "Isla C.", "Harper B.", "Jacob L.", "Chase T.", "Dylan M.", "Ruby L.", "Daniel T.", "Jared W.", "Elise P.", "Marcus T.", "Aiden C.", "Jack P.", "Kayla K.", "Sophie R.", "Jade W.","Lucas M.", "Anna L.", "Emery P.", "Leo S.", "Zoe F.", "Aiden T.", "Mason D.", "Charlotte F.", "Alison B.", "Brittany G.", "Ben W.", "Isla R.", "Andrew T.", "Rachel W.", "Maxwell M.", "Lydia T.", "Aiden G.", "Ryan S.", "Abigail W.", "Madeline F.", "Sophia L.", "Caitlin R.", "Mia P.", "Lily J.","Holly M.", "Toby K.", "Caden W.", "Isabel G.", "Isabelle W.", "Jonah M.", "Clara S.", "Logan B.", "Riley F.", "Alice J.", "Joshua T.", "Hayley P.", "Grace K.", "Theo S.", "Benjamin G.", "Isla A.", "Megan F.", "Chloe B.", "Aiden W.", "Olivia W.", "Jack F.", "Evan P.", "Amelia T.", "Victoria S.","Riley H.", "James F.", "Lucas F.", "Sophie B.", "Ben M.", "Ethan H.", "Caitlyn K.", "Andrew W.", "Madeline S.", "Leah G.", "Jaxon A.", "Victoria J.", "Oliver M.", "Sophia M.", "Maya W.", "Isabelle S.", "Sophia G.", "Joshua G.", "Ava W.", "Eli S.", "Luke P.", "Chloe M.", "Ethan T.", "Sophia N.", "Emily B.", "Leo B.", "Mikayla M.", "Jackson F.", "Ryan D.", "Ellie W.", "Megan S.", "Lily A.", "Sophie L.", "Amelia K.", "Charlotte R.", "Noah H.", "Sophie T.", "Mason B.", "Leo W.", "Emily T.", "Thabo Z.", "Naledi K.", "Liam W.", "Faith D.", "Kelebogile B.", "Mandla H.", "Christine J.", "Kagiso M.", "Benjamin F.", "Zinhle P.", "Emily T.", "Kabelo R.", "Jacob L.", "Nokuthula S.", "Daniel C.", "Ayanda X.", "Sophia K.", "Themba V.", "James M.", "Ntando F.", "Anna G.", "Alex N.", "Grace T.", "Emily R.", "Liam M.", "Faith K.", "Benjamin F.", "Christine J.", "Zinhle P.", "Olivia W.", "Thando S.", "Jacob D.", "Mandla H.", "Sibongile M.", "Anna K.", "Nathan T.", "Jessica R.", "James M.", "Sophia B.", "Themba L.", "Kelebogile D.", "Michael O.", "Amelia J.", "Tebogo V.", "Hannah L.", "Kagiso M.", "Daniel X.", "Mbali F.", "Ethan K.", "Karabo J.", "Mia N.", "Sibusiso T.", "Ayanda C.", "Nokuthula P.", "Aiden W.", "Lesedi Z.", "Luke F.", "Zoe H.", "Ella T.", "Sipho G.", "Ruby J.", "Nkosi B.", "Andile K.", "Thato L.", "Jack S.", "Nkanyezi D.", "Vusi H.", "Lunga M.", "Grace O.", "Nokwazi Z.", "Ryan C.", "Katlego V.", "John N.", "Emma W.", "Tumelo D.", "Carter L.", "Zola G.", "erato J.", "Emily T.", "Bongani F.", "Naledi K.", "Thabo Z.", "Alexis N.", "Sihle R.", "Sophia K.", "Kabelo M.", "Faith D.", "Hannah P.", "Anna G.", "Noah S.", "Mmathabo T.", "Lesego X.", "Ayabonga J.", "Tumi K.", "Grace L.", "Daniel C.", "Ella M.", "Karabo C.", "Benjamin T.", "Nokuthula L.", "Zinhle J.", "Kagiso R.", "Christine K.", "Sipho N.", "Ethan G.", "Leah P.", "Amelia S.", "Olivia D.", "Nathan M.", "Jessica H.", "Sibongile V.", "Michael L.", "Faith P.", "Mandla D.", "Ruby T.", "Lesedi N.", "Themba J.", "Hannah K.", "Thandeka W.", "Z", "Chloe R.", "Jackson B.", "Kirsty P.", "Elijah W.", "Amara E.", "Riley C.", "Jasmine M.", "Niamh F.", "David G.", "Keegan A.", "Maya K.", "Tyler N.", "Kaitlyn T.", "Ayo O.", "Sebastian D.", "Grace S.", "Lucy H.", "Theo P.", "Tasha R.", "Oliver J.", "Daniel B.", "Mason T.", "Charlotte A.", "Toby F.", "Ravi P.", "Lucas G.", "Zara P.", "Faith B.", "Ethan D.", "James T.", "Ella C.", "Liam P.", "David H.", "Madison J.", "Alexandra W.", "Michaela L.", "Joseph A.", "Sharon K.", "Nina H.", "Abigail T.", "Lauren M.", "Oluwaseun D.", "Isabel W.", "Connor B.", "Harper V.", "Benjamin C.", "Callum S.", "Kate E.", "ly N.", "Amira I.", "Alfie M.", "Ruby H.", "Caitlin R.", "William L.", "Zoe A.", "Emma W.", "Theo G.", "Oluwatobiloba O.", "Maya B.", "Lucy T.", "Samuel K.", "Olivia M.", "Henry W.", "Sophie L.", "Rachel H.", "Ashley S.", "Poppy V.", "Darren T.", "Nia D.", "Maxwell C.", "Florence W.", "Ayo S.", "Scarlett A.", "Jack S.", "Shannon P.", "Freya T.", "Lorna H.", "George R.", "Chantelle B.", "Lily G.", "David K.", "Elizabeth P.", "Aliyah K.", "Harrison D.", "Conor F.", "Aiden C.", "Zainab O.", "Alice B.", "Finn S.", "Grace P.", "Xander H.", "Adaora I.", "Danielle W.", "Sophie T.", "Jade N.", "Demi P.", "Caleb G.", "Lana B.", "Victor A.", "Paige M.", "Oluwafunmilayo A.", "Kendall V.", "Harriet T.", "Chuka O.", "Madison L.", "Kieran W.", "Nia T.", "Katie S.",  "Sinead H.", "Lucas P.", "Vusi B.", "Amanda L.", "Declan M.", "Maya G.", "Rachel W.", "Samuel O.", "Amira K.", "Ethan T.", "Benita F.", "Olivia P.", "Matthew D.", "Jessica T.", "Lydia C.", "Jason F.", "Sophie W.", "Daniel A.", "Ruby M.", "Jack G.", "Carla T.", "Tristan H.", "Victoria B.", "Emma R.", "Leo W.", "Nia A.", "Olivia J.", "Zoe F.", "Chris B.", "Michaela G.", "Sophie H.", "Ava P.", "John R.", "Amelia B.", "Zane M.", "Jared W.", "Zara D.", "Liam T.", "Sienna W.", "Jayden L.", "Megan K.", "Lily A.", "Jaxon B.", "Sophia M.", "Chloe T.", "Tyler F.", "Emily N.", "Toby W.", "Jack M.", "Caitlyn G.", "Tara S.", "Ben J.", "Rachel A.", "Matthew F.", "Kaitlyn B.", "Olivia N.", "Maxwell R.", "Aiden K.", "Hannah G.", "Ryan M.", "Grace T.", "David S.", "Victoria C.", "Jaden B.", "Ethan G.", "Henry W.", "Lucy S.", "Sophie L.", "William P.", "Kaitlyn S.", "Ethan S.", "Charlotte M.", "Amira L.", "Chloe J.", "Luke T.", "Liam P.", "Mikayla T.", "Lydia M.", "Benjamin D.", "Emma P.", "Max G.", "Carter S.", "Holly F.", "Sophia D.", "Leo G.", "Jake P.", "Zoe M.", "Abigail W.", "Ethan R.", "Ruby H.", "Abigail F.", "Isla W.", "Aidan M.", "Chloe B.", "Sophie W.", "Grace F.", "Samuel L.", "Mason F.", "Emily G.", "Luke S.", "Zoe T.", "Sophie C.", "Leah R.", "Jaxon W.", "Jessica F.", "Emma G.", "Liam F.", "Madeline T.", "Harper L.", "Ethan A.", "Lily W.", "Megan W.", "Olivia T.", "Mikayla M.", "Isabella P.", "Charlotte L.", "Elijah P.", "Amira W.", "Lucas R.", "Abigail M.", "Leo J.", "Mason J.", "Toby B.", "Benita G.", "Zara H.", "Amira D.", "Abigail H.", "Dylan W.", "Sophia T.", "Evan S.", "Lily K.", "Ava M.", "Reagan T.", "Zoe D.", "Kaitlyn W.", "Toby H.", "Maya W.", "Chloe R.", "Sophie D.", "Liam A.", "Mikayla W.", "Zoe W.", "Lukas M.", "Caitlyn P.", "Jared T.", "Isla W.", "Madeline M.", "Riley K.", "Emma T.", "Aiden W.", "Leah S.", "Harrison J.", "Ella M.", "Logan F.", "Sophia G.", "Luke F.", "Amelia T.", "Isabelle B.", "Sophia S.", "Olivia B.", "Charlotte W.", "Grace P.", "Jack W.", "Madeline W.", "Caitlin B.", "Eva W.", "Eli T.", "Ryan J.", "Sam K.", "Maya J.", "Sophia A.", "Chloe M.", "Lucas W.", "Benjamin M.", "Ruby F.", "Maxwell J.", "Aiden R.", "Megan W.", "Ryan G.", "Victoria S.", "Zoe F.", "Amira P.", "Ethan B.", "Sophia L.", "Liam D.", "Jake W.", "Chloe S.", "Oliver H.", "Amira T.", "Harrison S.", "Sophie G.", "Jade M.", "Ella B.", "Ava S.", "Henry M.", "Sophia P.", "Aiden D.", "Toby G.", "David B.", "Victoria F.", "Mikayla K.", "Lucy M.", "Rachel F.", "Ava J.", "Jack F.", "Amelia L.", "James P.", "Ryan T.", "Grace L.", "Riley W.", "Olivia C.", "Lucas S.", "Liam G.", "Chloe H.", "Olivia W.", "Toby W.", "Grace G.", "Harrison B.", "Carter S.", "Sophie S.", "Lucy R.", "Abigail K.", "Aiden K.", "Emma A.", "Leo A.", "Sophia W.", "Henry B.", "Zoe K.", "Sophie L.", "David W.", "James W.", "Jack G.", "Toby A.", "Ryan P.", "Zoe G.", "Amira C.", "Mikayla W.", "Charlotte B.", "Lucy S.", "Madeline S.", "Emma W.", "Leah T.", "Aidan G.", "Isla B.", "Zoe B.", "Abigail L.", "Alice M.", "Ethan L.", "Sophia B.", "Oluwaseun A.", "Grace W.", "David M.", "Ella P.", "Liam K.", "Chloe L.", "Ryan F.", "Emily J.", "James C.", "Lucy T.", "Ben R.", "Megan B.", "Mikayla S.", "Jake A.", "Sophie J.", "Amira D.", "Olivia G.", "Zane B.", "Benjamin F.",  "Ruby W.", "Ethan J.", "Charlotte K.", "Max T.", "Emma F.", "Jessica B.", "Jack C.", "Lily R.", "Samuel T.", "Rachel P.", "Olivia H.", "Caitlin F.", "Sophie A.", "Aiden M.", "Tyler W.", "Isla F.", "Carter J.", "Jayden G.", "Harper S.", "Zoe W.", "Lily D.", "David K.", "Olivia T.", "Megan G.", "Ryan S.", "Victoria P.", "Lucy B.", "Daniel W.", "Mason A.", "Eva G.", "Sophie M.", "Toby P.", "Ava W.", "Olivia S.", "Maxwell B.", "Emily L.", "Grace D.", "Ryan M.", "Jack T.", "Sophia F.", "Amira L.", "Ethan F.", "Liam D.", "Isla M.", "Mikayla R.", "Caitlyn W.", "Jacob W.", "Sophia T.", "Max G.", "Emily S.", "Hannah K.", "Emma T.",  "Liam B.", "Chloe J.", "Lucy G.", "Zoe K.", "Sophia R.", "Sophie B.", "Zane T.", "Jack F.", "Mikayla K.", "Aiden T.", "Ruby A.", "Isabelle T.", "Amira G.", "Samuel W.", "Lily A.", "Grace L.", "David G.", "Harrison C.", "Toby T.", "Jack R.", "Mason J.", "Sophia W.", "Isla W.", "Zoe H.", "Ava G.", "Madeline F.", "Ethan K.", "Toby W.", "Zara D.", "Megan A.", "Zoe S.", "Charlotte J.", "Emily R.", "Aiden F.", "Ruby P.", "Hannah W.", "Max P.", "Sophie K.", "James T.", "Aiden B.", "Lily C.", "Chloe M.", "Toby G.", "Abigail W.", "Jack M.", "Emma S.", "Zoe L.", "Liam T.", "Mikayla A.", "Sophie N.", "Ryan J.", "David T.", "Olivia G.", "Megan R.", "James L.", "Amira W.", "Lily P.", "Ava R.", "Emma G.", "Benita T.", "Maxwell S.", "Sophie G.", "Jack W.", "Chloe D.", "Ryan K.", "Mason R.", "Ella J.", "Sophia B.", "Lily T.", "Olivia F.", "Madeline B.", "Ben J.", "James B.", "Aidan W.", "Sophie P.", "Samantha W.", "Aiden P.", "Charlotte F.", "Lucy F.", "Max T.", "Ruby T.", "Mikayla T.", "Liam G.", "Isabelle S.", "David W.", "Ella K.", "Jake F.", "Toby W.", "Mason W.", "Sophia L.", "Amira S.", "Chloe R.", "Max G.", "Zoe W.", "Jack D.", "Lily S.", "Ryan F.", "Ella M.", "Mikayla W.", "Aiden G.", "Toby B.", "Sophie W.", "Zoe A.", "David F.", "James K.", "Zara B.", "Sophia D.", "Ethan M.", "Liam F.", "Ruby D.", "Megan K.", "Toby H.", "Lily M.", "Amira T.", "Charlotte R.", "Mikayla F.", "Ethan W.", "Jack S.", "Sophie G.", "Max W.", "Chloe B.", "Ryan P.", "Grace W.", "Samantha P.", "Lily F.", "Amira A.", "Megan S.", "David R.", "Isla B.", "Jack T.", "Zoe D.",  "Liam W.", "Mason T.", "Mikayla S.", "Sophie A.", "Max J.", "Zoe F.", "Olivia T.", "James W.", "Aiden T.", "Chloe F.", "Ryan A.", "Jack G.", "Ruby P.", "Ella W.", "Mason G.", "Amira R.", "Olivia L.", "Isabelle T.", "Zoe R.", "Sophie M.", "Aiden M.", "Mikayla T.", "Lily A.", "James F.", "Zara F.", "Megan P.", "Toby L.", "David M.", "Ava L.", "Zoe T.", "Sophia J.", "Jack W.", "Ruby A.", "Megan B.",  "Isabelle P.", "Sophie K.", "Amira B.", "Lily D.", "Mason G.", "Toby S.", "Ethan D.", "Max T.", "Ryan L.", "Zoe P.", "Aiden W.", "Ruby K.", "Lily W.", "Sophia M.", "Megan G.", "Zoe W.", "Jack S.", "Isla G.", "Chloe L.", "Olivia D.", "Sophie S.", "Madeline G.", "Max W.", "Ryan J.", "Amira B.", "Charlotte W.", "Ethan T.", "Lily T.", "Megan A.", "Toby P.", "Liam K.", "Olivia M.", "David L.", "Ayodele", "Tayo"];
+            return names[Math.floor(Math.random() * names.length)] + Math.floor(Math.random() * 1000);
+        }
 
-<div class="container">
-  <!-- Reviews Section -->
-  <div class="review-card">
-    <h3>Jane Doe</h3>
-    <p>"The investment profit calculator is incredibly accurate and easy to use! I made informed decisions, and my returns have been impressive."</p>
-  </div>
-  <div class="review-card">
-    <h3>Jack H.</h3>
-    <p>"This platform is an absolute game-changer. Highly recommended for everyone."</p>
-</div>
-<div class="review-card">
-    <h3>Amelia V.</h3>
-    <p>"Investing has never been this straightforward and rewarding. Amazing experience!"</p>
-</div>
-<div class="review-card">
-    <h3>Ryan L.</h3>
-    <p>"A professional and user-friendly tool that delivers excellent results every time."</p>
-</div>
-<div class="review-card">
-    <h3>Charlotte M.</h3>
-    <p>"Exceptional service and outcomes. This platform is my go-to for investments."</p>
-</div>
-<div class="review-card">
-    <h3>Henry P.</h3>
-    <p>"Fast, efficient, and reliable investment results. Couldn't ask for more."</p>
-</div>
-<div class="review-card">
-    <h3>Isabella T.</h3>
-    <p>"I’m genuinely impressed by the simplicity and effectiveness of this tool."</p>
-</div>
-<div class="review-card">
-    <h3>Oscar G.</h3>
-    <p>"The results are real, and the process is straightforward. Highly dependable."</p>
-</div>
-<div class="review-card">
-    <h3>Ava C.</h3>
-    <p>"An excellent investment platform that has consistently exceeded my expectations."</p>
-</div>
-<div class="review-card">
-    <h3>Benjamin K.</h3>
-    <p>"A transparent and trustworthy platform that yields great results every time."</p>
-</div>
-<div class="review-card">
-    <h3>Lily B.</h3>
-    <p>"I’m thrilled with the results and the ease of using this platform. Fantastic!"</p>
-</div>
-<div class="review-card">
-    <h3>Jacob D.</h3>
-    <p>"Outstanding results and unmatched simplicity. This platform is top-tier."</p>
-</div>
-<div class="review-card">
-    <h3>Hannah J.</h3>
-    <p>"Straightforward and highly effective. A great experience every time."</p>
-</div>
-<div class="review-card">
-    <h3>Matthew R.</h3>
-    <p>"A trustworthy and professional platform that delivers consistent results."</p>
-</div>
-<div class="review-card">
-    <h3>Ella F.</h3>
-    <p>"Reliable, efficient, and easy to use. Perfect for anyone seeking quick returns."</p>
-</div>
-<div class="review-card">
-    <h3>Edward A.</h3>
-    <p>"This platform is fantastic! Seamless experience with excellent outcomes."</p>
-</div>
-<div class="review-card">
-    <h3>Freya L.</h3>
-    <p>"The best investment platform I’ve used. Simple, fast, and effective."</p>
-</div>
-<div class="review-card">
-    <h3>Daniel N.</h3>
-    <p>"A revolutionary tool that makes investing stress-free and rewarding."</p>
-</div>
-<div class="review-card">
-    <h3>Harper S.</h3>
-    <p>"Highly efficient and dependable. I’m beyond satisfied with the results."</p>
-</div>
-<div class="review-card">
-    <h3>Logan T.</h3>
-    <p>"The ease of use and the impressive returns make this platform exceptional."</p>
-</div>
-<div class="review-card">
-    <h3>Luna E.</h3>
-    <p>"Outstanding platform with consistent and impressive investment results."</p>
-</div>
-<div class="review-card">
-    <h3>Sebastian M.</h3>
-    <p>"A seamless experience with excellent returns. Highly recommend trying it."</p>
-</div>
-<div class="review-card">
-    <h3>Aurora W.</h3>
-    <p>"Incredible platform! User-friendly and delivers outstanding results."</p>
-</div>
-<div class="review-card">
-    <h3>Adam H.</h3>
-    <p>"Exceptional results and fantastic ease of use. Truly a standout platform."</p>
-</div>
-<div class="review-card">
-    <h3>Sophia K.</h3>
-    <p>"Dependable and straightforward. This platform is a lifesaver for investments."</p>
-</div>
-<div class="review-card">
-    <h3>Theodore G.</h3>
-    <p>"Great results and a stress-free process. I couldn't be happier."</p>
-</div>
-<div class="review-card">
-    <h3>Layla P.</h3>
-    <p>"Fast, efficient, and incredibly reliable. An absolute must-have tool!"</p>
-</div>
-<div class="review-card">
-    <h3>Nathan V.</h3>
-    <p>"A fantastic experience from start to finish. Highly effective platform."</p>
-</div>
-<div class="review-card">
-    <h3>Aria B.</h3>
-    <p>"Brilliant platform! I’m impressed with the outcomes every single time."</p>
-</div>
-<div class="review-card">
-    <h3>William C.</h3>
-    <p>"This platform is reliable, transparent, and delivers outstanding results."</p>
-</div>
-<div class="review-card">
-    <h3>Stella J.</h3>
-    <p>"A highly professional and user-friendly platform that exceeds expectations."</p>
-</div>
-<div class="review-card">
-    <h3>Lucas W.</h3>
-    <p>"Unmatched ease of use and highly rewarding returns. Love it!"</p>
-</div>
-<div class="review-card">
-    <h3>Victoria N.</h3>
-    <p>"The most straightforward and effective platform I’ve used. Highly recommended!"</p>
-</div>
-<div class="review-card">
-    <h3>Caleb M.</h3>
-    <p>"Exceptional performance and reliability. This platform is second to none."</p>
-</div>
-<div class="review-card">
-    <h3>Penelope F.</h3>
-    <p>"An outstanding investment tool that I wholeheartedly trust."</p>
-</div>
-<div class="review-card">
-    <h3>Elijah S.</h3>
-    <p>"A seamless process with great results. I highly recommend this platform."</p>
-</div>
-  <div class="review-card">
-    <h3>Alexis N.</h3>
-    <p>"This platform has made managing my investments so much easier. Highly recommended for anyone looking to grow their wealth!"</p>
-</div>
-<div class="review-card">
-    <h3>Joshua W.</h3>
-    <p>"I was skeptical at first, but now I can’t imagine investing anywhere else. The returns are incredible!"</p>
-</div>
-<div class="review-card">
-    <h3>Alexis N.</h3>
-    <p>"This platform redefines investment simplicity and success. Highly recommended!"</p>
-</div>
-<div class="review-card">
-    <h3>Joshua W.</h3>
-    <p>"Exceptional experience! It’s straightforward and yields fantastic results."</p>
-</div>
-<div class="review-card">
-    <h3>Caitlin O.</h3>
-    <p>"Finally, a platform that delivers on its promises. I'm impressed with the outcomes."</p>
-</div>
-<div class="review-card">
-    <h3>Sophie K.</h3>
-    <p>"Investing has never been easier. A reliable tool for anyone looking for quick returns."</p>
-</div>
-<div class="review-card">
-    <h3>James T.</h3>
-    <p>"A well-crafted platform that prioritizes clarity and efficiency. Top-notch service."</p>
-</div>
-<div class="review-card">
-    <h3>Andrew M.</h3>
-    <p>"Absolutely incredible! The results speak for themselves. Highly satisfied."</p>
-</div>
-<div class="review-card">
-    <h3>Diana S.</h3>
-    <p>"Professional, reliable, and user-friendly. This platform is a gem."</p>
-</div>
-<div class="review-card">
-    <h3>Luke V.</h3>
-    <p>"Clear, concise, and effective. A must-try for anyone serious about investments."</p>
-</div>
-<div class="review-card">
-    <h3>Rebecca F.</h3>
-    <p>"I’m thrilled with the seamless experience and impressive results. Highly recommend."</p>
-</div>
-<div class="review-card">
-    <h3>Tom H.</h3>
-    <p>"Investing made simple and successful. This is the way to go!"</p>
-</div>
-<div class="review-card">
-    <h3>Zara B.</h3>
-    <p>"A trustworthy and effective platform. My investment journey has been revolutionized."</p>
-</div>
-<div class="review-card">
-    <h3>Megan A.</h3>
-    <p>"Fast, efficient, and reliable! This platform has exceeded my expectations."</p>
-</div>
-<div class="review-card">
-    <h3>Michael D.</h3>
-    <p>"Unmatched ease of use and impressive results. Highly commendable platform."</p>
-</div>
-<div class="review-card">
-    <h3>Chloe M.</h3>
-    <p>"Reliable, fast, and effective! A new standard in investment tools."</p>
-</div>
-<div class="review-card">
-    <h3>Leo P.</h3>
-    <p>"I trust this platform completely. Outstanding outcomes every time."</p>
-</div>
-<div class="review-card">
-    <h3>Samuel T.</h3>
-    <p>"This platform has made investment a breeze. Very impressed with the returns."</p>
-</div>
-<div class="review-card">
-    <h3>Olivia W.</h3>
-    <p>"Straightforward and dependable! I’ve seen great results consistently."</p>
-</div>
-<div class="review-card">
-    <h3>Harry B.</h3>
-    <p>"One of the most user-friendly platforms I’ve encountered. Exceptional experience!"</p>
-</div>
-<div class="review-card">
-    <h3>Alice L.</h3>
-    <p>"Clear and concise processes with great results. A go-to platform for sure."</p>
-</div>
-<div class="review-card">
-    <h3>Samantha N.</h3>
-    <p>"A dependable platform that delivers excellent results effortlessly."</p>
-</div>
-<div class="review-card">
-    <h3>Mia W.</h3>
-    <p>"Fast, transparent, and effective. This platform ticks all the right boxes."</p>
-</div>
-<div class="review-card">
-    <h3>Ella C.</h3>
-    <p>"I’m consistently impressed by the reliability and efficiency of this platform."</p>
-</div>
-<div class="review-card">
-    <h3>Connor D.</h3>
-    <p>"A stress-free investment experience with outstanding returns. Highly recommended!"</p>
-</div>
-<div class="review-card">
-    <h3>Grace R.</h3>
-    <p>"This platform is redefining how investments are done. Exceptional service."</p>
-</div>
-<div class="review-card">
-    <h3>David T.</h3>
-    <p>"A seamless and reliable investment tool. I couldn’t be happier!"</p>
-</div>
-<div class="review-card">
-    <h3>Emma S.</h3>
-    <p>"Simple, reliable, and effective! A must-have tool for all investors."</p>
-</div>
+        // Generate a random amount with a currency sign (either USD or ZAR)
+        function generateRandomAmount() {
+            const amount = (Math.random() * 5000 + 100).toFixed(2);
+            const currency = Math.random() > 0.5 ? 'USD' : 'ZAR'; // Randomly choose between USD and ZAR
+            return { amount: `${currency} ${amount}`, status: 'pending' };
+        }
 
-<div class="review-card">
-    <h3>Caitlin O.</h3>
-    <p>"The user-friendly interface and transparent calculations set this platform apart. Five stars!"</p>
-</div>
-<div class="review-card">
-    <h3>Sophie K.</h3>
-    <p>"Exceptional service and reliable results. It’s the best investment tool I’ve ever used."</p>
-</div>
-<div class="review-card">
-    <h3>James T.</h3>
-    <p>"The detailed forecasts and accuracy are unmatched. I feel more confident in my financial decisions now."</p>
-</div>
-<div class="review-card">
-    <h3>Andrew M.</h3>
-    <p>"Thanks to this platform, I’ve achieved financial goals I didn’t think were possible. Amazing experience!"</p>
-</div>
-<div class="review-card">
-    <h3>Diana S.</h3>
-    <p>"It’s refreshing to use a platform that truly delivers on its promises. Highly reliable and efficient!"</p>
-</div>
-<div class="review-card">
-    <h3>Luke V.</h3>
-    <p>"The clarity and professionalism of this platform make it a go-to for short-term investments. Excellent!"</p>
-</div>
-<div class="review-card">
-    <h3>Rebecca F.</h3>
-    <p>"I appreciate how easy it is to use and the transparency it provides. A must-have tool for every investor!"</p>
-</div>
-<div class="review-card">
-    <h3>Tom H.</h3>
-    <p>"Investing has never been this stress-free. This platform makes everything straightforward and rewarding."</p>
-</div>
-  <div class="review-card">
-    <h3>John Smith</h3>
-    <p>"Trustworthy and convenient! Softr Investment has revolutionized how I plan my finances."</p>
-  </div>
-  <div class="review-card">
-    <h3>Ayo Ade</h3>
-    <p>"Their tools are simply unmatched. Using the calculator, I saw exactly how much I’d earn—and I did! Highly recommended."</p>
-  </div>
-  <div class="review-card">
-    <h3>Sibusiso Mkhize</h3>
-    <p>"I’ve tried many platforms, but this one stands out for its clarity and reliability. A game-changer for short-term investments!"</p>
-  </div>
-  <div class="review-card">
-    <h3>Zoe L.</h3>
-    <p>"A fantastic platform that delivers exactly what it promises. Truly impressive!"</p>
-</div>
-<div class="review-card">
-    <h3>Julian R.</h3>
-    <p>"Reliable and efficient with excellent customer service. Highly recommended!"</p>
-</div>
-<div class="review-card">
-    <h3>Hazel T.</h3>
-    <p>"I am genuinely impressed by the results. This platform is a game-changer."</p>
-</div>
-<div class="review-card">
-    <h3>Aaron K.</h3>
-    <p>"Smooth, efficient, and very rewarding. This platform is simply excellent."</p>
-</div>
-<div class="review-card">
-    <h3>Clara M.</h3>
-    <p>"A trustworthy and professional investment tool that I can always count on."</p>
-</div>
-<div class="review-card">
-    <h3>Dominic V.</h3>
-    <p>"Fast and effective. This platform has exceeded all of my expectations."</p>
-</div>
-<div class="review-card">
-    <h3>Sadie G.</h3>
-    <p>"Impressive results and super easy to use. Highly recommended!"</p>
-</div>
-<div class="review-card">
-    <h3>Grayson C.</h3>
-    <p>"This is hands down the best investment platform I’ve ever used."</p>
-</div>
-<div class="review-card">
-    <h3>Violet W.</h3>
-    <p>"Excellent platform with incredible returns. I’m extremely satisfied."</p>
-</div>
-<div class="review-card">
-    <h3>Andrew D.</h3>
-    <p>"Reliable and efficient. This platform has made investing a breeze."</p>
-</div>
-<div class="review-card">
-    <h3>Lucy A.</h3>
-    <p>"I couldn’t ask for a better experience. This platform is incredible."</p>
-</div>
-<div class="review-card">
-    <h3>Isla Z.</h3>
-    <p>"This platform made my investment journey effortless and rewarding."</p>
-</div>
-<div class="review-card">
-    <h3>Finn L.</h3>
-    <p>"I’m blown away by the ease and results. Highly recommend giving it a try."</p>
-</div>
-<div class="review-card">
-    <h3>Stella P.</h3>
-    <p>"A seamless and rewarding experience every time. I trust this platform fully."</p>
-</div>
-<div class="review-card">
-    <h3>Lincoln W.</h3>
-    <p>"A game-changer in investment tools. I’m incredibly happy with my results."</p>
-</div>
-<div class="review-card">
-    <h3>Ivy K.</h3>
-    <p>"Professional and reliable. This platform delivers exactly what it promises."</p>
-</div>
-<div class="review-card">
-    <h3>Leonard M.</h3>
-    <p>"Effortless investing with outstanding results. I couldn’t be happier."</p>
-</div>
-<div class="review-card">
-    <h3>Adeline R.</h3>
-    <p>"This tool has consistently exceeded my expectations. Truly remarkable!"</p>
-</div>
-<div class="review-card">
-    <h3>Caleb S.</h3>
-    <p>"A trustworthy and efficient platform. Highly impressed by the outcomes."</p>
-</div>
-<div class="review-card">
-    <h3>Freya J.</h3>
-    <p>"This platform is user-friendly and consistently delivers great returns."</p>
-</div>
-<div class="review-card">
-    <h3>Theodore V.</h3>
-    <p>"Absolutely incredible results! I’m so glad I discovered this tool."</p>
-</div>
-<div class="review-card">
-    <h3>Layla T.</h3>
-    <p>"Highly professional and incredibly rewarding. I love this platform!"</p>
-</div>
-<div class="review-card">
-    <h3>Bennett A.</h3>
-    <p>"This platform makes investing straightforward and stress-free. Amazing!"</p>
-</div>
-<div class="review-card">
-    <h3>Lila B.</h3>
-    <p>"A user-friendly tool with exceptional results. I couldn’t ask for more."</p>
-</div>
-<div class="review-card">
-    <h3>Micah H.</h3>
-    <p>"Dependable and efficient. This platform is now my go-to for investing."</p>
-</div>
-<div class="review-card">
-    <h3>Eliana F.</h3>
-    <p>"Fantastic results, simple to use, and incredibly reliable. Highly recommend!"</p>
-</div>
-<div class="review-card">
-    <h3>Silas C.</h3>
-    <p>"An excellent tool that consistently delivers on its promises."</p>
-</div>
-<div class="review-card">
-    <h3>Vivian G.</h3>
-    <p>"Efficient, effective, and easy to use. This platform is top-notch."</p>
-</div>
-<div class="review-card">
-    <h3>Bodhi D.</h3>
-    <p>"I’m amazed at how effortless and rewarding this platform has been."</p>
-</div>
-<div class="review-card">
-    <h3>Aurora Z.</h3>
-    <p>"A trustworthy platform that provides incredible returns every time."</p>
-</div>
-<div class="review-card">
-    <h3>Elias W.</h3>
-    <p>"Straightforward and highly rewarding. I’m beyond satisfied."</p>
-</div>
-<div class="review-card">
-    <h3>Margot K.</h3>
-    <p>"This platform is reliable, efficient, and highly rewarding. Fantastic!"</p>
-</div>
-<div class="review-card">
-    <h3>Archer P.</h3>
-    <p>"A professional and effective investment platform. Highly recommended."</p>
-</div>
-<div class="review-card">
-    <h3>Savannah M.</h3>
-    <p>"The best investment tool I’ve ever come across. Highly impressed!"</p>
-</div>
-<div class="review-card">
-    <h3>Roman L.</h3>
-    <p>"Simple and rewarding. This platform makes investing effortless."</p>
-</div>
-<div class="review-card">
-    <h3>Penelope V.</h3>
-    <p>"Outstanding results and easy to use. I trust this platform fully."</p>
-</div>
-<div class="review-card">
-    <h3>August B.</h3>
-    <p>"Effortless and highly rewarding. I’m thoroughly satisfied with this tool."</p>
-</div>
-<div class="review-card">
-    <h3>Genevieve T.</h3>
-    <p>"Reliable, efficient, and user-friendly. Highly recommended for all."</p>
-</div>
-<div class="review-card">
-    <h3>Xavier N.</h3>
-    <p>"Incredible platform that has consistently delivered amazing returns."</p>
-</div>
-<div class="review-card">
-    <h3>Claudia R.</h3>
-    <p>"Straightforward, reliable, and incredibly effective. I’m thrilled!"</p>
-</div>
-<div class="review-card">
-    <h3>Kai J.</h3>
-    <p>"I love how easy this platform is to use. The results are fantastic!"</p>
-</div>
-<div class="review-card">
-    <h3>Daphne H.</h3>
-    <p>"Exceptional results every time. This platform is my favorite."</p>
-</div>
-<div class="review-card">
-    <h3>Beckett F.</h3>
-    <p>"An impressive tool that simplifies investing and delivers amazing results."</p>
-</div>
-<div class="review-card">
-    <h3>Celeste G.</h3>
-    <p>"A trustworthy platform that I recommend to everyone."</p>
-</div>
-<div class="review-card">
-    <h3>Maxwell H.</h3>
-    <p>"Straightforward and rewarding. I’m thoroughly impressed with this tool."</p>
-</div>
-<div class="review-card">
-    <h3>Piper F.</h3>
-    <p>"The simplicity and results are unmatched. I absolutely recommend it."</p>
-</div>
-<div class="review-card">
-    <h3>Ethan S.</h3>
-    <p>"Exceptional tool that provides great returns with minimal effort."</p>
-</div>
-<div class="review-card">
-    <h3>Nova L.</h3>
-    <p>"Investing has never been so simple and stress-free. Highly recommended!"</p>
-</div>
-<div class="review-card">
-    <h3>Adrian B.</h3>
-    <p>"Outstanding platform that delivers consistent and impressive results."</p>
-</div>
-<div class="review-card">
-    <h3>Eva J.</h3>
-    <p>"Reliable and incredibly user-friendly. This platform is top-notch."</p>
-</div>
-<div class="review-card">
-    <h3>Nolan T.</h3>
-    <p>"Amazing experience and remarkable returns. I trust this platform completely."</p>
-</div>
-<div class="review-card">
-    <h3>Willow P.</h3>
-    <p>"This tool has made investing straightforward and highly rewarding."</p>
-</div>
-<div class="review-card">
-    <h3>Jonathan K.</h3>
-    <p>"A seamless process with impressive returns. I highly recommend this platform."</p>
-</div>
-<div class="review-card">
-    <h3>Madeline M.</h3>
-    <p>"Reliable, effective, and easy to use. This platform is outstanding."</p>
-</div>
-<div class="review-card">
-    <h3>Ezra W.</h3>
-    <p>"An exceptional experience with fantastic results every single time."</p>
-</div>
-<div class="review-card">
-    <h3>Naomi R.</h3>
-    <p>"A reliable platform that delivers exactly what it promises. Highly impressed!"</p>
-</div>
-<div class="review-card">
-    <h3>Declan V.</h3>
-    <p>"Simple, fast, and effective. I’m thrilled with my investment outcomes."</p>
-</div>
-<div class="review-card">
-    <h3>Sienna G.</h3>
-    <p>"The results are fantastic, and the platform is so easy to use. Great job!"</p>
-</div>
-<div class="review-card">
-    <h3>Jasper N.</h3>
-    <p>"A transparent and effective platform that I fully trust. Highly recommended."</p>
-</div>
-<div class="review-card">
-    <h3>Elise T.</h3>
-    <p>"This platform has consistently delivered outstanding results. I love it!"</p>
-</div>
-<div class="review-card">
-    <h3>Gabriel C.</h3>
-    <p>"Dependable and user-friendly. I can always count on this platform."</p>
-</div>
-<div class="review-card">
-    <h3>Camila J.</h3>
-    <p>"Exceptional tool that simplifies investing and delivers amazing outcomes."</p>
-</div>
-<div class="review-card">
-    <h3>Owen F.</h3>
-    <p>"Fast, straightforward, and incredibly effective. Highly impressed!"</p>
-</div>
-<div class="review-card">
-    <h3>Ruby H.</h3>
-    <p>"Great platform with fantastic results. I’m beyond satisfied with this tool."</p>
-</div>
-  <div class="review-card">
-    <h3>Fatima Yusuf</h3>
-    <p>"Softr Investment gives me confidence in my investments. The results speak for themselves!"</p>
-  </div>
+        // Create a new withdrawal entry
+        function createWithdrawalEntry() {
+            const name = generateRandomName();
+            const { amount, status } = generateRandomAmount();
 
-  <!-- Submission Form -->
-  <form action="mailto:support@softrinvestment.com" method="post" enctype="text/plain">
-    <h3>Share Your Testimony</h3>
-    <label for="name">Your Name</label>
-    <input type="text" id="name" name="name" placeholder="Enter your name" required>
-    
-    <label for="email">Your Email</label>
-    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-    
-    <label for="message">Your Testimony</label>
-    <textarea id="message" name="message" rows="5" placeholder="Write your testimony here..." required></textarea>
-    
-    <button type="submit">Submit Testimony</button>
-  </form>
-</div>
+            const newEntry = {
+                name,
+                amount,
+                status,
+                createdAt: Date.now()
+            };
 
+            // Add new entry to the array
+            allEntries.push(newEntry);
+
+            // Only keep the latest 11 entries
+            if (allEntries.length > maxEntries) {
+                allEntries.shift();
+            }
+
+            // Update local storage
+            localStorage.setItem(withdrawalDataKey, JSON.stringify(allEntries));
+
+            // Add new entry to the table
+            const entryDiv = document.createElement('tr');
+            entryDiv.innerHTML = `
+                <td>${name}</td>
+                <td>${amount}</td>
+                <td class="status ${status}">${status}</td>
+            `;
+            document.getElementById('withdrawal-table-body').prepend(entryDiv);
+
+            // Change status to 'approved' after 30-50 seconds
+            setTimeout(() => {
+                changeStatusToApproved(newEntry, entryDiv);
+            }, 30000 + Math.random() * 20000); // Random time between 30-50 seconds
+        }
+
+        // Change the status to 'approved' and update table row
+        function changeStatusToApproved(entry, entryDiv) {
+            entry.status = 'approved';
+            const statusCell = entryDiv.querySelector('.status');
+            statusCell.textContent = 'approved';
+            statusCell.classList.remove('pending');
+            statusCell.classList.add('approved');
+            localStorage.setItem(withdrawalDataKey, JSON.stringify(allEntries));
+        }
+
+        // Load saved withdrawal data from localStorage
+        function loadWithdrawalData() {
+            const savedData = JSON.parse(localStorage.getItem(withdrawalDataKey)) || [];
+            savedData.forEach(entry => {
+                const entryDiv = document.createElement('tr');
+                entryDiv.innerHTML = `
+                    <td>${entry.name}</td>
+                    <td>${entry.amount}</td>
+                    <td class="status ${entry.status}">${entry.status}</td>
+                `;
+                document.getElementById('withdrawal-table-body').appendChild(entryDiv);
+            });
+            allEntries = savedData;  // Initialize allEntries from localStorage data
+        }
+
+        // Trigger initial data load and create entries
+        window.onload = function() {
+            loadWithdrawalData();
+            setInterval(createWithdrawalEntry, 60000); // New entry every 1 minute
+        };
+    </script>
 </body>
 </html>
