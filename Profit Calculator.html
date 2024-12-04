@@ -130,8 +130,8 @@
     <select id="days">
         <option value="1">1 Day</option>
         <option value="2">2 Days</option>
-        <option value="3">3 Days (Add 5%)</option>
-        <option value="4">4 Days (Add 7%)</option>
+        <option value="3">3 Days (Add 25%)</option>
+        <option value="4">4 Days (Add 37%)</option>
     </select>
     
     <button onclick="calculateProfit()">Calculate</button>
@@ -184,14 +184,14 @@
         // Delay for loading animation effect
         setTimeout(() => {
             // Fixed interest rate
-            let interestRate = 1.8987; // 189.87%
+            let interestRate = 2.3021; // 2.3021%
 
             // Additional interest for duration
             let extraInterest = 0;
             if (days === 3) {
-                extraInterest = 0.05; // 5%
+                extraInterest = 0.25; // 25%
             } else if (days === 4) {
-                extraInterest = 0.07; // 7%
+                extraInterest = 0.37; // 37%
             }
 
             // Calculate profit with additional interest for days
