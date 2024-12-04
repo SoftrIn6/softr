@@ -1,0 +1,54 @@
+function calculateProfit() {
+    const currency = document.getElementById("currency").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+    const days = parseInt(document.getElementById("days").value);
+    
+    console.log("Currency selected:", currency);
+    console.log("Investment amount:", amount);
+    console.log("Investment days:", days);
+
+    // Hide previous results and errors
+    document.getElementById("result").style.display = "none";
+    document.getElementById("error").style.display = "none";
+    
+    // Minimum amounts based on currency
+    const minAmount = {
+        "USD": 27,
+        "AUD": 27,
+        "GBP": 20,
+        "ZAR": 460
+    };
+
+    // Check if amount is below minimum
+    if (isNaN(amount) || amount < minAmount[currency]) {
+        document.getElementById("error").style.display = "block";
+        console.log("Error: Amount is below the minimum required.");
+        return;
+    }
+
+    // Show loading animation
+    document.getElementById("loading").style.display = "block";
+    setTimeout(() => {
+        // Interest calculation logic
+        let interestRate = 1.8987; // Fixed 189.87%
+        let extraInterest = 0;
+
+        if (days === 3) extraInterest = 0.05; // 5%
+        else if (days === 4) extraInterest = 0.07; // 7%
+
+        const totalInterestRate = interestRate + extraInterest;
+        const profit = amount * totalInterestRate;
+        const totalAmount = profit + amount;
+
+        console.log("Calculated profit:", profit);
+        console.log("Total amount:", totalAmount);
+
+        // Update result display
+        document.getElementById("result").innerHTML = `
+            <p>🎉 Your estimated profit after ${days} days is <strong>${currency} ${profit.toFixed(2)}</strong>! 🎉</p>
+            <p>💰 Total amount (investment + profit): <strong>${currency} ${totalAmount.toFixed(2)}</strong></p>
+        `;
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("result").style.display = "block";
+    }, 2000);
+}
