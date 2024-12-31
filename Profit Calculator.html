@@ -11,7 +11,7 @@
             align-items: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            background-color: #27272d;
         }
         .calculator {
             background-color: #fff;
@@ -67,7 +67,6 @@
             color: #333;
             display: none;
         }
-        /* Error styling */
         #error {
             color: #FF0000;
             animation: flash 1s ease-in-out infinite;
@@ -77,7 +76,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.4; }
         }
-        /* Progress bar styling */
         .progress-container {
             display: none;
             width: 100%;
@@ -113,7 +111,7 @@
 
 <div class="calculator">
     <h2>📈 Investment Profit Calculator 🌟</h2>
-    <p>Welcome to our Investment Profit Calculator, your trusted tool for forecasting potential earnings on short-term investments! Designed for convenience, accuracy, and ease of use, this calculator allows you to estimate the returns on your investments in just a few clicks.</p>
+    <p>Welcome to our Investment Profit Calculator, your trusted tool for forecasting potential earnings on short-term investments!</p>
     
     <label>Select Currency:</label>
     <select id="currency">
@@ -126,12 +124,11 @@
     <label>Investment Amount:</label>
     <input type="number" id="amount" placeholder="Enter amount" min="1" required>
     
-    <label>Investment Duration (Days):</label>
-    <select id="days">
-        <option value="1">1 Day</option>
-        <option value="2">2 Days</option>
-        <option value="3">3 Days (Add 25%)</option>
-        <option value="4">4 Days (Add 37%)</option>
+    <label>Investment Duration (Hours):</label>
+    <select id="hours">
+        <option value="2">2 Hours (220%)</option>
+        <option value="6">6 Hours (260%)</option>
+        <option value="12">12 Hours (299%)</option>
     </select>
     
     <button onclick="calculateProfit()">Calculate</button>
@@ -141,7 +138,7 @@
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <div id="result"></div>
-    <div id="error">⚠️ Soft Return Investment does not allow investments below 460 Rands, 27 USD, 27 AUD, or 20 GBP ⚠️</div>
+    <div id="error">⚠️ Minimum investment is 26 USD, 460 ZAR, 35 AUD, or 20 GBP ⚠️</div>
     
     <a href="https://www.softrinvestment.com" class="home-button">🏠 Go to Home</a>
 </div>
@@ -150,27 +147,23 @@
     function calculateProfit() {
         const currency = document.getElementById("currency").value;
         const amount = parseFloat(document.getElementById("amount").value);
-        const days = parseInt(document.getElementById("days").value);
+        const hours = parseInt(document.getElementById("hours").value);
         
-        // Hide previous results and errors
         document.getElementById("result").style.display = "none";
         document.getElementById("error").style.display = "none";
         
-        // Minimum amounts based on currency
         const minAmount = {
-            "USD": 27,
-            "AUD": 27,
+            "USD": 26,
+            "AUD": 35,
             "GBP": 20,
             "ZAR": 460
         };
 
-        // Check if amount is below minimum
         if (isNaN(amount) || amount < minAmount[currency]) {
             document.getElementById("error").style.display = "block";
             return;
         }
 
-        // Show loading animation and progress bar
         document.getElementById("loading").style.display = "block";
         document.querySelector(".progress-container").style.display = "block";
 
@@ -181,29 +174,23 @@
             if (progress >= 100) clearInterval(interval);
         }, 100);
 
-        // Delay for loading animation effect
         setTimeout(() => {
-            // Fixed interest rate
-            let interestRate = 2.3021; // 2.3021%
-
-            // Additional interest for duration
-            let extraInterest = 0;
-            if (days === 3) {
-                extraInterest = 0.25; // 25%
-            } else if (days === 4) {
-                extraInterest = 0.37; // 37%
+            let interestRate = 0;
+            if (hours === 2) {
+                interestRate = 2.2;
+            } else if (hours === 6) {
+                interestRate = 2.6;
+            } else if (hours === 12) {
+                interestRate = 2.99;
             }
 
-            // Calculate profit with additional interest for days
-            const totalInterestRate = interestRate + extraInterest;
-            const profit = amount * totalInterestRate;
-            document.getElementById("result").innerHTML = `<p>🎉 Your estimated profit after ${days} days is <strong>${currency} ${profit.toFixed(2)}</strong>! 🎉</p>`;
+            const profit = amount * interestRate;
+            document.getElementById("result").innerHTML = `<p>🎉 Your estimated profit after ${hours} hours is <strong>${currency} ${profit.toFixed(2)}</strong>! 🎉</p>`;
             
-            // Hide loading animation and progress bar, then show result
             document.getElementById("loading").style.display = "none";
             document.querySelector(".progress-container").style.display = "none";
             document.getElementById("result").style.display = "block";
-        }, 2000); // 2 seconds delay
+        }, 2000);
     }
 </script>
 
