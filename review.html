@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft R Investment</title>
+    <link rel="stylesheet" href="./commonStyle.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/aa7454d09f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Mobile Menu Styles */
+        .mobile-menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .menu-bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px 0;
+            background-color: #fff;
+            transition: 0.4s;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 999;
+            transition: 0.3s ease-in-out;
+            padding: 80px 20px 20px;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-list li {
+            margin-bottom: 25px;
+        }
+
+        .menu-list a {
+            text-decoration: none;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            display: block;
+            padding: 12px;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .menu-list a:hover {
+            background: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+        }
+
+        /* Hamburger Animation */
+        .mobile-menu-btn.active .menu-bar:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-btn.active .menu-bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .menu-bar:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Body Styling */
+        body {
+            margin: 0;
+            min-height: 200vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu Button -->
+    <button class="mobile-menu-btn" id="menuBtn">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+    </button>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul class="menu-list">
+            <li><a href="https://softrinvestment.com/index.html">Home</a></li>
+            <li><a href="https://https://softrinvestment.com/aboutus.html">About Us</a></li>
+            <li><a href="https://https://softrinvestment.com/invest.html">Invest</a></li>
+            <li><a href="https://https://softrinvestment.com/review.html">Reviews</a></li>
+            <li><a href="https://https://softrinvestment.com/contact.html">Contact Us</a></li>
+            <li><a href="https://www.softrinvestment.online/user-profile">Go To My Profile</a></li>
+            <li><a href="https://www.softrinvestment.online/user-profile">Go To My Profile</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        // Toggle menu
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            menuBtn.classList.toggle('active');
+        });
+
+        // Close menu when clicking links
+        document.querySelectorAll('.menu-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuBtn.classList.remove('active');
+                // Navigate to link normally (same tab)
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.mobile-menu') && 
+                !event.target.closest('.mobile-menu-btn')) {
+                mobileMenu.classList.remove('active');
+                menuBtn.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+    <!-- Header -->
+    <header>
+        <div id="logo">
+            <a href="./index.html">
+            <img src="./img/logo-white.png" alt="">
+            </a>
+        </div>
+        <ul class="nav" id="nav">
+            <ul class="navLogo">
+                <a href="./index.html">
+                     <img src="./img/logo-white.png" alt="">
+               </a>
+            </ul>
+
+            <li class="nav-link"><a href="./index.html">Home</a></li>
+            <li class="nav-link"><a href="./aboutus.html">About Us</a></li>
+            <li class="nav-link"><a href="./invest.html">Invest</a></li>
+            <li class="nav-link"><a href="./review.html">Reviews</a></li>
+            <li class="nav-link"><a href="./contact.html">Contact Us</a></li>
+            <li class="nav-link">
+            <li class="nav-link">
+    <a href="#" onclick="toggleSubMenu(event)">User Account</a>
+    <ul class="sub-menu" style="display: none;">
+        <li><a href="https://www.softrinvestment.online/user-profile">Go to my Profile</a></li>
+        <li><a href="https://www.softrinvestment.online/my-wallet">Go to My Wallet</a></li>
+    </ul>
+</li>
+
+<script>
+    function toggleSubMenu(event) {
+        event.preventDefault();
+        const subMenu = event.target.nextElementSibling;
+        subMenu.style.display = subMenu.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+            <li class="sociallinkContainer">
+                <img class="sociallink" src="./img/fabook-icon-white.svg" alt="">
+                <img class="sociallink" src="./img/twitter-icon-white.svg" alt="">
+                <img class="sociallink" src="./img/inkedin-icon-white.svg" alt="">
+                <img class="sociallink" src="./img/whatsapp-icon-white.svg" alt="">
+            </li>
+        </ul>
+        <div id="barContainer">
+            <i id="bar" class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- Hero page -->
+<script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
+<gecko-coin-price-marquee-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" coin-ids="" initial-currency="usd"></gecko-coin-price-marquee-widget>
+    <section class="hero gridSection">
+        <div class="sectionDesc">
+            <h1 class="headline">
+                <span class="cryptoText">REVIEW</span>.
+            </h1>
+        </div>
+    </section>
+    
+    <!-- Header -->
+    <div class="reviews-container">
+    <!-- Repeat this review-card block for each entry -->
+    <div class="review-card">
+        <div class="rating">★★★★★</div>
+        <h3 class="review-name">Jane Doe</h3>
+        <p class="review-text">"The investment profit calculator is incredibly accurate and easy to use! I made informed decisions, and my returns have been impressive."</p>
+    </div>
+
+    <div class="review-card">
+        <div class="rating">★★★★★</div>
+        <h3 class="review-name">Jack H.</h3>
+        <p class="review-text">"This platform is an absolute game-changer. Highly recommended for everyone."</p>
+    </div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Amelia V.</h3>
+    <p class="review-text">"Investing has never been this straightforward and rewarding. Amazing experience!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Ryan L.</h3>
+    <p class="review-text">"A professional and user-friendly tool that delivers excellent results every time."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Charlotte M.</h3>
+    <p class="review-text">"Exceptional service and outcomes. This platform is my go-to for investments."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Henry P.</h3>
+    <p class="review-text">"Fast, efficient, and reliable investment results. Couldn't ask for more."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Isabella T.</h3>
+    <p class="review-text">"I’m genuinely impressed by the simplicity and effectiveness of this tool."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Oscar G.</h3>
+    <p class="review-text">"The results are real, and the process is straightforward. Highly dependable."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Ava C.</h3>
+    <p class="review-text">"An excellent investment platform that has consistently exceeded my expectations."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Benjamin K.</h3>
+    <p class="review-text">"A transparent and trustworthy platform that yields great results every time."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Lily B.</h3>
+    <p class="review-text">"I’m thrilled with the results and the ease of using this platform. Fantastic!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Jacob D.</h3>
+    <p class="review-text">"Outstanding results and unmatched simplicity. This platform is top-tier."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Hannah J.</h3>
+    <p class="review-text">"Straightforward and highly effective. A great experience every time."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Matthew R.</h3>
+    <p class="review-text">"A trustworthy and professional platform that delivers consistent results."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Ella F.</h3>
+    <p class="review-text">"Reliable, efficient, and easy to use. Perfect for anyone seeking quick returns."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Edward A.</h3>
+    <p class="review-text">"This platform is fantastic! Seamless experience with excellent outcomes."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Freya L.</h3>
+    <p class="review-text">"The best investment platform I’ve used. Simple, fast, and effective."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Daniel N.</h3>
+    <p class="review-text">"A revolutionary tool that makes investing stress-free and rewarding."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Harper S.</h3>
+    <p class="review-text">"Highly efficient and dependable. I’m beyond satisfied with the results."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Logan T.</h3>
+    <p class="review-text">"The ease of use and the impressive returns make this platform exceptional."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Luna E.</h3>
+    <p class="review-text">"Outstanding platform with consistent and impressive investment results."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Sebastian M.</h3>
+    <p class="review-text">"A seamless experience with excellent returns. Highly recommend trying it."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Aurora W.</h3>
+    <p class="review-text">"Incredible platform! User-friendly and delivers outstanding results."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Adam H.</h3>
+    <p class="review-text">"Exceptional results and fantastic ease of use. Truly a standout platform."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Sophia K.</h3>
+    <p class="review-text">"Dependable and straightforward. This platform is a lifesaver for investments."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Theodore G.</h3>
+    <p class="review-text">"Great results and a stress-free process. I couldn't be happier."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Layla P.</h3>
+    <p class="review-text">"Fast, efficient, and incredibly reliable. An absolute must-have tool!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Nathan V.</h3>
+    <p class="review-text">"A fantastic experience from start to finish. Highly effective platform."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Aria B.</h3>
+    <p class="review-text">"Brilliant platform! I’m impressed with the outcomes every single time."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">William C.</h3>
+    <p class="review-text">"This platform is reliable, transparent, and delivers outstanding results."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Stella J.</h3>
+    <p class="review-text">"A highly professional and user-friendly platform that exceeds expectations."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Lucas W.</h3>
+    <p class="review-text">"Unmatched ease of use and highly rewarding returns. Love it!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Victoria N.</h3>
+    <p class="review-text">"The most straightforward and effective platform I’ve used. Highly recommended!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Caleb M.</h3>
+    <p class="review-text">"Exceptional performance and reliability. This platform is second to none."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Penelope F.</h3>
+    <p class="review-text">"An outstanding investment tool that I wholeheartedly trust."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Elijah S.</h3>
+    <p class="review-text">"A seamless process with great results. I highly recommend this platform."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Alexis N.</h3>
+    <p class="review-text">"This platform has made managing my investments so much easier. Highly recommended for anyone looking to grow their wealth!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Joshua W.</h3>
+    <p class="review-text">"I was skeptical at first, but now I can’t imagine investing anywhere else. The returns are incredible!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Alexis N.</h3>
+    <p class="review-text">"This platform redefines investment simplicity and success. Highly recommended!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Joshua W.</h3>
+    <p class="review-text">"Exceptional experience! It’s straightforward and yields fantastic results."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Caitlin O.</h3>
+    <p class="review-text">"Finally, a platform that delivers on its promises. I'm impressed with the outcomes."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Sophie K.</h3>
+    <p class="review-text">"Investing has never been easier. A reliable tool for anyone looking for quick returns."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">James T.</h3>
+    <p class="review-text">"A well-crafted platform that prioritizes clarity and efficiency. Top-notch service."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Andrew M.</h3>
+    <p class="review-text">"Absolutely incredible! The results speak for themselves. Highly satisfied."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Diana S.</h3>
+    <p class="review-text">"Professional, reliable, and user-friendly. This platform is a gem."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Luke V.</h3>
+    <p class="review-text">"Clear, concise, and effective. A must-try for anyone serious about investments."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Rebecca F.</h3>
+    <p class="review-text">"I’m thrilled with the seamless experience and impressive results. Highly recommend."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Tom H.</h3>
+    <p class="review-text">"Investing made simple and successful. This is the way to go!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Zara B.</h3>
+    <p class="review-text">"A trustworthy and effective platform. My investment journey has been revolutionized."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Megan A.</h3>
+    <p class="review-text">"Fast, efficient, and reliable! This platform has exceeded my expectations."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Michael D.</h3>
+    <p class="review-text">"Unmatched ease of use and impressive results. Highly commendable platform."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Chloe M.</h3>
+    <p class="review-text">"Reliable, fast, and effective! A new standard in investment tools."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Leo P.</h3>
+    <p class="review-text">"I trust this platform completely. Outstanding outcomes every time."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Samuel T.</h3>
+    <p class="review-text">"This platform has made investment a breeze. Very impressed with the returns."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Olivia W.</h3>
+    <p class="review-text">"Straightforward and dependable! I’ve seen great results consistently."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Harry B.</h3>
+    <p class="review-text">"One of the most user-friendly platforms I’ve encountered. Exceptional experience!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Alice L.</h3>
+    <p class="review-text">"Clear and concise processes with great results. A go-to platform for sure."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Samantha N.</h3>
+    <p class="review-text">"A dependable platform that delivers excellent results effortlessly."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Mia W.</h3>
+    <p class="review-text">"Fast, transparent, and effective. This platform ticks all the right boxes."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Ella C.</h3>
+    <p class="review-text">"I’m consistently impressed by the reliability and efficiency of this platform."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Connor D.</h3>
+    <p class="review-text">"A stress-free investment experience with outstanding returns. Highly recommended!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Grace R.</h3>
+    <p class="review-text">"This platform is redefining how investments are done. Exceptional service."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">David T.</h3>
+    <p class="review-text">"A seamless and reliable investment tool. I couldn’t be happier!"</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Emma S.</h3>
+    <p class="review-text">"Simple, reliable, and effective! A must-have tool for all investors."</p>
+</div>
+<div class="review-card">
+    <div class="rating">★★★★★</div>
+    <h3 class="review-name">Caitlin O.</h3>
+    <p class="review-text">"The user-friendly interface and transparent calculations set this platform apart. Five stars!"
+    <!-- Add all other reviews following the same pattern -->
+</div>
+
+<style>
+.reviews-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    background: transparent;
+}
+
+.review-card {
+    background: transparent;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.review-name {
+    color: #4CAF50;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.review-text {
+    color: white;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+}
+
+.rating {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .reviews-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+    <!-- footer -->
+    <footer>
+        <div class="joinSection">
+            <div class="joinDesc">
+                <h1 class="sectionHeader">Join with us</h1>
+                <p class="sectionPara">
+                    Once you have created your account, you can purchase coins from website
+                </p>
+            </div>
+            <a href="https://www.softrinvestment.online/sign-in" class="btn primaryBtn">JOIN NOW</a>
+        </div>
+<script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
+<gecko-coin-price-chart-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" initial-currency="zar"></gecko-coin-price-chart-widget>
+        <div class="footerlinksContainer">
+            <div class="footerAboutus">
+                <img src="./img/logo-white.png" alt="">
+                <p class="darkPara">With no commissions and a simple user interface, 
+                 Prouple is the most reliable way to trade for 
+                 Cryptocurrency.
+                </p>
+                <div class="footersociallinkContainer">
+                    <img class="sociallink" src="./img/fabook-icon-white.svg" alt="">
+                    <img class="sociallink" src="./img/twitter-icon-white.svg" alt="">
+                    <img class="sociallink" src="./img/inkedin-icon-white.svg" alt="">
+                    <img class="sociallink" src="./img/whatsapp-icon-white.svg" alt="">
+                </div>
+            </div>
+
+            <div class="footerlink">
+                <h1 class="linkTitle">Explore</h1>
+                <li><a href="https://softrinvestment.com/aboutus.html" target="_blank">About</a></li>
+                <li><a href="https://softrinvestment.com/contact.html" target="_blank">Contact</a></li>
+            </div>
+
+            <div class="footerlink">
+                <li><a href="https://softrinvestment.com/invest.html" target="_blank">Service</a></li>
+            </div>
+
+            <div class="footerlink">
+                <h1 class="linkTitle">Resource</h1>
+                <a href="#" class="eachLink">Style Guide</a>
+                <a href="#" class="eachLink">Change Log</a>
+                <a href="#" class="eachLink">License</a>
+            </div>
+        </div>
+
+        <div class="footerCopyright">
+             <p>&copy; 2025 design and developed by <a href="#" class="developedBy">Sofr R Investment</a>.</p>
+        </div>
+    </footer>
+    
+
+    <script src="./script.js"></script>
+</body>
+</html>

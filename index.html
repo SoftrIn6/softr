@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft R Investment</title>
+    <link rel="stylesheet" href="./commonStyle.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/aa7454d09f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Mobile Menu Styles */
+        .mobile-menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .menu-bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px 0;
+            background-color: #fff;
+            transition: 0.4s;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 999;
+            transition: 0.3s ease-in-out;
+            padding: 80px 20px 20px;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-list li {
+            margin-bottom: 25px;
+        }
+
+        .menu-list a {
+            text-decoration: none;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            display: block;
+            padding: 12px;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .menu-list a:hover {
+            background: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+        }
+
+        /* Hamburger Animation */
+        .mobile-menu-btn.active .menu-bar:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-btn.active .menu-bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .menu-bar:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Body Styling */
+        body {
+            margin: 0;
+            min-height: 200vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu Button -->
+    <button class="mobile-menu-btn" id="menuBtn">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+    </button>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul class="menu-list">
+            <li><a href="https://softrinvestment.com/index.html">Home</a></li>
+            <li><a href="https://https://softrinvestment.com/aboutus.html">About Us</a></li>
+            <li><a href="https://https://softrinvestment.com/invest.html">Invest</a></li>
+            <li><a href="https://https://softrinvestment.com/review.html">Reviews</a></li>
+            <li><a href="https://https://softrinvestment.com/contact.html">Contact Us</a></li>
+            <li><a href="https://www.softrinvestment.online/user-profile">Go To My Profile</a></li>
+            <li><a href="https://www.softrinvestment.online/user-profile">Go To My Profile</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        // Toggle menu
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            menuBtn.classList.toggle('active');
+        });
+
+        // Close menu when clicking links
+        document.querySelectorAll('.menu-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuBtn.classList.remove('active');
+                // Navigate to link normally (same tab)
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.mobile-menu') && 
+                !event.target.closest('.mobile-menu-btn')) {
+                mobileMenu.classList.remove('active');
+                menuBtn.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+    <!-- Header -->
+    <header>
+        <div id="logo">
+            <a href="./index.html">
+            <img src="./img/logo-white.png" alt="">
+            </a>
+        </div>
+        <ul class="nav" id="nav">
+            <ul class="navLogo">
+                <a href="./index.html">
+                     <img src="./img/logo-white.png" alt="">
+               </a>
+            </ul>
+
+            <li class="nav-link"><a href="./index.html">Home</a></li>
+            <li class="nav-link"><a href="./aboutus.html">About Us</a></li>
+            <li class="nav-link"><a href="./invest.html">Invest</a></li>
+            <li class="nav-link"><a href="./review.html">Reviews</a></li>
+            <li class="nav-link"><a href="./contact.html">Contact Us</a></li>
+            <li class="nav-link">
+            <li class="nav-link">
+    <a href="#" onclick="toggleSubMenu(event)">User Account</a>
+    <ul class="sub-menu" style="display: none;">
+        <li><a href="https://www.softrinvestment.online/user-profile">Go to my Profile</a></li>
+        <li><a href="https://www.softrinvestment.online/my-wallet">Go to My Wallet</a></li>
+    </ul>
+</li>
+
+<script>
+    function toggleSubMenu(event) {
+        event.preventDefault();
+        const subMenu = event.target.nextElementSibling;
+        subMenu.style.display = subMenu.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+            <li class="sociallinkContainer">
+                <img class="sociallink" src="./img/fabook-icon-white.svg" alt="">
+                <img class="sociallink" src="./img/twitter-icon-white.svg" alt="">
+                <img class="sociallink" src="./img/inkedin-icon-white.svg" alt="">
+                <img class="sociallink" src="./img/whatsapp-icon-white.svg" alt="">
+            </li>
+        </ul>
+        <div id="barContainer">
+            <i id="bar" class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- Hero page -->
+<script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
+<gecko-coin-price-marquee-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" coin-ids="" initial-currency="usd"></gecko-coin-price-marquee-widget>
+    <section class="hero gridSection">
+        <div class="sectionDesc">
+            <h1 class="headline">
+                Best way to start Earning High with<span class="cryptoText">CRYPTO INVESTMENT</span>.
+            </h1>
+            <p class="sub-headline">
+                 Secure Your Financial Future with Our High-Yield A.I
+                 Investment Firm. Earn Massive Profits with Our A
+                 Powered Trading/Investments
+            <div class="btnContainer">
+                <a href="https://softrinvestment.com/contact.html" class="btn btn1">Contact Now</a>
+<a href="https://www.softrinvestment.online/sign-in" class="btn btn2">Login <i class="fa-solid fa-play"></i></a>
+            </div>
+        </div>
+        <div class="sectionPic bouncepic" id="sectionPic">
+            <img src="./img/hero-image.png" alt="">
+        </div>
+    </section>
+
+    <!-- Carousel -->
+    <section>
+        <div class="carouselContainer">
+            <div class="eachCarousel eachCarouselBorder">
+                <img src="./img/bitcoin-icon.png" alt="">
+                <article class="carouselDesc">
+                    <h1 class="carouselTitle">Starter Plan</h1>
+                    <p class="carouselPara">Plan Price: $26/R467</p>
+                    <div class="carouselPrice">
+                        <h3>2Hours Profit: $57/
+                         6Hours Profit: $67</h3>
+                    </div>
+                    <a href="https://www.softrinvestment.online/how-to-Pay" class="btn carouselBtn">Buy Plan</a>
+                </article>
+            </div>
+    
+            <div class="eachCarousel">
+                <img src="./img/ethereum-icon.png" alt="">
+                <article class="carouselDesc">
+                    <h1 class="carouselTitle">Advance Plan</h1>
+                    <p class="carouselPara">Plan Price: $​76/R1,363</p>
+                    <div class="carouselPrice">
+                        <h3>2Hours Profit:$​167/
+                         6Hours Profit:$​197</h3>
+                    </div>
+                    <a href="https://www.softrinvestment.online/how-to-Pay" class="btn carouselBtn">Buy Plan</a>
+                </article>
+            </div>
+    
+            <div class="eachCarousel">
+                <img src="./img/tether-icon.png" alt="">
+                <article class="carouselDesc">
+                    <h1 class="carouselTitle">Pro Plan</h1>
+                   <p class="carouselPara">Plan Price: $185/​R3363</p>
+                    <div class="carouselPrice">
+                        <h3>2Hours Profit:$407/
+                         6Hours Profit:$481</h3>
+                    </div>
+                    <a href="https://www.softrinvestment.online/how-to-Pay" class="btn carouselBtn">Buy Plan</a>
+                </article>
+            </div>
+    
+            <div class="eachCarousel">
+                <img src="./img/bitcoin-icon.png" alt="">
+                <article class="carouselDesc">
+                    <h1 class="carouselTitle">Expert Plan</h1>
+                    <p class="carouselPara">Plan Price: $240/R4340</p>
+                    <div class="carouselPrice">
+                        <h3>2Hours Profit:$​528/
+                         6Hours Profit:$​624</h3>
+                    </div>
+                    <a href="https://www.softrinvestment.online/how-to-Pay" class="btn carouselBtn">Buy Plan</a>
+                </article>
+            </div>
+    
+            <div class="eachCarousel">
+                <img src="./img/ethereum-icon.png" alt="">
+                <article class="carouselDesc">
+                    <h1 class="carouselTitle">Max Plan</h1>
+                    <p class="carouselPara">Plan Price: $1,006/R18657</p>
+                    <div class="carouselPrice">
+                        <h3>2Hours Profit:$2006/
+                         6Hours Profit:$6006</h3>
+                    </div>
+                    <a href="https://www.softrinvestment.online/how-to-Pay" class="btn carouselBtn">Buy Plan</a>
+                </article>
+            </div>
+    
+            <div class="eachCarousel">
+                <img src="./img/tether-icon.png" alt="">
+               <article class="carouselDesc">
+                    <h1 class="carouselTitle">Custom Plan</h1>
+                    <p class="carouselPara">Plan Price: $10 To $10,000</p>
+                    <div class="carouselPrice">
+                        <h3>Profit:$57 Upto $900007</h3>
+                    </div>
+                    <button class="btn carouselBtn">Custom Plan</button>
+                </article>
+            </div>
+        </div>
+        <div class="carouselIndicator">
+            <div class="indicator activeIndicator" onclick="slideCarousel(0)"></div>
+            <div class="indicator" onclick="slideCarousel(1)"></div>
+            <div class="indicator" onclick="slideCarousel(2)"></div>
+            <div class="indicator" onclick="slideCarousel(3)"></div>
+            <div class="indicator" onclick="slideCarousel(4)"></div>
+            <div class="indicator" onclick="slideCarousel(5)"></div>
+        </div>
+    </section>
+
+    <!-- Processes -->
+<div style="height:560px; background-color: #1D2330; overflow:hidden; box-sizing: border-box; border: 1px solid #282E3B; border-radius: 4px; text-align: right; line-height:14px; font-size: 12px; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #262B38;padding:1px;padding: 0px; margin: 0px; width: 100%;"><div style="height:540px; padding:0px; margin:0px; width: 100%;"><iframe src="https://widget.coinlib.io/widget?type=chart&theme=dark&coin_id=859&pref_coin_id=1522" width="100%" height="536px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0" border="0" style="border:0;margin:0;padding:0;line-height:14px;"></iframe></div><div style="color: #626B7F; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; font-family: Verdana, Tahoma, Arial, sans-serif;"><a href="https://coinlib.io" target="_blank" style="font-weight: 500; color: #626B7F; text-decoration:none; font-size:11px">Cryptocurrency Prices</a>&nbsp;by Coinlib</div></div>
+    <section class="gridSection">
+        <div class="sectionDesc processessDesc">
+            <h1 class="sectionHeader">Chain Process</h1>
+            <p class="sectionPara">We do not charge any fees and You keep your privacy and your 
+              Profits.
+            </p>
+            <div class="eachProcesses">
+                <img src="./img/handshake-icon-white-line.svg" alt="handshake">
+                <div class="eachprocessesPara">
+                    <h1 class="processTitle">Investing</h1>
+                    <p>
+                        Crypto investment is buying digital assets like Bitcoin and Ethereum, aiming for profit as prices fluctuate. It’s Guaranteed with SoftR & high reward.
+                    </p>
+                </div>
+            </div>
+            <div class="eachProcesses">
+                <img src="./img/cart-icon-white-line.svg" alt="handshake">
+                <div class="eachprocessesPara">
+                    <h1 class="processTitle">Withdraw profit</h1>
+                    <p>
+                        Withdrawing profit from Softr is easy and hassle-free. Once you make a profit, you can withdraw it the same day without delays. 
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="sectionPic bouncepic processesPic" id="sectionPic">
+            <img src="./img/chain-process-img.png" alt="">
+        </div>
+    </section>
+
+    <!-- Markets -->
+    <section class="gridSection">
+        <div class="sectionDesc marketDesc">
+            <h1 class="sectionHeader">Sof R Investment</h1>
+            <p class="sectionPara">The Blockchain is a decentralized, 
+                digital ledger of transactions that are recorded 
+                confirmed
+            </p>
+            <div class="eachMarket">
+                <img src="./img/buy-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Buying</h1>
+                    <p class="darkPara">
+                        Best cryptocurrency Investment Platform currently. Invest
+                        Bitcoin, Ethereum, Litecoin and other coins and tokens 
+                        on the platform.
+                    </p>
+                </div>
+            </div>
+            <div class="eachMarket">
+                <img src="./img/trading-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Crypto</h1>
+                    <p class="darkPara">
+                        Crypto, short for cryptocurrency, is digital money that operates on blockchain technology 
+                        without banks or middlemen. It’s decentralized, secure, and can be used for transactions, investments
+                    </p>
+                </div>
+            </div>
+            <div class="eachMarket">
+                <img src="./img/support-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Supporting</h1>
+                    <p class="darkPara">
+                        Don’t worry if you’re new to crypto and digital 
+                        currencies – we Soft R Investment makes Investing in cryptocurrency 
+                        easy.
+                    </p>
+                </div>
+            </div>
+            <div class="eachMarket">
+                <img src="./img/online-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Online</h1>
+                    <p class="darkPara">
+                        Cryptocurrency, especially Bitcoin, 
+                        has proven to be a popular Investing
+                        vehicle, even if legendary investors 
+                        as good.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="sectionPic marketspicSection" id="sectionPic">
+           <h1 class="marketspicHeader">CRYPTOCURRENCY</h1>
+            <div class="marketsPicContainer">
+                <div class="marketPic marketPic1">
+                    <img src="./img/persent-icon-white.svg" alt="">
+                    <article class="marketTitle">Hot Sale</article>
+                </div>
+    
+                <div class="marketPic marketPic2">
+                    <img src="./img/bitcoin-icon-white.svg" alt="">
+                    <article class="marketTitle">Bit coin</article>
+                </div>
+    
+                <div class="marketPic marketPic3">
+                    <img src="./img/ethereum-white-icon.svg" alt="">
+                    <article class="marketTitle">ETHEREUM</article>
+                </div>
+    
+                <div class="marketPic marketPic4">
+                    <img src="./img/handshake-icon-white.svg" alt="">
+                    <article class="marketTitle">CONNECTING</article>
+                </div>
+            </div>
+            </div>
+    </section>
+
+<!-- Markets -->
+    <section class="gridSection">
+        <div class="sectionDesc marketDesc">
+            <h1 class="sectionHeader">Sof R is Regulated</h1>
+            <p class="sectionPara">Soft Return Investment is a regulated crypto and investment platform, compliant across South Africa, Europe, America, and Asia. Funds are securely stored offline, with an excellent rating.
+            </p>
+            <div class="eachMarket">
+                <img src="./img/buy-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Regulated</h1>
+                    <p class="darkPara">
+                        Regulated with African based and European regulated crypto & Investment platform
+                    </p>
+                </div>
+            </div>
+            <div class="eachMarket">
+                <img src="./img/trading-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Secure</h1>
+                    <p class="darkPara">
+                        Funds secured in offline wallets with Military grade Encryption. Fully compliant with South Africa, America, Asia & European Regulationsand money investment security standards
+                    </p>
+                </div>
+            </div>
+            <div class="eachMarket">
+                <img src="./img/support-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Safe</h1>
+                    <p class="darkPara">
+                        Following Regulations your Details/information are safely stored with Military grade Encryption
+                    </p>
+                </div>
+            </div>
+            <div class="eachMarket">
+                <img src="./img/online-icon-color.svg" alt="handshake">
+                <div>
+                    <h1 class="marketTitle">Trusted</h1>
+                    <p class="darkPara">
+                        Trusted by 60 Thousand Plus happy users. Excellent rating
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="sectionPic marketspicSection" id="sectionPic">
+           <h1 class="marketspicHeader">CRYPTO REGULATED</h1>
+            <div class="marketsPicContainer">
+                <div class="marketPic marketPic1">
+                    <img src="./img/persent-icon-white.svg" alt="">
+                    <article class="marketTitle">Hot Sale</article>
+                </div>
+    
+                <div class="marketPic marketPic2">
+                    <img src="./img/bitcoin-icon-white.svg" alt="">
+                    <article class="marketTitle">Bit coin</article>
+                </div>
+    
+                <div class="marketPic marketPic3">
+                    <img src="./img/ethereum-white-icon.svg" alt="">
+                    <article class="marketTitle">ETHEREUM</article>
+                </div>
+    
+                <div class="marketPic marketPic4">
+                    <img src="./img/handshake-icon-white.svg" alt="">
+                    <article class="marketTitle">CONNECTING</article>
+                </div>
+            </div>
+            </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section class="gridSection">
+        <div class="sectionDesc dashboardDesc">
+            <h1 class="sectionHeader">Invest crypto in seconds</h1>
+            <p class="sectionPara">
+                With Sof R, you mine Investment profits from your own phone! 
+                You no longer have to worry about costly Equipment.
+            </p>
+            <a href="https://softrinvestment.com/invest.html" class="btn">Explore Now</a>
+        </div>
+
+        <div class="sectionPic dashboardPic">
+            <img src="./img/dashboard-dark.jpg" alt="">
+        </div>
+
+    </section>
+
+    <div class="fundSection">
+        <div class="sectionDesc">
+            <h1 class="sectionHeader">Control your funds</h1>
+            <p class="sectionPara">
+                Our Investment pool offers some of the most competitive Profits in the market.
+            </p>
+            <div class="fundsContainer">
+                <div class="fund">
+                    <img src="./img/cryptocurrency-white-icon.svg" alt="cryptocurrency">
+                    <h1 class="fundType">Support All Currency</h1>
+                    <p class="darkPara">
+                        Accept and process payments from all types of currencies.
+                    </p>
+                </div>
+
+                <div class="fund">
+                    <img src="./img/blockchain-white-icon.svg" alt="cryptocurrency">
+                    <h1 class="fundType">Block Chain System</h1>
+                    <p class="darkPara">
+                        How it Works, Benefits and its Deployment in Financial
+                    </p>
+                </div>
+
+                <div class="fund">
+                    <img src="./img/cryptocurrency-sell-white-icon.svg" alt="cryptocurrency">
+                    <h1 class="fundType">Fund Selling</h1>
+                    <p class="darkPara">
+                        How to Profit in the Crypto Markets through Investing
+                    </p>
+                </div>
+
+                <div class="fund">
+                    <img src="./img/cryptocurrency-card-white-icon.svg" alt="cryptocurrency">
+                    <h1 class="fundType">Crypto Card</h1>
+                    <p class="darkPara">
+                        Crypto Cards and Why Cryptocurrency are the Future
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="gridSection">
+        <div class="sectionDesc newsletterDesc">
+            <h1 class="sectionHeader">Subscribe news!</h1>
+            <p class="sectionPara">
+                This is where crypto news websites come in handy and stay up-to-date this sphere.
+            </p>
+            <form action="#" class="newsletter">
+                <input type="email" name="" id="newsletter" placeholder="enter your email">
+                <a href="https://www.softrinvestment.online/sign-in" class="btn primaryBtn">Subscribe</a>
+            </form>
+        </div>
+        <div class="sectionPic bouncepic newsletterPic">
+            <img src="./img/newsletter.png" alt="">
+        </div>
+    </section>
+
+    <footer>
+        <div class="joinSection">
+            <div class="joinDesc">
+                <h1 class="sectionHeader">Join with us</h1>
+                <p class="sectionPara">
+                    Once you have created your account, you can purchase coins from website
+                </p>
+            </div>
+            <a href="https://www.softrinvestment.online/sign-in" class="btn primaryBtn">JOIN NOW</a>
+        </div>
+<script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
+<gecko-coin-price-chart-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" initial-currency="zar"></gecko-coin-price-chart-widget>
+        <div class="footerlinksContainer">
+            <div class="footerAboutus">
+                <img src="./img/logo-white.png" alt="">
+                <p class="darkPara">With no commissions and a simple user interface, 
+                 Prouple is the most reliable way to trade for 
+                 Cryptocurrency.
+                </p>
+                <div class="footersociallinkContainer">
+                    <img class="sociallink" src="./img/fabook-icon-white.svg" alt="">
+                    <img class="sociallink" src="./img/twitter-icon-white.svg" alt="">
+                    <img class="sociallink" src="./img/inkedin-icon-white.svg" alt="">
+                    <img class="sociallink" src="./img/whatsapp-icon-white.svg" alt="">
+                </div>
+            </div>
+
+            <div class="footerlink">
+                <h1 class="linkTitle">Explore</h1>
+                <li><a href="https://softrinvestment.com/aboutus.html" target="_blank">About</a></li>
+                <li><a href="https://softrinvestment.com/contact.html" target="_blank">Contact</a></li>
+            </div>
+
+            <div class="footerlink">
+                <li><a href="https://softrinvestment.com/invest.html" target="_blank">Service</a></li>
+            </div>
+
+            <div class="footerlink">
+                <h1 class="linkTitle">Resource</h1>
+                <a href="#" class="eachLink">Style Guide</a>
+                <a href="#" class="eachLink">Change Log</a>
+                <a href="#" class="eachLink">License</a>
+            </div>
+        </div>
+
+        <div class="footerCopyright">
+             <p>&copy; 2025 design and developed by <a href="#" class="developedBy">Sofr R Investment</a>.</p>
+        </div>
+    </footer>
+    
+
+    <script src="./script.js"></script>
+</body>
+</html>
