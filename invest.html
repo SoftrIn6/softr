@@ -3,366 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soft R Investment</title>
-    <link rel="stylesheet" href="./commonStyle.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/aa7454d09f.js" crossorigin="anonymous"></script>
-</head>
-<body>
-<!DOCTYPE html>
-<html>
-<head>
+    <title>Invest - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Mobile Menu Styles */
-        .mobile-menu-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            transition: 0.3s;
-        }
-
-        .menu-bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px 0;
-            background-color: #fff;
-            transition: 0.4s;
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 250px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(15px);
-            z-index: 999;
-            transition: 0.3s ease-in-out;
-            padding: 80px 20px 20px;
-        }
-
-        .mobile-menu.active {
-            right: 0;
-        }
-
-        .menu-list {
-            list-style: none;
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
             padding: 0;
-            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .menu-list li {
-            margin-bottom: 25px;
-        }
-
-        .menu-list a {
-            text-decoration: none;
-            color: #333;
-            font-family: Arial, sans-serif;
-            font-size: 20px;
-            display: block;
-            padding: 12px;
-            transition: 0.3s;
-            border-radius: 5px;
-        }
-
-        .menu-list a:hover {
-            background: rgba(0, 123, 255, 0.1);
-            color: #007bff;
-        }
-
-        /* Hamburger Animation */
-        .mobile-menu-btn.active .menu-bar:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
-        }
-
-        .mobile-menu-btn.active .menu-bar:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-btn.active .menu-bar:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
-        }
-
-        /* Body Styling */
         body {
-            margin: 0;
-            min-height: 200vh;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .container {
+            width: 470px;
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+            min-width: 470px;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+
+        .header-btn.app {
+            background-color: #ffa500;
+            color: #fff;
+        }
+
+        .header-btn i {
+            margin-right: 5px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background-color: #fff;
+        }
+
+        .tab {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 0;
+            position: relative;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .tab.active {
+            color: #000;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #ffa500;
+        }
+
+        /* Investment Plans */
+        .investment-plans {
+            padding: 15px;
+            background-color: #fff;
+            margin-bottom: 80px;
+        }
+
+        .plan-card {
+            border: 1px solid #ffa500;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .plan-header {
+            padding: 15px;
+            position: relative;
+        }
+
+        .plan-title {
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .plan-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #ffa500;
+        }
+
+        .plan-image {
+            width: 100px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            overflow: hidden;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .plan-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .detail-value.price {
+            text-align: right;
+        }
+
+        .detail-value.rate {
+            color: #4cd964;
+        }
+
+        /* Float button */
+        .float-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #ffa500;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 470px;
+            min-width: 470px;
+            background-color: #fff;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #ffa500;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 470px) {
+            .container {
+                width: 100%;
+                min-width: 320px;
+            }
+            
+            .bottom-nav {
+                width: 100%;
+                min-width: 320px;
+            }
+        }
+
+        @media (min-width: 471px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                background-color: #f0f0f0;
+            }
+            
+            .container {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
         }
     </style>
 </head>
 <body>
-    
-    <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        // Toggle menu
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            menuBtn.classList.toggle('active');
-        });
-
-        // Close menu when clicking links
-        document.querySelectorAll('.menu-list a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                menuBtn.classList.remove('active');
-                // Navigate to link normally (same tab)
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.mobile-menu') && 
-                !event.target.closest('.mobile-menu-btn')) {
-                mobileMenu.classList.remove('active');
-                menuBtn.classList.remove('active');
-            }
-        });
-    </script>
-</body>
-</html>
-    <!-- Header -->
-    <header>
-        <div id="logo">
-            <a href="./index.html">
-            <img src="./img/logo-white.png" alt="">
-            </a>
-        </div>
-        <ul class="nav" id="nav">
-            <ul class="navLogo">
-                <a href="./index.html">
-                     <img src="./img/logo-white.png" alt="">
-               </a>
-            </ul>
-
-            <li class="nav-link"><a href="./index.html">Home</a></li>
-            <li class="nav-link"><a href="./aboutus.html">About Us</a></li>
-            <li class="nav-link"><a href="./invest.html">Invest</a></li>
-            <li class="nav-link"><a href="./review.html">Reviews</a></li>
-            <li class="nav-link"><a href="./contact.html">Contact Us</a></li>
-            <li class="nav-link">
-            <li class="nav-link">
-    <a href="#" onclick="toggleSubMenu(event)">User Account</a>
-    <ul class="sub-menu" style="display: none;">
-        <li><a href="https://www.softrinvestment.online/user-profile">Go to my Profile</a></li>
-        <li><a href="https://www.softrinvestment.online/my-wallet">Go to My Wallet</a></li>
-    </ul>
-</li>
-
-<script>
-    function toggleSubMenu(event) {
-        event.preventDefault();
-        const subMenu = event.target.nextElementSibling;
-        subMenu.style.display = subMenu.style.display === 'none' ? 'block' : 'none';
-    }
-</script>
-            <li class="sociallinkContainer">
-                <img class="sociallink" src="./img/fabook-icon-white.svg" alt="">
-                <img class="sociallink" src="./img/twitter-icon-white.svg" alt="">
-                <img class="sociallink" src="./img/inkedin-icon-white.svg" alt="">
-                <img class="sociallink" src="./img/whatsapp-icon-white.svg" alt="">
-            </li>
-        </ul>
-        <div id="barContainer">
-            <i id="bar" class="fa-solid fa-bars"></i>
-        </div>
-    </header>
-
-    <!-- Hero page -->
-<script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
-<gecko-coin-price-marquee-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" coin-ids="" initial-currency="usd"></gecko-coin-price-marquee-widget>
-    <section class="hero gridSection">
-        <div class="sectionDesc">
-            <h1 class="headline">
-                <span class="cryptoText">INVEST NOW</span>.
-            </h1>
-        </div>
-    </section>
-    
-<section>
-    <div class="pricingContainer">
-        <div class="eachPlan">
-            <img src="./img/bitcoin-icon.png" alt="">
-            <div class="planContent">
-                <h1 class="planTitle">Starter Plan</h1>
-                <p class="planPrice">Plan Price: $26/R467</p>
-                <h3>2Hours Profit: $57 / 6Hours Profit: $67</h3>
-                
-                <a href="https://www.softrinvestment.online/how-to-Pay" class="btn planBtn">Buy Plan</a>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="/placeholder.svg?height=40&width=40" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
+                <div class="logo-text">AI ROBOT</div>
+            </div>
+            <div class="header-btns">
+                <div class="header-btn app">
+                    <i class="fas fa-mobile-alt"></i> App
+                </div>
+                <div class="header-btn">
+                    <i class="fas fa-globe"></i> English
+                </div>
             </div>
         </div>
-        <div class="eachPlan">
-            <img src="./img/ethereum-icon.png" alt="">
-            <div class="planContent">
-                <h1 class="planTitle">Advance Plan</h1>
-                <p class="planPrice">Plan Price: $76/R1,363</p>
-                <h3>2Hours Profit: $167 / 6Hours Profit: $197</h3>
-                
-                <a href="https://www.softrinvestment.online/how-to-Pay" class="btn planBtn">Buy Plan</a>
-            </div>
-        </div>
-        <div class="eachPlan">
-            <img src="./img/tether-icon.png" alt="">
-            <div class="planContent">
-                <h1 class="planTitle">Pro Plan</h1>
-                <p class="planPrice">Plan Price: $185/R3363</p>
-                <h3>2Hours Profit: $407 / 6Hours Profit: $481</h3>
-                
-                <a href="https://www.softrinvestment.online/how-to-Pay" class="btn planBtn">Buy Plan</a>
-            </div>
-        </div>
-        <div class="eachPlan">
-            <img src="./img/bitcoin-icon.png" alt="">
-            <div class="planContent">
-                <h1 class="planTitle">Expert Plan</h1>
-                <p class="planPrice">Plan Price: $240/R4340</p>
-                <h3>2Hours Profit: $528 / 6Hours Profit: $624</h3>
-                
-                <a href="https://www.softrinvestment.online/how-to-Pay" class="btn planBtn">Buy Plan</a>
-            </div>
-        </div>
-        <div class="eachPlan">
-            <img src="./img/ethereum-icon.png" alt="">
-            <div class="planContent">
-                <h1 class="planTitle">Max Plan</h1>
-                <p class="planPrice">Plan Price: $1,006/R18657</p>
-                <h3>2Hours Profit: $2006 / 6Hours Profit: $6006</h3>
-                
-                <a href="https://www.softrinvestment.online/how-to-Pay" class="btn planBtn">Buy Plan</a>
-            </div>
-        </div>
-        <div class="eachPlan">
-            <img src="./img/tether-icon.png" alt="">
-            <div class="planContent">
-                <h1 class="planTitle">Custom Plan</h1>
-                <p class="planPrice">Plan Price: $10 To $10,000</p>
-                <h3>Profit: $57 Up to $900007</h3>
-                
-                <a href="https://www.softrinvestment.online/how-to-Pay" class="btn planBtn">Buy Plan</a>
-            </div>
-        </div>
-    </div>
-</section>
 
-<style>
-    .pricingContainer {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        justify-content: center;
-        padding: 26px;
-    }
-    .eachPlan {
-        background-color: #f5f5f5;
-        border-radius: 16px;
-        padding: 26px;
-        display: flex;
-        align-items: flex-start;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .eachPlan img {
-        width: 50px;
-        height: 50px;
-        margin-right: 10px;
-    }
-    .planContent {
-        text-align: left;
-        margin-bottom: 10px;
-    }
-    .planTitle {
-        font-size: 18px;
-        font-weight: bold;
-        color: black;
-        margin-bottom: 10px;
-    }
-    .planPrice, .eachPlan h3 {
-        font-size: 14px;
-        color: black;
-        margin-bottom: 10px;
-
-    }
-    .planBtn {
-        background-color: #5b6ee1;
-        color: white;
-        padding: 10px 16px;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: 0.3s;
-        margin-top: 10px;
-    }
-    .planBtn:hover {
-        background-color: #3e50d4;
-    }
-    @media (max-width: 768px) {
-        .pricingContainer {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-
-    
-    <!-- footer -->
-    <footer>
-        <div class="joinSection">
-            <div class="joinDesc">
-                <h1 class="sectionHeader">Join with us</h1>
-                <p class="sectionPara">
-                    Once you have created your account, you can purchase coins from website
-                </p>
-            </div>
-            <a href="https://www.softrinvestment.online/sign-in" class="btn primaryBtn">JOIN NOW</a>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active">Smart investment</div>
+            <div class="tab">Invest Record</div>
         </div>
-<script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
-<gecko-coin-price-chart-widget locale="en" dark-mode="true" transparent-background="true" outlined="true" initial-currency="zar"></gecko-coin-price-chart-widget>
-        <div class="footerlinksContainer">
-            <div class="footerAboutus">
-                <img src="./img/logo-white.png" alt="">
-                <p class="darkPara">With no commissions and a simple user interface, 
-                 Prouple is the most reliable way to trade for 
-                 Cryptocurrency.
-                </p>
-                <div class="footersociallinkContainer">
-                    <img class="sociallink" src="./img/fabook-icon-white.svg" alt="">
-                    <img class="sociallink" src="./img/twitter-icon-white.svg" alt="">
-                    <img class="sociallink" src="./img/inkedin-icon-white.svg" alt="">
-                    <img class="sociallink" src="./img/whatsapp-icon-white.svg" alt="">
+
+        <!-- Investment Plans -->
+        <div class="investment-plans">
+            <!-- Plan 5 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-title">Investment Plan 5</div>
+                    <img src="/placeholder.svg?height=60&width=100" alt="Investment Plan 5" class="plan-image">
+                </div>
+                <div class="plan-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Price</div>
+                        <div class="detail-value">30000 USDT</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Daily Rate</div>
+                        <div class="detail-value rate">24.00%</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Cycle</div>
+                        <div class="detail-value">30 Day</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="footerlink">
-                <h1 class="linkTitle">Explore</h1>
-                <li><a href="https://softrinvestment.com/aboutus.html" target="_blank">About</a></li>
-                <li><a href="https://softrinvestment.com/contact.html" target="_blank">Contact</a></li>
+            <!-- Plan 4 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-title">Investment Plan 4</div>
+                </div>
+                <div class="plan-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Price</div>
+                        <div class="detail-value">10000 USDT</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Daily Rate</div>
+                        <div class="detail-value rate">22.00%</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Cycle</div>
+                        <div class="detail-value">30 Day</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="footerlink">
-                <li><a href="https://softrinvestment.com/invest.html" target="_blank">Service</a></li>
+            <!-- Plan 3 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-title">Investment Plan 3</div>
+                </div>
+                <div class="plan-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Price</div>
+                        <div class="detail-value">2000 USDT</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Daily Rate</div>
+                        <div class="detail-value rate">20.00%</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Cycle</div>
+                        <div class="detail-value">15 Day</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="footerlink">
-                <h1 class="linkTitle">Resource</h1>
-                <a href="#" class="eachLink">Style Guide</a>
-                <a href="#" class="eachLink">Change Log</a>
-                <a href="#" class="eachLink">License</a>
+            <!-- Plan 2 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-title">Investment Plan 2</div>
+                </div>
+                <div class="plan-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Price</div>
+                        <div class="detail-value">500 USDT</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Daily Rate</div>
+                        <div class="detail-value rate">18.00%</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Cycle</div>
+                        <div class="detail-value">15 Day</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan 1 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-title">Investment Plan 1</div>
+                </div>
+                <div class="plan-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Price</div>
+                        <div class="detail-value">100 USDT</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Daily Rate</div>
+                        <div class="detail-value rate">16.00%</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Cycle</div>
+                        <div class="detail-value">7 Day</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="footerCopyright">
-             <p>&copy; 2025 design and developed by <a href="#" class="developedBy">Sofr R Investment</a>.</p>
+        <!-- Float Button -->
+        <div class="float-btn">
+            <i class="fas fa-arrow-up"></i>
         </div>
-    </footer>
-    
+    </div>
 
-    <script src="./script.js"></script>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="quantify.html" class="nav-item">
+            <i class="fas fa-chart-pie"></i>
+            <span>Quantify</span>
+        </a>
+        <a href="invest.html" class="nav-item active">
+            <i class="fas fa-gift"></i>
+            <span>Invest</span>
+        </a>
+        <a href="invite-friends.html" class="nav-item">
+            <i class="fas fa-user-plus"></i>
+            <span>Invite Friends</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </nav>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // For now, just show an alert when switching to Invest Record
+                if (this.textContent === 'Invest Record') {
+                    alert('Invest Record feature coming soon.');
+                    // Switch back to Smart investment tab
+                    setTimeout(() => {
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab')[0].classList.add('active');
+                    }, 500);
+                }
+            });
+        });
+
+        // Plan card click functionality
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const planTitle = this.querySelector('.plan-title').textContent;
+                const planPrice = this.querySelector('.detail-value').textContent;
+                alert(`You selected ${planTitle} for ${planPrice}. Investment feature coming soon.`);
+            });
+        });
+
+        // Float button scroll to top
+        document.querySelector('.float-btn').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Back button functionality
+        document.querySelector('.back-btn') === null ? console.log("back_btn not found") : document.querySelector('.back-btn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>
