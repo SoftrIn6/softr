@@ -1,1 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .container {
+            width: 470px;
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+            min-width: 470px;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Login Form */
+        .login-section {
+            padding: 30px 20px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ffa500;
+        }
+
+        .password-input-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffa500;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .forgot-password, .register-link {
+            color: #ffa500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #ff3b30;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .login-btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 470px) {
+            .container {
+                width: 100%;
+                min-width: 320px;
+            }
+        }
+
+        @media (min-width: 471px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                background-color: #f0f0f0;
+            }
+            
+            .container {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="/placeholder.svg?height=40&width=40" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
+                <div class="logo-text">AI ROBOT</div>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-section">
+            <div class="login-title">Login to Your Account</div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username or Email</label>
+                    <input type="text" id="username" class="form-input" placeholder="Enter your username or email">
+                    <div class="error-message" id="username-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password">
+                        <div class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <div class="login-btn-content">
+                        <span>Login</span>
+                        <div class="spinner" id="login-spinner"></div>
+                    </div>
+                </button>
+                
+                <div class="login-options">
+                    <div class="forgot-password">Forgot Password?</div>
+                    <div class="register-link" id="register-link">Register Now</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+ // Google Apps Script Web App URL
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzztPCKzTh7qaO2K5tDVzNORG97pny-1zZCvhKz-uibVPDBmxWaI5m89HQAtmPWqRvwHQ/exec';
+
+// Handle form submission
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // Prevent the default form submission
+
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  // Call the loginUser function
+  loginUser(email, password);
+});
+
+// Function to check if credentials are stored locally
+function checkStoredCredentials() {
+  const email = localStorage.getItem('email') || getCookie('email');
+  const password = localStorage.getItem('password') || getCookie('password');
+  
+  if (email && password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+    // Optionally, auto-submit the form if credentials are stored
+    document.getElementById('loginForm').submit();
+  }
+}
+
+// Function to get a cookie value by name
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+// Validate and login user
+async function loginUser(email, password) {
+  try {
+    const response = await fetch(`${SCRIPT_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      // Store user credentials locally
+      storeCredentials(email, password);
+
+      // Redirect to home or dashboard
+      window.location.href = 'index.html'; // Ensure 'index.html' path is correct
+    } else {
+      throw new Error(data.message || 'Login failed.');
+    }
+  } catch (error) {
+    alert(`Error: ${error.message}`);
+  }
+}
+
+// Store login credentials in localStorage or cookies for 365 days
+function storeCredentials(email, password) {
+  const expiryDate = new Date();
+  expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 1 year
+
+  localStorage.setItem('email', email);
+  localStorage.setItem('password', password);
+  localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
+
+  // Store credentials in cookies as well
+  document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
+  document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
+}
+
+// Check for stored credentials on page load
+window.addEventListener('load', function() {
+  checkStoredCredentials();
+});
+
+// Register link
+document.getElementById('register-link').addEventListener('click', function() {
+  window.location.href = 'register.html';
+});
+
+// Forgot password
+document.querySelector('.forgot-password').addEventListener('click', function() {
+  alert('Password recovery feature coming soon.');
+});
+</script>
+</body>
+</html>
