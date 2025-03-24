@@ -314,23 +314,82 @@
     </nav>
 
     <script>
-        // Back button functionality
-        document.querySelector('.back-btn').addEventListener('click', function() {
-            window.location.href = 'profile.html';
-        });
+  // Google Apps Script Web App URL - Replace with your actual deployment URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH43y0PpubWaDJDy2oGYNSuaylS_9ek0Sg9To1cKq2ydcQhfWRykAst7G-TjJnv-69sg/exec';
 
-        // Crypto option click
-        document.querySelectorAll('.crypto-option').forEach(option => {
-            option.addEventListener('click', function() {
-                const crypto = this.getAttribute('data-crypto');
-                alert(`You selected ${crypto.toUpperCase()} for recharge. This feature is coming soon.`);
-            });
-        });
+  // Handle form submission for registration
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
 
-        // Customer service click
-        document.querySelector('.customer-service').addEventListener('click', function() {
-            alert('Customer service is available 24/7. How can we help you?');
-        });
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Call the registerUser function
+    registerUser(name, email, password);
+  });
+
+  // Function to store registration data in localStorage and cookies
+  function storeRegistrationData(name, email, password) {
+    const expiryDate = new Date();
+    expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 360 days
+
+    localStorage.setItem('username', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
+
+    // Optionally, store in cookies (for extra redundancy)
+    document.cookie = `username=${name}; expires=${expiryDate.toUTCString()}; path=/`;
+    document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
+    document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
+  }
+
+  // Register user and save data to Google Sheets & localStorage
+  async function registerUser(name, email, password) {
+    try {
+      const response = await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        // Store user registration data locally in localStorage
+        storeRegistrationData(name, email, password);
+
+        // Redirect to login or home page
+        window.location.href = 'login.html';
+      } else {
+        throw new Error(data.message || 'Registration failed.');
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  }
+
+  // Back button functionality
+  document.querySelector('.back-btn').addEventListener('click', function() {
+    window.location.href = 'profile.html';
+  });
+
+  // Crypto option click (placeholder for future features)
+  document.querySelectorAll('.crypto-option').forEach(option => {
+    option.addEventListener('click', function() {
+      const crypto = this.getAttribute('data-crypto');
+      alert(`You selected ${crypto.toUpperCase()} for recharge. This feature is coming soon.`);
+    });
+  });
+
+  // Customer service click
+  document.querySelector('.customer-service').addEventListener('click', function() {
+    alert('Customer service is available 24/7. How can we help you?');
+  });
     </script>
 </body>
 </html>
