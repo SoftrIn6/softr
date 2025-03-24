@@ -372,6 +372,11 @@
                         document.getElementById('register-spinner').style.display = 'none';
                         
                         if (data.status === 'success') {
+                            // Store username, email, and password in cookies for 365 days
+                            document.cookie = `username=${username}; max-age=${365 * 24 * 60 * 60}; path=/`;
+                            document.cookie = `email=${email}; max-age=${365 * 24 * 60 * 60}; path=/`;
+                            document.cookie = `password=${password}; max-age=${365 * 24 * 60 * 60}; path=/`;
+                            
                             // Show success message and redirect to login
                             alert('Registration successful! Please login with your new account.');
                             window.location.href = 'login.html';
@@ -396,14 +401,6 @@
                         console.error('Error:', error);
                     });
             }
-        });
-        
-        // Terms and Conditions links
-        document.querySelectorAll('.terms-link').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('Terms and Conditions document coming soon.');
-            });
         });
         
         // Email validation helper function
