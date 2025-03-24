@@ -234,101 +234,109 @@
     </div>
 
     <script>
-       // Google Apps Script Web App URL - Replace with your actual deployment URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXXXXXXXXXXXXXXXX/exec';
+  // Google Apps Script Web App URL - Replace with your actual deployment URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH43y0PpubWaDJDy2oGYNSuaylS_9ek0Sg9To1cKq2ydcQhfWRykAst7G-TjJnv-69sg/exec';
 
-// Function to check if credentials are stored locally
-function checkStoredCredentials() {
-    const username = localStorage.getItem('username') || getCookie('username');
-    const password = localStorage.getItem('password') || getCookie('password');
+  // Handle form submission
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Call the loginUser function
+    loginUser(email, password);
+  });
+
+  // Function to check if credentials are stored locally
+  function checkStoredCredentials() {
     const email = localStorage.getItem('email') || getCookie('email');
+    const password = localStorage.getItem('password') || getCookie('password');
     
-    if (username && password && email) {
-        document.getElementById('username').value = username;
-        document.getElementById('password').value = password;
-        // Optionally, auto-submit the form if credentials are stored
-        document.getElementById('login-form').submit();
+    if (email && password) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = password;
+      // Optionally, auto-submit the form if credentials are stored
+      document.getElementById('loginForm').submit();
     }
-}
+  }
 
-// Function to get a cookie value by name
-function getCookie(name) {
+  // Function to get a cookie value by name
+  function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
-}
+  }
 
-// Store login credentials in localStorage or cookies for 365 days
-function storeCredentials(username, password, email) {
+  // Store login credentials in localStorage or cookies for 365 days
+  function storeCredentials(email, password) {
     const expiryDate = new Date();
     expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 1 year
 
-    localStorage.setItem('username', username);
-    localStorage.setItem('password', password);
     localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
     localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
 
     // Store credentials in cookies as well
-    document.cookie = `username=${username}; expires=${expiryDate.toUTCString()}; path=/`;
-    document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
     document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
-}
+    document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
+  }
 
-// Validate and login user
-async function loginUser(username, password) {
+  // Validate and login user
+  async function loginUser(email, password) {
     try {
-        const response = await fetch(`${SCRIPT_URL}?action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const data = await response.json();
-
-        if (data.status === 'success') {
-            // Store user credentials locally
-            storeCredentials(username, password, data.data.email);
-
-            // Redirect to home or dashboard
-            window.location.href = 'index.html';
-        } else {
-            throw new Error(data.message || 'Login failed.');
+      const response = await fetch(`${SCRIPT_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json'
         }
-    } catch (error) {
-        alert(`Error: ${error.message}`);
-    }
-}
+      });
 
-// Login form submission
-document.getElementById('login-form').addEventListener('submit', function(e) {
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        // Store user credentials locally
+        storeCredentials(email, password);
+
+        // Redirect to home or dashboard
+        window.location.href = 'index.html'; // Ensure 'index.html' path is correct
+      } else {
+        throw new Error(data.message || 'Login failed.');
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  }
+
+  // Login form submission
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     // Get user input
-    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
 
     // Call the login function
-    loginUser(username, password);
-});
+    loginUser(email, password);
+  });
 
-// Check for stored credentials on page load
-window.addEventListener('load', function() {
+  // Check for stored credentials on page load
+  window.addEventListener('load', function() {
     checkStoredCredentials();
-});
-        
-        // Register link
-        document.getElementById('register-link').addEventListener('click', function() {
-            window.location.href = 'register.html';
-        });
-        
-        // Forgot password
-        document.querySelector('.forgot-password').addEventListener('click', function() {
-            alert('Password recovery feature coming soon.');
-        });
-    </script>
+  });
+
+  // Register link
+  document.getElementById('register-link').addEventListener('click', function() {
+    window.location.href = 'register.html';
+  });
+
+  // Forgot password
+  document.querySelector('.forgot-password').addEventListener('click', function() {
+    alert('Password recovery feature coming soon.');
+  });
+</script>
 </body>
 </html>
