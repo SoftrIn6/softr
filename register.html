@@ -270,64 +270,68 @@
     </div>
 
     <script>
-    // Google Apps Script Web App URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzztPCKzTh7qaO2K5tDVzNORG97pny-1zZCvhKz-uibVPDBmxWaI5m89HQAtmPWqRvwHQ/exec';
+  // Google Apps Script Web App URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzztPCKzTh7qaO2K5tDVzNORG97pny-1zZCvhKz-uibVPDBmxWaI5m89HQAtmPWqRvwHQ/exec';
 
-// Handle form submission for registration
-document.getElementById('registerForm').addEventListener('submit', function(e) {
-  e.preventDefault(); // Prevent the default form submission
+  // Handle form submission for registration
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-  // Call the registerUser function
-  registerUser(name, email, password);
-});
+    // Call the registerUser function
+    registerUser(name, email, password);
+  });
 
-// Function to store registration data in localStorage and cookies
-function storeRegistrationData(name, email, password) {
-  const expiryDate = new Date();
-  expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 360 days
+  // Function to store registration data in localStorage and cookies
+  function storeRegistrationData(name, email, password) {
+    const expiryDate = new Date();
+    expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 360 days
 
-  localStorage.setItem('username', name);
-  localStorage.setItem('email', email);
-  localStorage.setItem('password', password);
-  localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
+    localStorage.setItem('username', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
 
-  // Optionally, store in cookies (for extra redundancy)
-  document.cookie = `username=${name}; expires=${expiryDate.toUTCString()}; path=/`;
-  document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
-  document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
-}
-
-// Register user and save data to Google Sheets & localStorage
-async function registerUser(name, email, password) {
-  try {
-    const response = await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const data = await response.json();
-
-    if (data.status === 'success') {
-      // Store user registration data locally in localStorage
-      storeRegistrationData(name, email, password);
-
-      // Redirect to login or home page
-      window.location.href = 'login.html';
-    } else {
-      throw new Error(data.message || 'Registration failed.');
-    }
-  } catch (error) {
-    alert(`Error: ${error.message}`);
+    // Optionally, store in cookies (for extra redundancy)
+    document.cookie = `username=${name}; expires=${expiryDate.toUTCString()}; path=/`;
+    document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
+    document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
   }
-}
-    </script>
+
+  // Register user and save data to Google Sheets & localStorage
+  async function registerUser(name, email, password) {
+    try {
+      console.log('Registering user:', name, email, password); // Debug log
+
+      const response = await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      console.log('Response from server:', data); // Debug log
+
+      if (data.status === 'success') {
+        // Store user registration data locally in localStorage
+        storeRegistrationData(name, email, password);
+
+        // Redirect to login or home page
+        window.location.href = 'login.html';
+      } else {
+        throw new Error(data.message || 'Registration failed.');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error); // Debug log
+      alert(`Error: ${error.message}`);
+    }
+  }
+</script>
 </body>
 </html>
