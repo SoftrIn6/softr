@@ -13,7 +13,7 @@ function checkAuth() {
     }
 
     // Update UI with user data
-    if (userData.username) {
+    if (userData.email) {
         updateUI(userData);
     }
 
@@ -26,7 +26,7 @@ function updateUI(userData) {
     // Example implementation for profile page
     if (document.querySelector('.user-info')) {
         document.querySelector('.user-info').innerHTML = `
-            <div style="font-size: 18px; font-weight: bold;">${userData.username}</div>
+            <div style="font-size: 18px; font-weight: bold;">${userData.username || userData.email.split('@')[0]}</div>
             <div style="color: #666; margin-top: 5px;">${userData.email}</div>
             <i class="fas fa-copy user-copy"></i>
         `;
