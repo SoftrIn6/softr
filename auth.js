@@ -1,5 +1,5 @@
 // Google Apps Script Web App URL
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjdNYSuuIS5ZSkR-Ka8PUMydi43iTPdATVHNxPSPhrOubxb9NKxDFv3BB_MCPcJrRz7Q/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNCBIxc_aIAFH9UKsMO3P8Akmzd9aATIEsI5tsL9VinxFi9dVF8vV8Qi7kiCGcpWwZXQ/exec';
 
 // Check if user is logged in
 function checkAuth() {
