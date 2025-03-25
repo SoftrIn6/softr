@@ -415,9 +415,13 @@
                                 
                                 if (profileError) {
                                     console.error('Error saving profile:', profileError);
+                                    // Show detailed error but still allow registration to complete
+                                    alert(`Note: Your account was created, but there was an issue saving your profile details: ${profileError.message}. You can update your profile later.`);
                                 }
                             } catch (profileErr) {
                                 console.error('Error saving profile:', profileErr);
+                                // Show error but still allow registration to complete
+                                alert('Note: Your account was created, but there was an issue saving your profile details. You can update your profile later.');
                             }
                         }
                         
@@ -460,3 +464,4 @@
     </script>
 </body>
 </html>
+
