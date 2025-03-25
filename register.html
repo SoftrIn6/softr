@@ -223,6 +223,12 @@
                     <input type="email" id="email" class="form-input" placeholder="Enter your email">
                     <div class="error-message" id="email-error"></div>
                 </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="text" id="phone" class="form-input" placeholder="Enter your phone number">
+                    <div class="error-message" id="phone-error"></div>
+                </div>
                 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
@@ -282,6 +288,7 @@
 
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
@@ -299,11 +306,11 @@
             }
 
             // Call the register function
-            registerUser(username, email, password);
+            registerUser(username, email, phone, password);
         });
 
         // Register user function
-        async function registerUser(username, email, password) {
+        async function registerUser(username, email, phone, password) {
             try {
                 const { user, error } = await supabase.auth.signUp({
                     email: email,
@@ -314,17 +321,27 @@
                     throw new Error(error.message);
                 }
 
-                // Optionally, store additional user information
+                // Optionally, store additional user information in the 'users' table
                 const { data, error: dbError } = await supabase
                     .from('users')
-                    .insert([{ username: username, email: email }]);
+                    .insert([{ username: username, email: email, phone: phone }]);
 
                 if (dbError) {
                     throw new Error(dbError.message);
                 }
 
-                // Redirect to the login page or dashboard
-                window.location.href = 'index.html'; 
+                // Automatically log the user in after registration
+                const { session, error: loginError } = await supabase.auth.signIn({
+                    email: email,
+                    password: password,
+                });
+
+                if (loginError) {
+                    throw new Error(loginError.message);
+                }
+
+                // Redirect to the dashboard or homepage
+                window.location.href = 'dashboard.html'; 
             } catch (error) {
                 console.error('Error during registration:', error);
                 alert(`Error: ${error.message}`);
