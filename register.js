@@ -7,15 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
     registerBtn.addEventListener('click', async () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
 
-        if (!email || !password) {
+        if (!email || !password || !confirmPassword) {
             message.textContent = "Please fill in all fields.";
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match.";
             return;
         }
 
         message.textContent = "Registering...";
 
-        const { user, error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password
         });
@@ -24,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
             message.textContent = "Error: " + error.message;
         } else {
             message.style.color = "green";
-            message.textContent = "Registration successful! Check your email.";
+            message.textContent = "Registration successful! Please check your email to verify your account.";
             setTimeout(() => {
-                window.location.href = "login.html"; // Redirect to login page
+                window.location.href = "login.html"; // Redirect after successful registration
             }, 2000);
         }
     });
