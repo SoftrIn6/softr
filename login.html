@@ -1,91 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login Page</title>
-  <style>
-    /* Style for the body: Sets the background image, covers the entire view, centers content */
-    body {
-      background-image: url('IMAGE_URL');
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    /* Style for the container: White background, padding, rounded borders, shadow, and specific width */
-    .container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 300px;
-    }
-
-    /* Style for the logo: Centers the logo image within its container */
-    .logo {
-      background-image: url('IMAGE_URL');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      height: 100px;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 </head>
 <body>
-  <div class="container">
-    <!-- Logo container -->
-    <div class="logo"></div>
-
-    <!-- Page Title -->
-    <h1>Login Page</h1>
-
-    <!-- Login Form -->
-    <form id="login-form">
-      <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email"><br>
-      <label for="pwd">Password:</label><br>
-      <input type="password" id="pwd" name="password"><br><br>
-      <input type="button" value="Submit" onclick="validateLogin()">
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="email" required><br>
+        <label>Password:</label>
+        <input type="password" id="password" required><br>
+        <button type="button" onclick="loginUser()">Login</button>
     </form>
+    <p>Don't have an account? <a href="register.html">Register here</a></p>
 
-    <!-- Link to Registration Page -->
-    <p>New user? <a href="register.html">Click here</a></p>
-
-    <!-- Scripts for handling login -->
     <script>
-      const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNCBIxc_aIAFH9UKsMO3P8Akmzd9aATIEsI5tsL9VinxFi9dVF8vV8Qi7kiCGcpWwZXQ/exec"; // Replace with your deployed Apps Script URL
+        function loginUser() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-      async function validateLogin() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('pwd').value;
-        
-        if (!email || !password) {
-          alert("Please enter email and password.");
-          return;
+            const url = "https://script.google.com/macros/s/AKfycbwM3gE9lR2jZNVsrOo20bLHgMdTjMorxnIFE2ZVaJJ-SXycO_tTjCaP8FjRWfZa3cp1Iw/exec?action=login&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password);
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.status === "success") {
+                        window.location.href = "dashboard.html";  // Redirect to dashboard after successful login
+                    }
+                })
+                .catch(error => console.error("Error:", error));
         }
-
-        try {
-          const response = await fetch(`${GOOGLE_APPS_SCRIPT_URL}?action=login&username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
-          const data = await response.json();
-
-          if (data.status === "success") {
-            localStorage.setItem("user", JSON.stringify(data.data)); // Save user data in local storage
-            alert("Login Successful!");
-            window.location.href = "dashboard.html"; // Redirect to dashboard
-          } else {
-            alert("Invalid email or password.");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Something went wrong. Please try again.");
-        }
-      }
     </script>
-  </div>
 </body>
 </html>
