@@ -5,24 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
   <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "your-api-key",
+      authDomain: "your-auth-domain",
+      projectId: "your-project-id",
+      storageBucket: "your-storage-bucket",
+      messagingSenderId: "your-sender-id",
+      appId: "your-app-id"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Register User
+    const registerForm = document.getElementById('register-form');
+    const registerBtn = document.getElementById('register-btn');
+    const emailField = document.getElementById('email');
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirm-password');
+    const messageDiv = document.getElementById('message');
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = emailField.value.trim();
+      const password = passwordField.value.trim();
+      const confirmPassword = confirmPasswordField.value.trim();
+
+      // Check if password and confirm password match
+      if (password !== confirmPassword) {
+        messageDiv.textContent = "Passwords do not match.";
+        messageDiv.style.color = 'red';
+        return;
+      }
+
+      // Check if email and password are valid
+      if (!email || !password) {
+        messageDiv.textContent = "Please enter both email and password.";
+        messageDiv.style.color = 'red';
+        return;
+      }
+
+      // Show message before registration
+      messageDiv.textContent = "Registering...";
+      messageDiv.style.color = 'black';
+
+      try {
+        // Create user with email and password
+        await auth.createUserWithEmailAndPassword(email, password);
+
+        // On success, show success message and redirect (you can customize as needed)
+        messageDiv.textContent = "Registration successful! Redirecting...";
+        messageDiv.style.color = 'green';
+
+        setTimeout(() => {
+          window.location.href = "login.html";  // Change to your desired login page or dashboard
+        }, 2000);
+      } catch (error) {
+        // Handle errors
+        messageDiv.textContent = `Error: ${error.message}`;
+        messageDiv.style.color = 'red';
+      }
+    });
+  </script>
 </head>
 <body>
   <h2>Register</h2>
-  
+
   <form id="register-form">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br><br>
-    
+
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required><br><br>
-    
+
     <label for="confirm-password">Confirm Password:</label>
     <input type="password" id="confirm-password" name="confirm-password" required><br><br>
-    
+
     <button type="submit" id="register-btn">Register</button>
   </form>
-  
+
   <div id="message"></div>
 </body>
 </html>
