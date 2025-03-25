@@ -9,12 +9,12 @@
   <script>
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "your-api-key",
-      authDomain: "your-auth-domain",
-      projectId: "your-project-id",
-      storageBucket: "your-storage-bucket",
-      messagingSenderId: "your-sender-id",
-      appId: "your-app-id"
+      apiKey: "AIzaSyCXGA4vU-uCtORl5Kt_WmSL3Nnc_D8c-HY",
+  authDomain: "himm-bb862.firebaseapp.com",
+  projectId: "himm-bb862",
+  storageBucket: "himm-bb862.firebasestorage.app",
+  messagingSenderId: "66636429285",
+  appId: "1:66636429285:web:212e97f6d613517e98a10c"
     };
 
     // Initialize Firebase
@@ -72,23 +72,105 @@
       }
     });
   </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: #ffa500;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ffa500;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e68900;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .success-message {
+      color: green;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h2>Register</h2>
+  <div class="container">
+    <h2>Register</h2>
 
-  <form id="register-form">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br><br>
+    <form id="register-form">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
 
-    <label for="confirm-password">Confirm Password:</label>
-    <input type="password" id="confirm-password" name="confirm-password" required><br><br>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+      </div>
 
-    <button type="submit" id="register-btn">Register</button>
-  </form>
+      <button type="submit" id="register-btn">Register</button>
+    </form>
 
-  <div id="message"></div>
+    <div id="message"></div>
+  </div>
 </body>
 </html>
