@@ -246,11 +246,6 @@
                     <div class="error-message" id="confirm-password-error"></div>
                 </div>
                 
-                <div class="referral-section">
-                    <div class="referral-title">Referral Code (Optional)</div>
-                    <input type="text" id="referral-code" class="form-input" placeholder="Enter referral code if you have one">
-                </div>
-                
                 <div class="terms-container">
                     <input type="checkbox" id="terms-checkbox" class="terms-checkbox">
                     <div class="terms-text">
@@ -272,8 +267,8 @@
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-        const SUPABASE_URL = "https://oxkmrajgirwxgrougrgu.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94a21yYWpnaXJ3eGdyb3Vncmd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODI3OTEsImV4cCI6MjA1ODQ1ODc5MX0.gdkFZuQUhjC6syfLrZepkQATeRvE0KkqO6Nhke_lYsU";
+        const SUPABASE_URL = "https://zlekxinlojtcpgyunche.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZWt4aW5sb2p0Y3BneXVuY2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5MTAxNDgsImV4cCI6MjA1ODQ4NjE0OH0.4W1zOUkaE1MIVW8oMnvSL2udYeUivU6sf5CrQOAicp8";
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
@@ -326,7 +321,6 @@
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const confirmPassword = document.getElementById('confirm-password').value.trim();
-            const referralCode = document.getElementById('referral-code').value.trim();
             const termsChecked = document.getElementById('terms-checkbox').checked;
             
             // Validate form
@@ -385,8 +379,7 @@
                         password: password,
                         options: {
                             data: {
-                                username: username,
-                                referral_code: referralCode
+                                username: username
                             }
                         }
                     });
@@ -398,33 +391,8 @@
                         // Show error message
                         document.getElementById('email-error').textContent = error.message;
                         document.getElementById('email-error').style.display = 'block';
+                        console.error('Registration error:', error);
                     } else {
-                        // After successful registration, store user profile data
-                        if (data.user) {
-                            try {
-                                // Insert user profile data into profiles table
-                                const { error: profileError } = await supabase
-                                    .from('profiles')
-                                    .insert([
-                                        { 
-                                            id: data.user.id,
-                                            username: username,
-                                            referred_by: referralCode || null
-                                        }
-                                    ]);
-                                
-                                if (profileError) {
-                                    console.error('Error saving profile:', profileError);
-                                    // Show detailed error but still allow registration to complete
-                                    alert(`Note: Your account was created, but there was an issue saving your profile details: ${profileError.message}. You can update your profile later.`);
-                                }
-                            } catch (profileErr) {
-                                console.error('Error saving profile:', profileErr);
-                                // Show error but still allow registration to complete
-                                alert('Note: Your account was created, but there was an issue saving your profile details. You can update your profile later.');
-                            }
-                        }
-                        
                         // Check if email confirmation is required
                         if (data.user && data.user.identities && data.user.identities.length === 0) {
                             alert('This email is already registered. Please try logging in.');
