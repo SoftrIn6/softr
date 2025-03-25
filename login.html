@@ -4,8 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Crypto Trading Platform</title>
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.24/auth0-spa-js.production.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "your-auth-domain",
+            projectId: "your-project-id",
+            storageBucket: "your-storage-bucket",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Handle Login
+        const loginForm = document.getElementById('login-form');
+        const loginEmail = document.getElementById('loginEmail');
+        const loginPassword = document.getElementById('loginPassword');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const loginBtn = document.querySelector('.login-btn');
+        const loginSpinner = document.getElementById('login-spinner');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = loginEmail.value.trim();
+            const password = loginPassword.value.trim();
+
+            // Validate inputs
+            let valid = true;
+            if (!email) {
+                emailError.textContent = "Please enter your email.";
+                valid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            if (!password) {
+                passwordError.textContent = "Please enter your password.";
+                valid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+
+            if (!valid) return;
+
+            // Show loading spinner
+            loginSpinner.style.display = "block";
+
+            try {
+                // Sign in with Firebase Authentication
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+
+                // On success, redirect to the dashboard or other page
+                window.location.href = 'dashboard.html'; // Change to your desired URL
+            } catch (error) {
+                // On error, display the error message
+                loginSpinner.style.display = "none";
+                if (error.code === 'auth/user-not-found') {
+                    passwordError.textContent = 'User not found. Please check your email or register.';
+                } else if (error.code === 'auth/wrong-password') {
+                    passwordError.textContent = 'Incorrect password. Please try again.';
+                } else {
+                    passwordError.textContent = 'Login failed. Please try again.';
+                }
+            }
+        });
+
+        // Toggle password visibility
+        const togglePassword = document.querySelector('.toggle-password');
+        togglePassword.addEventListener('click', () => {
+            const passwordField = document.getElementById('loginPassword');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+        });
+    </script>
     <script src="auth.js"></script>
+
     <style>
         /* Reset & Base Styles */
         * {
@@ -233,3 +316,5 @@
             </form>
         </div>
     </div>
+</body>
+</html>
