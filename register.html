@@ -124,6 +124,19 @@
             margin-top: 20px;
         }
 
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
         /* Error Message */
         .error-message {
             color: #ff3b30;
@@ -154,7 +167,6 @@
             justify-content: center;
         }
 
-        /* Terms and Conditions */
         .terms-container {
             display: flex;
             align-items: flex-start;
@@ -272,19 +284,25 @@
                     </div>
                 </button>
             </form>
+            
+            <!-- Login Button -->
+            <button class="login-btn" id="login-btn">Already have an account? Login</button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
     <script>
         // Initialize Supabase
-        const supabaseUrl = 'YOUR_SUPABASE_URL';
-        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabase = supabase.createClient('https://oxkmrajgirwxgrougrgu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94a21yYWpnaXJ3eGdyb3Vncmd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODI3OTEsImV4cCI6MjA1ODQ1ODc5MX0.gdkFZuQUhjC6syfLrZepkQATeRvE0KkqO6Nhke_lYsU');
 
-        // Handle form submission
-        document.getElementById('register-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
+        // Handle the login redirection
+        document.getElementById('login-btn').addEventListener('click', function() {
+            window.location.href = '/login'; // Redirect to login page
+        });
+
+        // Register Form Submission
+        document.getElementById('register-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
 
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
@@ -292,61 +310,41 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
-            // Check password confirmation
+            // Validate form data
             if (password !== confirmPassword) {
-                alert('Passwords do not match');
+                alert("Passwords do not match");
                 return;
             }
 
-            // Validate terms checkbox
-            const termsChecked = document.getElementById('terms-checkbox').checked;
-            if (!termsChecked) {
-                alert('Please agree to the terms and conditions');
-                return;
-            }
-
-            // Call the register function
-            registerUser(username, email, phone, password);
-        });
-
-        // Register user function
-        async function registerUser(username, email, phone, password) {
+            // Register the user via Supabase
             try {
-                const { user, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
                 });
 
                 if (error) {
-                    throw new Error(error.message);
+                    throw error;
                 }
 
-                // Optionally, store additional user information in the 'users' table
-                const { data, error: dbError } = await supabase
-                    .from('users')
-                    .insert([{ username: username, email: email, phone: phone }]);
+                // Store user info in the database (optional)
+                await supabase
+                    .from('profiles')
+                    .insert([
+                        {
+                            username,
+                            email,
+                            phone,
+                        },
+                    ]);
 
-                if (dbError) {
-                    throw new Error(dbError.message);
-                }
-
-                // Automatically log the user in after registration
-                const { session, error: loginError } = await supabase.auth.signIn({
-                    email: email,
-                    password: password,
-                });
-
-                if (loginError) {
-                    throw new Error(loginError.message);
-                }
-
-                // Redirect to the dashboard or homepage
-                window.location.href = 'dashboard.html'; 
+                alert("Registration successful");
+                window.location.href = '/login'; // Redirect to login page after successful registration
             } catch (error) {
-                console.error('Error during registration:', error);
-                alert(`Error: ${error.message}`);
+                console.error('Error during registration:', error.message);
+                alert('Error during registration: ' + error.message);
             }
-        }
+        });
     </script>
 </body>
 </html>
