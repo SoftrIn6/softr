@@ -236,8 +236,8 @@
     <script type="module">
         import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-        const SUPABASE_URL = "https://oxkmrajgirwxgrougrgu.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94a21yYWpnaXJ3eGdyb3Vncmd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODI3OTEsImV4cCI6MjA1ODQ1ODc5MX0.gdkFZuQUhjC6syfLrZepkQATeRvE0KkqO6Nhke_lYsU";
+        const SUPABASE_URL = "https://zlekxinlojtcpgyunche.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZWt4aW5sb2p0Y3BneXVuY2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5MTAxNDgsImV4cCI6MjA1ODQ4NjE0OH0.4W1zOUkaE1MIVW8oMnvSL2udYeUivU6sf5CrQOAicp8";
 
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
@@ -314,6 +314,7 @@
                         // Show error message
                         document.getElementById('password-error').textContent = error.message;
                         document.getElementById('password-error').style.display = 'block';
+                        console.error('Login error:', error);
                     } else {
                         // Login successful, redirect to home page
                         window.location.href = 'index.html';
@@ -360,6 +361,7 @@
                 if (error) {
                     document.getElementById('email-error').textContent = error.message;
                     document.getElementById('email-error').style.display = 'block';
+                    console.error('Password reset error:', error);
                 } else {
                     alert('Password reset instructions sent to your email.');
                 }
@@ -375,3 +377,4 @@
     </script>
 </body>
 </html>
+
