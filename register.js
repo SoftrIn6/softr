@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailInput.value;
         const password = passwordInput.value;
         const confirmPassword = confirmPasswordInput.value;
+        
 
         // Check for empty fields
         if (!email || !password || !confirmPassword) {
@@ -60,4 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error); // Log the error for debugging purposes
         }
     });
+    // Call the register_user function via Supabase RPC
+const { data, error } = await supabase.rpc('register_user', {
+  user_email: 'testuser@example.com',
+  user_password: 'password123'
+});
 });
