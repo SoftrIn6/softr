@@ -269,8 +269,12 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrCKaZ2KkQEjISl4Zp15L2vvM0PTJekgVqEVxa_v8Ipc0L-RE18EoPvidjFHrDTAxWXQ/exec';
+        // Initialize Supabase
+        const supabaseUrl = 'YOUR_SUPABASE_URL';
+        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
         // Handle form submission
         document.getElementById('register-form').addEventListener('submit', function(e) {
@@ -294,9 +298,6 @@
                 return;
             }
 
-            // Log form data (for debugging)
-            console.log('Registering with:', { username, email, password });
-
             // Call the register function
             registerUser(username, email, password);
         });
@@ -304,72 +305,30 @@
         // Register user function
         async function registerUser(username, email, password) {
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
-                    method: 'GET',
-                    mode: 'cors',
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                const { user, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
                 });
 
-                const data = await response.json();
-                console.log('Response from server:', data); // Debug log
-
-                if (data.status === 'success') {
-                    // Log the user in automatically after registration
-                    loginUser(email, password);
-                } else {
-                    throw new Error(data.message || 'Registration failed.');
+                if (error) {
+                    throw new Error(error.message);
                 }
+
+                // Optionally, store additional user information
+                const { data, error: dbError } = await supabase
+                    .from('users')
+                    .insert([{ username: username, email: email }]);
+
+                if (dbError) {
+                    throw new Error(dbError.message);
+                }
+
+                // Redirect to the login page or dashboard
+                window.location.href = 'index.html'; 
             } catch (error) {
-                console.error('Error during registration:', error); // Debug log
+                console.error('Error during registration:', error);
                 alert(`Error: ${error.message}`);
             }
-        }
-
-        // Handle login after registration
-        async function loginUser(email, password) {
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
-                    method: 'GET',
-                    mode: 'cors',
-                    cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                const data = await response.json();
-                console.log('Login Response:', data); // Debug log
-
-                if (data.status === 'success') {
-                    // Store credentials in localStorage or cookies for 365 days
-                    storeCredentials(email, password);
-
-                    // Redirect to home or dashboard
-                    window.location.href = 'index.html'; // Ensure 'index.html' path is correct
-                } else {
-                    alert('Login failed after registration');
-                }
-            } catch (error) {
-                console.error('Error during login:', error);
-                alert(`Error: ${error.message}`);
-            }
-        }
-
-        // Store login credentials in localStorage or cookies for 365 days
-        function storeCredentials(email, password) {
-            const expiryDate = new Date();
-            expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 1 year
-
-            localStorage.setItem('email', email);
-            localStorage.setItem('password', password);
-            localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
-
-            // Store credentials in cookies as well
-            document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
-            document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
         }
     </script>
 </body>
