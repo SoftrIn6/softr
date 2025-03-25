@@ -870,32 +870,5 @@
         // Start price updates
         updateCryptoPrices();
     </script>
-    <script>
-        // Check if user is logged in
-        document.addEventListener('DOMContentLoaded', function() {
-            const authToken = localStorage.getItem('authToken');
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-            
-            if (!authToken) {
-                // Redirect to login page if not logged in
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Update UI with user data if available
-            if (userData.username) {
-                // You can update UI elements with user data here
-                console.log('Logged in as:', userData.username);
-                
-                // Example: Update account balance if it exists in the page
-                const accountBalanceElements = document.querySelectorAll('.account-balance');
-                if (accountBalanceElements.length > 0) {
-                    accountBalanceElements.forEach(function(el) {
-                        el.textContent = `$${userData.accountBalance || '0'}`;
-                    });
-                }
-            }
-        });
-    </script>
 </body>
 </html>
