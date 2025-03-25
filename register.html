@@ -1,176 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
-  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXGA4vU-uCtORl5Kt_WmSL3Nnc_D8c-HY",
-  authDomain: "himm-bb862.firebaseapp.com",
-  projectId: "himm-bb862",
-  storageBucket: "himm-bb862.firebasestorage.app",
-  messagingSenderId: "66636429285",
-  appId: "1:66636429285:web:212e97f6d613517e98a10c"
-    };
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
 
-    // Register User
-    const registerForm = document.getElementById('register-form');
-    const registerBtn = document.getElementById('register-btn');
-    const emailField = document.getElementById('email');
-    const passwordField = document.getElementById('password');
-    const confirmPasswordField = document.getElementById('confirm-password');
-    const messageDiv = document.getElementById('message');
+        /* Container */
+        .container {
+            width: 470px;
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+            min-width: 470px;
+            background-color: #fff;
+            min-height: 100vh;
+        }
 
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+        /* Header Styles */
+        .header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            position: relative;
+        }
 
-      const email = emailField.value.trim();
-      const password = passwordField.value.trim();
-      const confirmPassword = confirmPasswordField.value.trim();
+        .back-btn {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+        }
 
-      // Check if password and confirm password match
-      if (password !== confirmPassword) {
-        messageDiv.textContent = "Passwords do not match.";
-        messageDiv.style.color = 'red';
-        return;
-      }
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-      // Check if email and password are valid
-      if (!email || !password) {
-        messageDiv.textContent = "Please enter both email and password.";
-        messageDiv.style.color = 'red';
-        return;
-      }
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
 
-      // Show message before registration
-      messageDiv.textContent = "Registering...";
-      messageDiv.style.color = 'black';
+        .logo-img {
+            width: 60px;
+            height: 60px;
+        }
 
-      try {
-        // Create user with email and password
-        await auth.createUserWithEmailAndPassword(email, password);
+        /* Register Form */
+        .register-section {
+            padding: 20px;
+        }
 
-        // On success, show success message and redirect (you can customize as needed)
-        messageDiv.textContent = "Registration successful! Redirecting...";
-        messageDiv.style.color = 'green';
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-        setTimeout(() => {
-          window.location.href = "login.html";  // Change to your desired login page or dashboard
-        }, 2000);
-      } catch (error) {
-        // Handle errors
-        messageDiv.textContent = `Error: ${error.message}`;
-        messageDiv.style.color = 'red';
-      }
-    });
-  </script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+        .form-label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #666;
+        }
 
-    .container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-      width: 400px;
-    }
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        .form-input:focus {
+            outline: none;
+            border-color: #ffa500;
+        }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+        .password-input-container {
+            position: relative;
+        }
 
-    label {
-      font-size: 16px;
-      margin-bottom: 5px;
-      display: block;
-    }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: pointer;
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-    }
+        .referral-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
 
-    input:focus {
-      border-color: #ffa500;
-      outline: none;
-    }
+        .referral-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #ffa500;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffa500;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
 
-    button:hover {
-      background-color: #e68900;
-    }
+        /* Error Message */
+        .error-message {
+            color: #ff3b30;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
 
-    .error-message {
-      color: red;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
 
-    .success-message {
-      color: green;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-  </style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .register-btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Terms and Conditions */
+        .terms-container {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .terms-checkbox {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+
+        .terms-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .terms-link {
+            color: #ffa500;
+            text-decoration: none;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 470px) {
+            .container {
+                width: 100%;
+                min-width: 320px;
+            }
+        }
+
+        @media (min-width: 471px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                background-color: #f0f0f0;
+            }
+            
+            .container {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Register</h2>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="back-btn">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="header-title">Register</div>
+        </div>
 
-    <form id="register-form">
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-      </div>
+        <!-- Logo -->
+        <div class="logo">
+            <img src="/placeholder.svg?height=60&width=60" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
+        </div>
 
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-      </div>
+        <!-- Register Form -->
+        <div class="register-section">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                    <div class="error-message" id="email-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password" class="form-input" placeholder="Create a password">
+                        <div class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password" class="form-label">Confirm Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your password">
+                        <div class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="error-message" id="confirm-password-error"></div>
+                </div>
+                
+                <div class="terms-container">
+                    <input type="checkbox" id="terms-checkbox" class="terms-checkbox">
+                    <div class="terms-text">
+                        I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                    </div>
+                </div>
+                <div class="error-message" id="terms-error"></div>
+                
+                <button type="submit" class="register-btn">
+                    <div class="register-btn-content">
+                        <span>Register</span>
+                        <div class="spinner" id="register-spinner"></div>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
 
-      <div class="form-group">
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" required>
-      </div>
-
-      <button type="submit" id="register-btn">Register</button>
-    </form>
-
-    <div id="message"></div>
-  </div>
+    <script>
+        // Back button functionality
+        document.querySelector('.back-btn').addEventListener('click', function() {
+            google.script.run
+                .withSuccessHandler(function(html) {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                })
+                .getLoginPage();
+        });
+        
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(function(toggle, index) {
+            toggle.addEventListener('click', function() {
+                const passwordInput = index === 0 ? document.getElementById('password') : document.getElementById('confirm-password');
+                const eyeIcon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }
+            });
+        });
+        
+        // Form validation and submission
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(function(el) {
+                el.style.display = 'none';
+            });
+            
+            // Get form values
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
+            const termsChecked = document.getElementById('terms-checkbox').checked;
+            
+            // Validate form
+            let isValid = true;
+            
+            if (!email) {
+                document.getElementById('email-error').textContent = 'Email is required';
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                document.getElementById('email-error').textContent = 'Please enter a valid email address';
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!password) {
+                document.getElementById('password-error').textContent = 'Password is required';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-password-error').textContent = 'Passwords do not match';
+                document.getElementById('confirm-password-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!termsChecked) {
+                document.getElementById('terms-error').textContent = 'You must agree to the Terms and Conditions';
+                document.getElementById('terms-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Show loading spinner
+                document.getElementById('register-spinner').style.display = 'block';
+                
+                // Call the server-side function to register a new user
+                google.script.run
+                    .withSuccessHandler(function() {
+                        // Hide loading spinner
+                        document.getElementById('register-spinner').style.display = 'none';
+                        
+                        // Show success message and redirect to login
+                        alert('Registration successful! Please login with your new account.');
+                        
+                        google.script.run
+                            .withSuccessHandler(function(html) {
+                                document.open();
+                                document.write(html);
+                                document.close();
+                            })
+                            .getLoginPage();
+                    })
+                    .withFailureHandler(function(error) {
+                        // Hide loading spinner
+                        document.getElementById('register-spinner').style.display = 'none';
+                        
+                        // Show error message
+                        if (error && error.message && error.message.includes('User already exists')) {
+                            document.getElementById('email-error').textContent = 'This email is already registered';
+                            document.getElementById('email-error').style.display = 'block';
+                        } else {
+                            document.getElementById('password-error').textContent = 'An error occurred. Please try again.';
+                            document.getElementById('password-error').style.display = 'block';
+                        }
+                        console.error('Error:', error);
+                    })
+                    .registerNewUser(email, password);
+            }
+        });
+        
+        // Terms and Conditions links
+        document.querySelectorAll('.terms-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Terms and Conditions document coming soon.');
+            });
+        });
+        
+        // Email validation helper function
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
 </body>
 </html>
