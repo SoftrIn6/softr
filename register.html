@@ -39,26 +39,35 @@
             justify-content: space-between;
             align-items: center;
             background-color: #fff;
-            position: relative;
         }
 
-        .back-btn {
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
             font-size: 20px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .header-title {
-            font-size: 18px;
             font-weight: bold;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            color: #333;
         }
 
         /* Register Form */
-        .register-section {
-            padding: 20px;
+        .login-section {
+            padding: 30px 20px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
         .form-group {
@@ -85,33 +94,7 @@
             border-color: #ffa500;
         }
 
-        .password-input-container {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            cursor: pointer;
-        }
-
-        .referral-section {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-        }
-
-        .referral-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .register-btn {
+        .login-btn {
             width: 100%;
             padding: 15px;
             background-color: #ffa500;
@@ -124,17 +107,17 @@
             margin-top: 20px;
         }
 
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-link {
+            color: #ffa500;
+            text-decoration: none;
             cursor: pointer;
-            margin-top: 10px;
         }
 
         /* Error Message */
@@ -161,31 +144,10 @@
             to { transform: rotate(360deg); }
         }
 
-        .register-btn-content {
+        .login-btn-content {
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .terms-container {
-            display: flex;
-            align-items: flex-start;
-            margin-top: 20px;
-        }
-
-        .terms-checkbox {
-            margin-right: 10px;
-            margin-top: 3px;
-        }
-
-        .terms-text {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .terms-link {
-            color: #ffa500;
-            text-decoration: none;
         }
 
         /* Media Queries for Responsiveness */
@@ -204,7 +166,7 @@
                 min-height: 100vh;
                 background-color: #f0f0f0;
             }
-            
+
             .container {
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             }
@@ -215,135 +177,94 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="back-btn">
-                <i class="fas fa-chevron-left"></i>
+            <div class="logo">
+                <img src="/placeholder.svg?height=40&width=40" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
+                <div class="logo-text">AI ROBOT</div>
             </div>
-            <div class="header-title">Register</div>
         </div>
 
         <!-- Register Form -->
-        <div class="register-section">
+        <div class="login-section">
+            <div class="login-title">Create Your Account</div>
+            
             <form id="register-form">
                 <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" class="form-input" placeholder="Enter a username">
-                    <div class="error-message" id="username-error"></div>
+                    <label for="register-email" class="form-label">Email</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                    <div class="error-message" id="register-email-error"></div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
-                    <div class="error-message" id="email-error"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <input type="text" id="phone" class="form-input" placeholder="Enter your phone number">
-                    <div class="error-message" id="phone-error"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="password-input-container">
-                        <input type="password" id="password" class="form-input" placeholder="Create a password">
-                        <div class="toggle-password">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                    </div>
-                    <div class="error-message" id="password-error"></div>
+                    <label for="register-password" class="form-label">Password</label>
+                    <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                    <div class="error-message" id="register-password-error"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="confirm-password" class="form-label">Confirm Password</label>
-                    <div class="password-input-container">
-                        <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your password">
-                        <div class="toggle-password">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                    </div>
+                    <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your password" required>
                     <div class="error-message" id="confirm-password-error"></div>
                 </div>
                 
-                <div class="referral-section">
-                    <div class="referral-title">Referral Code (Optional)</div>
-                    <input type="text" id="referral-code" class="form-input" placeholder="Enter referral code if you have one">
-                </div>
-                
-                <div class="terms-container">
-                    <input type="checkbox" id="terms-checkbox" class="terms-checkbox">
-                    <div class="terms-text">
-                        I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
-                    </div>
-                </div>
-                <div class="error-message" id="terms-error"></div>
-                
-                <button type="submit" class="register-btn">
-                    <div class="register-btn-content">
+                <button type="submit" class="login-btn">
+                    <div class="login-btn-content">
                         <span>Register</span>
                         <div class="spinner" id="register-spinner"></div>
                     </div>
                 </button>
+                
+                <div class="login-options">
+                    <div class="login-link">
+                        <a href="https://www.bsc.com" target="_blank">Already have an account? Login</a>
+                    </div>
+                </div>
             </form>
-            
-            <!-- Login Button -->
-            <button class="login-btn" id="login-btn">Already have an account? Login</button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
         // Initialize Supabase
-        const supabase = supabase.createClient('https://oxkmrajgirwxgrougrgu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94a21yYWpnaXJ3eGdyb3Vncmd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODI3OTEsImV4cCI6MjA1ODQ1ODc5MX0.gdkFZuQUhjC6syfLrZepkQATeRvE0KkqO6Nhke_lYsU');
+        const supabaseUrl = 'https://oxkmrajgirwxgrougrgu.supabase.co';  // Replace with your Supabase URL
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94a21yYWpnaXJ3eGdyb3Vncmd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODI3OTEsImV4cCI6MjA1ODQ1ODc5MX0.gdkFZuQUhjC6syfLrZepkQATeRvE0KkqO6Nhke_lYsU';  // Replace with your Supabase Anon Key
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Handle the login redirection
-        document.getElementById('login-btn').addEventListener('click', function() {
-            window.location.href = '/login'; // Redirect to login page
-        });
+        // Handle form submission
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent the default form submission
 
-        // Register Form Submission
-        document.getElementById('register-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
-            // Validate form data
+            // Show loading spinner
+            document.getElementById('register-spinner').style.display = 'inline-block';
+
+            // Basic validation
             if (password !== confirmPassword) {
-                alert("Passwords do not match");
+                document.getElementById('confirm-password-error').innerText = 'Passwords do not match.';
+                document.getElementById('register-spinner').style.display = 'none';
                 return;
             }
 
-            // Register the user via Supabase
-            try {
-                const { data, error } = await supabase.auth.signUp({
-                    email,
-                    password,
-                });
+            // Call the Supabase signUp function
+            const { user, error } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            });
 
-                if (error) {
-                    throw error;
-                }
+            // Hide the loading spinner
+            document.getElementById('register-spinner').style.display = 'none';
 
-                // Store user info in the database (optional)
-                await supabase
-                    .from('profiles')
-                    .insert([
-                        {
-                            username,
-                            email,
-                            phone,
-                        },
-                    ]);
-
-                alert("Registration successful");
-                window.location.href = '/login'; // Redirect to login page after successful registration
-            } catch (error) {
-                console.error('Error during registration:', error.message);
-                alert('Error during registration: ' + error.message);
+            if (error) {
+                // Display error messages
+                document.getElementById('register-email-error').innerText = error.message;
+                return;
             }
+
+            // On successful registration, redirect user to login page or dashboard
+            alert('Registration successful! Please check your email to confirm your account.');
+            window.location.href = 'login.html';  // Redirect to login page after registration
         });
     </script>
 </body>
