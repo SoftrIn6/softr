@@ -231,41 +231,45 @@
 
         // Handle form submission
         document.getElementById('register-form').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Prevent the default form submission
+    e.preventDefault(); // Prevent the default form submission
 
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
 
-            // Show loading spinner
-            document.getElementById('register-spinner').style.display = 'inline-block';
+    // Show loading spinner
+    document.getElementById('register-spinner').style.display = 'inline-block';
 
-            // Basic validation
-            if (password !== confirmPassword) {
-                document.getElementById('confirm-password-error').innerText = 'Passwords do not match.';
-                document.getElementById('register-spinner').style.display = 'none';
-                return;
-            }
+    // Basic validation
+    if (password !== confirmPassword) {
+        // Show error message for password mismatch
+        document.getElementById('confirm-password-error').innerText = 'Passwords do not match.';
+        document.getElementById('register-spinner').style.display = 'none';
+        return;  // Stop form submission
+    } else {
+        // Clear error message if passwords match
+        document.getElementById('confirm-password-error').innerText = '';
+    }
 
-            // Call the Supabase signUp function
-            const { user, error } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
+    // Call the Supabase signUp function
+    const { user, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
 
-            // Hide the loading spinner
-            document.getElementById('register-spinner').style.display = 'none';
+    // Hide the loading spinner
+    document.getElementById('register-spinner').style.display = 'none';
 
-            if (error) {
-                // Display error messages
-                document.getElementById('register-email-error').innerText = error.message;
-                return;
-            }
+    if (error) {
+        // Display error messages
+        document.getElementById('register-email-error').innerText = error.message;
+        return;
+    }
 
-            // On successful registration, redirect user to login page or dashboard
-            alert('Registration successful! Please check your email to confirm your account.');
-            window.location.href = 'login.html';  // Redirect to login page after registration
-        });
+    // On successful registration, redirect user to login page or dashboard
+    alert('Registration successful! Please check your email to confirm your account.');
+    window.location.href = 'login.html';  // Redirect to login page after registration
+});
     </script>
 </body>
 </html>
