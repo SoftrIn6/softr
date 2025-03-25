@@ -202,16 +202,16 @@
             
             <form id="login-form">
                 <div class="form-group">
-                    <label for="username" class="form-label">Username or Email</label>
-                    <input type="text" id="username" class="form-input" placeholder="Enter your username or email">
-                    <div class="error-message" id="username-error"></div>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                    <div class="error-message" id="email-error"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
                     <div class="password-input-container">
-                        <input type="password" id="password" class="form-input" placeholder="Enter your password">
-                        <div class="toggle-password">
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                        <div class="toggle-password" id="toggle-password">
                             <i class="fas fa-eye"></i>
                         </div>
                     </div>
@@ -233,104 +233,66 @@
         </div>
     </div>
 
-   <script>
-  // Google Apps Script Web App URL
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrCKaZ2KkQEjISl4Zp15L2vvM0PTJekgVqEVxa_v8Ipc0L-RE18EoPvidjFHrDTAxWXQ/exec';
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://xyzcompany.supabase.co';  // Replace with your Supabase URL
+        const supabaseKey = 'your-anon-key';  // Replace with your Supabase Anon Key
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  // Handle form submission
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent the default form submission
+        // Handle form submission
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent the default form submission
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-    // Log input values for debugging
-    console.log('Logging in with email:', email, 'password:', password);
+            // Show loading spinner
+            document.getElementById('login-spinner').style.display = 'inline-block';
 
-    // Call the loginUser function
-    loginUser(email, password);
-  });
+            // Call the Supabase login function
+            const { user, error } = await supabase.auth.signIn({
+                email: email,
+                password: password
+            });
 
-  // Validate and login user
-  async function loginUser(email, password) {
-    try {
-      console.log('Sending login request to server...'); // Debug log
-      const response = await fetch(`${SCRIPT_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+            // Hide the loading spinner
+            document.getElementById('login-spinner').style.display = 'none';
 
-      const data = await response.json();
-      console.log('Response from server:', data); // Debug log
+            if (error) {
+                // Display error messages
+                document.getElementById('email-error').innerText = error.message;
+                return;
+            }
 
-      if (data.status === 'success') {
-        // Store user credentials locally
-        storeCredentials(email, password);
+            // Redirect user on successful login
+            window.location.href = 'dashboard.html';  // Redirect to the dashboard or another page
+        });
 
-        // Redirect to home or dashboard
-        window.location.href = 'index.html'; // Ensure 'index.html' path is correct
-      } else {
-        throw new Error(data.message || 'Login failed.');
-      }
-    } catch (error) {
-      console.error('Error during login:', error); // Debug log
-      alert(`Error: ${error.message}`);
-    }
-  }
+        // Show password toggle functionality
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
 
-  // Store login credentials in localStorage or cookies for 365 days
-  function storeCredentials(email, password) {
-    const expiryDate = new Date();
-    expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Set expiry for 1 year
+        // Register link click event
+        document.getElementById('register-link').addEventListener('click', function() {
+            window.location.href = 'register.html';  // Redirect to the register page
+        });
 
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
-    localStorage.setItem('expiry', expiryDate.toISOString()); // Store expiry date
-
-    // Store credentials in cookies as well
-    document.cookie = `email=${email}; expires=${expiryDate.toUTCString()}; path=/`;
-    document.cookie = `password=${password}; expires=${expiryDate.toUTCString()}; path=/`;
-  }
-
-  // Check for stored credentials on page load
-  window.addEventListener('load', function() {
-    checkStoredCredentials();
-  });
-
-  // Check if credentials are stored locally
-  function checkStoredCredentials() {
-    const email = localStorage.getItem('email') || getCookie('email');
-    const password = localStorage.getItem('password') || getCookie('password');
-    
-    if (email && password) {
-      document.getElementById('email').value = email;
-      document.getElementById('password').value = password;
-      // Optionally, auto-submit the form if credentials are stored
-      document.getElementById('loginForm').submit();
-    }
-  }
-
-  // Function to get a cookie value by name
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
-  }
-
-  // Register link
-  document.getElementById('register-link').addEventListener('click', function() {
-    window.location.href = 'register.html';
-  });
-
-  // Forgot password
-  document.querySelector('.forgot-password').addEventListener('click', function() {
-    alert('Password recovery feature coming soon.');
-  });
-</script>
+        // Forgot password click event (for now, just an alert)
+        document.querySelector('.forgot-password').addEventListener('click', function() {
+            alert('Password recovery feature coming soon.');
+        });
+    </script>
 </body>
 </html>
