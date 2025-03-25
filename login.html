@@ -3,307 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Crypto Trading Platform</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <title>Login</title>
+    <script defer src="login.js"></script>
     <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.5;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
         }
-
-        /* Container */
         .container {
-            width: 470px;
-            margin: 0 auto;
-            padding: 0;
-            position: relative;
-            min-width: 470px;
-            background-color: #fff;
-            min-height: 100vh;
-        }
-
-        /* Header Styles */
-        .header {
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .logo-text {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Login Form */
-        .login-section {
-            padding: 30px 20px;
-        }
-
-        .login-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #666;
-        }
-
-        .form-input {
+        input {
             width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #ffa500;
-        }
-
-        .password-input-container {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            cursor: pointer;
-        }
-
-        .login-btn {
+        button {
             width: 100%;
-            padding: 15px;
-            background-color: #ffa500;
+            padding: 10px;
+            background: #007bff;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .login-options {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .forgot-password, .register-link {
-            color: #ffa500;
-            text-decoration: none;
+            border-radius: 5px;
             cursor: pointer;
         }
-
-        /* Error Message */
-        .error-message {
-            color: #ff3b30;
+        .message {
+            margin-top: 10px;
             font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .login-btn-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 470px) {
-            .container {
-                width: 100%;
-                min-width: 320px;
-            }
-        }
-
-        @media (min-width: 471px) {
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
-                min-height: 100vh;
-                background-color: #f0f0f0;
-            }
-            
-            .container {
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            }
+            color: red;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <!-- Header -->
-    <div class="header">
-        <div class="logo">
-            <img src="/placeholder.svg?height=40&width=40" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
-            <div class="logo-text">AI ROBOT</div>
-        </div>
+    <div class="container">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Enter your email">
+        <input type="password" id="password" placeholder="Enter your password">
+        <button id="login-btn">Login</button>
+        <p class="message" id="message"></p>
     </div>
 
-    <!-- Login Form -->
-    <div class="login-section">
-        <div class="login-title">Login to Your Account</div>
-        
-        <form id="login-form">
-            <div class="form-group">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
-                <div class="error-message" id="email-error"></div>
-            </div>
-            
-            <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <div class="password-input-container">
-                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
-                    <div class="toggle-password" id="toggle-password">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                </div>
-                <div class="error-message" id="password-error"></div>
-            </div>
-            
-            <button type="submit" class="login-btn">
-                <div class="login-btn-content">
-                    <span>Login</span>
-                    <div class="spinner" id="login-spinner"></div>
-                </div>
-            </button>
-            
-            <div class="login-options">
-                <div class="forgot-password">Forgot Password?</div>
-                <div class="register-link">
-                    <a href="http://www.bv.co" target="_blank">Register Now</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    // Initialize Supabase
-    const supabaseUrl = 'https://oxkmrajgirwxgrougrgu.supabase.co';  // Replace with your Supabase URL
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94a21yYWpnaXJ3eGdyb3Vncmd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODI3OTEsImV4cCI6MjA1ODQ1ODc5MX0.gdkFZuQUhjC6syfLrZepkQATeRvE0KkqO6Nhke_lYsU';  // Replace with your Supabase Anon Key
-    const supabase = createClient(supabaseUrl, supabaseKey);  // Correct method to initialize Supabase
-
-    // Handle form submission
-    document.getElementById('login-form').addEventListener('submit', async function(e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // Show loading spinner
-        document.getElementById('login-spinner').style.display = 'inline-block';
-
-        // Call Supabase login function
-        const { user, error } = await supabase.auth.signIn({
-            email: email,
-            password: password
-        });
-
-        // Hide the loading spinner
-        document.getElementById('login-spinner').style.display = 'none';
-
-        if (error) {
-            // Display error messages
-            document.getElementById('email-error').innerText = error.message;
-            return;
-        }
-
-        // Redirect user on successful login
-        window.location.href = 'dashboard.html';  // Redirect to the dashboard or another page
-    });
-
-    // Show password toggle functionality
-    document.getElementById('toggle-password').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password');
-        const icon = document.querySelector('.toggle-password i');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    });
-
-    // Forgot password click event
-    document.querySelector('.forgot-password').addEventListener('click', function() {
-        const email = document.getElementById('email').value;
-        if (!email) {
-            alert('Please enter your email first.');
-            return;
-        }
-
-        supabase.auth.api
-            .resetPasswordForEmail(email)
-            .then(response => {
-                if (response.error) {
-                    alert('Error resetting password: ' + response.error.message);
-                } else {
-                    alert('Password reset email sent.');
-                }
-            });
-    });
-</script>
+    <script src="supabase.js"></script>
+    <script src="login.js"></script>
 </body>
 </html>
