@@ -3,92 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Crypto Trading Platform</title>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js"></script>
-
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "your-auth-domain",
-            projectId: "your-project-id",
-            storageBucket: "your-storage-bucket",
-            messagingSenderId: "your-sender-id",
-            appId: "your-app-id"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // Handle Login
-        const loginForm = document.getElementById('login-form');
-        const loginEmail = document.getElementById('loginEmail');
-        const loginPassword = document.getElementById('loginPassword');
-        const emailError = document.getElementById('email-error');
-        const passwordError = document.getElementById('password-error');
-        const loginBtn = document.querySelector('.login-btn');
-        const loginSpinner = document.getElementById('login-spinner');
-
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const email = loginEmail.value.trim();
-            const password = loginPassword.value.trim();
-
-            // Validate inputs
-            let valid = true;
-            if (!email) {
-                emailError.textContent = "Please enter your email.";
-                valid = false;
-            } else {
-                emailError.textContent = "";
-            }
-
-            if (!password) {
-                passwordError.textContent = "Please enter your password.";
-                valid = false;
-            } else {
-                passwordError.textContent = "";
-            }
-
-            if (!valid) return;
-
-            // Show loading spinner
-            loginSpinner.style.display = "block";
-
-            try {
-                // Sign in with Firebase Authentication
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-
-                // On success, redirect to the dashboard or other page
-                window.location.href = 'dashboard.html'; // Change to your desired URL
-            } catch (error) {
-                // On error, display the error message
-                loginSpinner.style.display = "none";
-                if (error.code === 'auth/user-not-found') {
-                    passwordError.textContent = 'User not found. Please check your email or register.';
-                } else if (error.code === 'auth/wrong-password') {
-                    passwordError.textContent = 'Incorrect password. Please try again.';
-                } else {
-                    passwordError.textContent = 'Login failed. Please try again.';
-                }
-            }
-        });
-
-        // Toggle password visibility
-        const togglePassword = document.querySelector('.toggle-password');
-        togglePassword.addEventListener('click', () => {
-            const passwordField = document.getElementById('loginPassword');
-            const type = passwordField.type === 'password' ? 'text' : 'password';
-            passwordField.type = type;
-        });
-    </script>
-    <script src="auth.js"></script>
-
+    <title>Register - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Reset & Base Styles */
         * {
@@ -123,35 +39,40 @@
             justify-content: space-between;
             align-items: center;
             background-color: #fff;
+            position: relative;
         }
 
+        .back-btn {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Logo */
         .logo {
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding-top: 20px;
         }
 
         .logo-img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
+            width: 60px;
+            height: 60px;
         }
 
-        .logo-text {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Login Form */
-        .login-section {
-            padding: 30px 20px;
-        }
-
-        .login-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-align: center;
+        /* Register Form */
+        .register-section {
+            padding: 20px;
         }
 
         .form-group {
@@ -191,7 +112,20 @@
             cursor: pointer;
         }
 
-        .login-btn {
+        .referral-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .referral-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .register-btn {
             width: 100%;
             padding: 15px;
             background-color: #ffa500;
@@ -202,19 +136,6 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
-        }
-
-        .login-options {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .forgot-password, .register-link {
-            color: #ffa500;
-            text-decoration: none;
-            cursor: pointer;
         }
 
         /* Error Message */
@@ -241,10 +162,32 @@
             to { transform: rotate(360deg); }
         }
 
-        .login-btn-content {
+        .register-btn-content {
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Terms and Conditions */
+        .terms-container {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .terms-checkbox {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+
+        .terms-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .terms-link {
+            color: #ffa500;
+            text-decoration: none;
         }
 
         /* Media Queries for Responsiveness */
@@ -274,47 +217,24 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">
-                <img src="/placeholder.svg?height=40&width=40" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
-                <div class="logo-text">AI ROBOT</div>
+            <div class="back-btn">
+                <i class="fas fa-chevron-left"></i>
             </div>
+            <div class="header-title">Register</div>
         </div>
 
-        <!-- Login Form -->
-        <div class="login-section">
-            <div class="login-title">Login to Your Account</div>
-            
-            <form id="login-form">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="/placeholder.svg?height=60&width=60" alt="Logo" class="logo-img" style="background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 50%;">
+        </div>
+
+        <!-- Register Form -->
+        <div class="register-section">
+            <form id="register-form">
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email">
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
                     <div class="error-message" id="email-error"></div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="password-input-container">
-                        <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
-                        <div class="toggle-password">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                    </div>
-                    <div class="error-message" id="password-error"></div>
-                </div>
-                
-                <button type="submit" class="login-btn">
-                    <div class="login-btn-content">
-                        <span>Login</span>
-                        <div class="spinner" id="login-spinner"></div>
-                    </div>
-                </button>
-                
-                <div class="login-options">
-                    <div class="forgot-password">Forgot Password?</div>
-                    <div class="register-link" id="register-link">Register Now</div>
-                </div>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+                <di
