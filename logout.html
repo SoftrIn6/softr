@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Button for Google Apps Script Authentication</title>
+    <script>
+        const GOOGLE_SCRIPT_URL = "YOUR_DEPLOYED_SCRIPT_URL"; // Replace with your actual deployed Google Apps Script URL
+
+        function logoutUser() {
+            const email = localStorage.getItem("user_email"); // Get the email stored in local storage (from login)
+
+            if (!email) {
+                alert("No active session found!");
+                window.location.href = "login.html"; // Redirect to login page
+                return;
+            }
+
+            // Sending logout request to Google Apps Script
+            fetch(`${GOOGLE_SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`, {
+                method: "GET",
+                credentials: "include"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    localStorage.removeItem("user_email"); // Remove user email from local storage
+                    alert("Logged out successfully!");
+                    window.location.href = "login.html"; // Redirect to login page
+                } else {
+                    alert("Logout failed: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Logout error:", error);
+                alert("An error occurred during logout.");
+            });
+        }
+
+        // Optional: Automatically log out if no user email in localStorage
+        document.addEventListener("DOMContentLoaded", function () {
+            const userEmail = localStorage.getItem("user_email");
+            if (!userEmail) {
+                window.location.href = "login.html"; // If no user email, redirect to login
+            }
+        });
+    </script>
+</head>
+<body>
+    <h2>Welcome to Your Profile</h2>
+    <button onclick="logoutUser()">Logout</button>
+</body>
+</html>
