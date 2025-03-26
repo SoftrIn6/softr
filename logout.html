@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout Button for Google Apps Script Authentication</title>
-    <script>
+<script>
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwM3gE9lR2jZNVsrOo20bLHgMdTjMorxnIFE2ZVaJJ-SXycO_tTjCaP8FjRWfZa3cp1Iw/exec"; // Replace with your actual deployed Google Apps Script URL
 
         function logoutUser() {
@@ -36,18 +30,9 @@
                 alert("An error occurred during logout.");
             });
         }
-
-        // Optional: Automatically log out if no user email in localStorage
-        document.addEventListener("DOMContentLoaded", function () {
-            const userEmail = localStorage.getItem("user_email");
-            if (!userEmail) {
-                window.location.href = "login.html"; // If no user email, redirect to login
-            }
         });
     </script>
 </head>
 <body>
     <h2>Welcome to Your Profile</h2>
     <button onclick="logoutUser()">Logout</button>
-</body>
-</html>
